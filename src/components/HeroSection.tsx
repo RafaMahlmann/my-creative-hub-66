@@ -1,5 +1,5 @@
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { User } from "lucide-react";
 
 interface HeroSectionProps {
@@ -7,18 +7,29 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
-  const [clickCount, setClickCount] = useState(0);
+  const [photoClicked, setPhotoClicked] = useState(false);
 
   const handleProfileClick = () => {
-    const newCount = clickCount + 1;
-    setClickCount(newCount);
-    if (newCount >= 2) {
-      setClickCount(0);
-      onSecretAccess();
-    }
-    // Reset after 800ms if not double-clicked
-    setTimeout(() => setClickCount(0), 800);
+    setPhotoClicked(true);
+    // Reset after 5 seconds
+    setTimeout(() => setPhotoClicked(false), 5000);
   };
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (photoClicked && e.ctrlKey && e.key === "l") {
+        e.preventDefault();
+        setPhotoClicked(false);
+        onSecretAccess();
+      }
+    },
+    [photoClicked, onSecretAccess]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <section
@@ -33,7 +44,7 @@ const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
       <div className="absolute bottom-20 left-10 w-96 h-96 rounded-full bg-accent/30 blur-3xl" />
 
       <div className="relative z-10 container mx-auto px-6 text-center">
-        {/* Profile photo placeholder — double click for admin */}
+        {/* Profile photo — click + Ctrl+L within 5s for admin */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
