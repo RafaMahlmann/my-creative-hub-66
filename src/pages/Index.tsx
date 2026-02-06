@@ -7,12 +7,19 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import BlogSection from "@/components/BlogSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import AdminLogin from "@/components/AdminLogin";
 import { toast } from "sonner";
 
 const Index = () => {
+  const [showLogin, setShowLogin] = useState(false);
+
   const handleSecretAccess = () => {
-    // For now, just show a toast — will connect to login page later
-    toast.info("Acesso admin detectado — login será implementado com o backend.");
+    setShowLogin(true);
+  };
+
+  const handleLoginSuccess = () => {
+    setShowLogin(false);
+    toast.success("Modo de edição ativado! (Painel admin em breve)");
   };
 
   return (
@@ -25,6 +32,13 @@ const Index = () => {
       <BlogSection />
       <Footer />
       <WhatsAppButton />
+
+      {showLogin && (
+        <AdminLogin
+          onClose={() => setShowLogin(false)}
+          onSuccess={handleLoginSuccess}
+        />
+      )}
     </div>
   );
 };
