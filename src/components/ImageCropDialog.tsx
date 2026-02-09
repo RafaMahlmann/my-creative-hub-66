@@ -9,15 +9,22 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { ZoomIn, ZoomOut, Check, X } from "lucide-react";
 
+type CropShape = "circle" | "rect";
+
 interface ImageCropDialogProps {
   open: boolean;
   imageSrc: string | null;
   onConfirm: (blob: Blob) => void;
   onCancel: () => void;
+  shape?: CropShape;
+  title?: string;
 }
 
 const CANVAS_SIZE = 300;
 const CIRCLE_RADIUS = 130;
+// Rectangle crop area (16:9 aspect for backgrounds)
+const RECT_WIDTH = 280;
+const RECT_HEIGHT = 158;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 
@@ -26,6 +33,8 @@ const ImageCropDialog = ({
   imageSrc,
   onConfirm,
   onCancel,
+  shape = "circle",
+  title = "Ajustar foto",
 }: ImageCropDialogProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
@@ -70,9 +79,18 @@ const ImageCropDialog = ({
     const cx = CANVAS_SIZE / 2;
     const cy = CANVAS_SIZE / 2;
 
-    // Fit image to cover the circle at zoom=1
+    // Fit image to cover the crop area at zoom=1
+    let coverW: number, coverH: number;
+    if (shape === "circle") {
+      coverW = CIRCLE_RADIUS * 2;
+      coverH = CIRCLE_RADIUS * 2;
+    } else {
+      coverW = RECT_WIDTH;
+      coverH = RECT_HEIGHT;
+    }
+
     const scale =
-      (Math.max(CIRCLE_RADIUS * 2 / img.width, CIRCLE_RADIUS * 2 / img.height)) * zoom;
+      Math.max(coverW / img.width, coverH / img.height) * zoom;
     const dw = img.width * scale;
     const dh = img.height * scale;
     const dx = cx - dw / 2 + offset.x;
@@ -86,24 +104,41 @@ const ImageCropDialog = ({
     ctx.drawImage(img, dx, dy, dw, dh);
     ctx.restore();
 
-    // Dark overlay with circular cutout
+    // Dark overlay with cutout
     ctx.save();
     ctx.fillStyle = "rgba(0, 0, 0, 0.55)";
     ctx.beginPath();
     ctx.rect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    ctx.arc(cx, cy, CIRCLE_RADIUS, 0, Math.PI * 2, true);
+    if (shape === "circle") {
+      ctx.arc(cx, cy, CIRCLE_RADIUS, 0, Math.PI * 2, true);
+    } else {
+      const rx = cx - RECT_WIDTH / 2;
+      const ry = cy - RECT_HEIGHT / 2;
+      // Counter-clockwise rect for cutout
+      ctx.moveTo(rx, ry);
+      ctx.lineTo(rx, ry + RECT_HEIGHT);
+      ctx.lineTo(rx + RECT_WIDTH, ry + RECT_HEIGHT);
+      ctx.lineTo(rx + RECT_WIDTH, ry);
+      ctx.closePath();
+    }
     ctx.fill("evenodd");
     ctx.restore();
 
-    // Circle border
+    // Border
     ctx.save();
     ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(cx, cy, CIRCLE_RADIUS, 0, Math.PI * 2);
+    if (shape === "circle") {
+      ctx.arc(cx, cy, CIRCLE_RADIUS, 0, Math.PI * 2);
+    } else {
+      const rx = cx - RECT_WIDTH / 2;
+      const ry = cy - RECT_HEIGHT / 2;
+      ctx.roundRect(rx, ry, RECT_WIDTH, RECT_HEIGHT, 4);
+    }
     ctx.stroke();
     ctx.restore();
-  }, [zoom, offset]);
+  }, [zoom, offset, shape]);
 
   useEffect(() => {
     if (imageLoaded) draw();
@@ -131,7 +166,6 @@ const ImageCropDialog = ({
   };
 
   const handlePointerMove = (e: React.MouseEvent | React.TouchEvent) => {
-    // Pinch zoom
     if ("touches" in e && e.touches.length === 2) {
       e.preventDefault();
       const dx = e.touches[0].clientX - e.touches[1].clientX;
@@ -170,44 +204,74 @@ const ImageCropDialog = ({
     const img = imageRef.current;
     if (!img) return;
 
-    const outSize = 512;
-    const outCanvas = document.createElement("canvas");
-    outCanvas.width = outSize;
-    outCanvas.height = outSize;
-    const ctx = outCanvas.getContext("2d");
-    if (!ctx) return;
-
     const cx = CANVAS_SIZE / 2;
     const cy = CANVAS_SIZE / 2;
+
+    let coverW: number, coverH: number;
+    if (shape === "circle") {
+      coverW = CIRCLE_RADIUS * 2;
+      coverH = CIRCLE_RADIUS * 2;
+    } else {
+      coverW = RECT_WIDTH;
+      coverH = RECT_HEIGHT;
+    }
+
     const scale =
-      (Math.max(CIRCLE_RADIUS * 2 / img.width, CIRCLE_RADIUS * 2 / img.height)) * zoom;
+      Math.max(coverW / img.width, coverH / img.height) * zoom;
     const dw = img.width * scale;
     const dh = img.height * scale;
     const dx = cx - dw / 2 + offset.x;
     const dy = cy - dh / 2 + offset.y;
 
-    // Map circle area to output canvas
-    const ratio = outSize / (CIRCLE_RADIUS * 2);
-    const srcX = (cx - CIRCLE_RADIUS - dx) / scale;
-    const srcY = (cy - CIRCLE_RADIUS - dy) / scale;
-    const srcW = (CIRCLE_RADIUS * 2) / scale;
-    const srcH = (CIRCLE_RADIUS * 2) / scale;
+    if (shape === "circle") {
+      const outSize = 512;
+      const outCanvas = document.createElement("canvas");
+      outCanvas.width = outSize;
+      outCanvas.height = outSize;
+      const ctx = outCanvas.getContext("2d");
+      if (!ctx) return;
 
-    // Clip to circle
-    ctx.beginPath();
-    ctx.arc(outSize / 2, outSize / 2, outSize / 2, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.clip();
+      const srcX = (cx - CIRCLE_RADIUS - dx) / scale;
+      const srcY = (cy - CIRCLE_RADIUS - dy) / scale;
+      const srcW = (CIRCLE_RADIUS * 2) / scale;
+      const srcH = (CIRCLE_RADIUS * 2) / scale;
 
-    ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outSize, outSize);
+      ctx.beginPath();
+      ctx.arc(outSize / 2, outSize / 2, outSize / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outSize, outSize);
 
-    outCanvas.toBlob(
-      (blob) => {
-        if (blob) onConfirm(blob);
-      },
-      "image/webp",
-      0.9
-    );
+      outCanvas.toBlob(
+        (blob) => { if (blob) onConfirm(blob); },
+        "image/webp",
+        0.9
+      );
+    } else {
+      // Rectangle export at 1920x1080
+      const outW = 1920;
+      const outH = 1080;
+      const outCanvas = document.createElement("canvas");
+      outCanvas.width = outW;
+      outCanvas.height = outH;
+      const ctx = outCanvas.getContext("2d");
+      if (!ctx) return;
+
+      const rx = cx - RECT_WIDTH / 2;
+      const ry = cy - RECT_HEIGHT / 2;
+      const srcX = (rx - dx) / scale;
+      const srcY = (ry - dy) / scale;
+      const srcW = RECT_WIDTH / scale;
+      const srcH = RECT_HEIGHT / scale;
+
+      ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
+
+      outCanvas.toBlob(
+        (blob) => { if (blob) onConfirm(blob); },
+        "image/webp",
+        0.9
+      );
+    }
   };
 
   return (
@@ -215,7 +279,7 @@ const ImageCropDialog = ({
       <DialogContent className="sm:max-w-md p-0 gap-0 bg-background border-border">
         <DialogHeader className="p-4 pb-2">
           <DialogTitle className="text-center font-body text-base text-foreground">
-            Ajustar foto
+            {title}
           </DialogTitle>
         </DialogHeader>
 

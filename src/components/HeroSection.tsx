@@ -26,6 +26,7 @@ const HeroSection = ({
   const [firstClickDone, setFirstClickDone] = useState(false);
   const [cropDialogOpen, setCropDialogOpen] = useState(false);
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
+  const [cropShape, setCropShape] = useState<"circle" | "rect">("circle");
   const rapidClicks = useRef(0);
   const rapidTimer = useRef<ReturnType<typeof setTimeout>>();
   const profileInputRef = useRef<HTMLInputElement>(null);
@@ -100,46 +101,49 @@ const HeroSection = ({
     return urlData.publicUrl + "?t=" + Date.now();
   };
 
-  const handleProfileFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const openCropFromFile = (e: React.ChangeEvent<HTMLInputElement>, shape: "circle" | "rect") => {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
       setCropImageSrc(reader.result as string);
+      setCropShape(shape);
       setCropDialogOpen(true);
     };
     reader.readAsDataURL(file);
-    // Reset so the same file can be re-selected
     e.target.value = "";
+  };
+
+  const handleProfileFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    openCropFromFile(e, "circle");
+  };
+
+  const handleBgFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    openCropFromFile(e, "rect");
   };
 
   const handleCropConfirm = async (blob: Blob) => {
     setCropDialogOpen(false);
     setCropImageSrc(null);
-    toast.loading("Enviando foto...");
-    const file = new File([blob], "profile-photo.webp", { type: "image/webp" });
-    const url = await uploadFile(file, "profile-photo");
-    toast.dismiss();
-    if (url) {
-      onPhotoUploaded?.(url);
-      toast.success("Foto atualizada!");
-    }
-  };
 
-  const handleCropCancel = () => {
-    setCropDialogOpen(false);
-    setCropImageSrc(null);
-  };
-
-  const handleBgFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    toast.loading("Enviando fundo...");
-    const url = await uploadFile(file, "hero-background");
-    toast.dismiss();
-    if (url) {
-      onBackgroundUploaded?.(url);
-      toast.success("Fundo atualizado!");
+    if (cropShape === "circle") {
+      toast.loading("Enviando foto...");
+      const file = new File([blob], "profile-photo.webp", { type: "image/webp" });
+      const url = await uploadFile(file, "profile-photo");
+      toast.dismiss();
+      if (url) {
+        onPhotoUploaded?.(url);
+        toast.success("Foto atualizada!");
+      }
+    } else {
+      toast.loading("Enviando fundo...");
+      const file = new File([blob], "hero-background.webp", { type: "image/webp" });
+      const url = await uploadFile(file, "hero-background");
+      toast.dismiss();
+      if (url) {
+        onBackgroundUploaded?.(url);
+        toast.success("Fundo atualizado!");
+      }
     }
   };
 
@@ -279,7 +283,9 @@ const HeroSection = ({
         open={cropDialogOpen}
         imageSrc={cropImageSrc}
         onConfirm={handleCropConfirm}
-        onCancel={handleCropCancel}
+        onCancel={() => { setCropDialogOpen(false); setCropImageSrc(null); }}
+        shape={cropShape}
+        title={cropShape === "circle" ? "Ajustar foto" : "Ajustar fundo"}
       />
     </section>
   );
