@@ -15,7 +15,7 @@ import { useSiteSettings } from "@/hooks/useSiteSettings";
 const Index = () => {
   const [showLogin, setShowLogin] = useState(false);
   const { isEditing } = useEditMode();
-  const { settings, updateSetting } = useSiteSettings();
+  const { settings, isLoading, updateSetting } = useSiteSettings();
 
   const handleSecretAccess = () => {
     setShowLogin(true);
@@ -32,6 +32,7 @@ const Index = () => {
       <HeroSection
         onSecretAccess={handleSecretAccess}
         isEditing={isEditing}
+        isLoading={isLoading}
         profilePhotoUrl={settings["profile_photo_url"]}
         backgroundUrl={settings["hero_background_url"]}
         onPhotoUploaded={(url) => updateSetting("profile_photo_url", url)}
