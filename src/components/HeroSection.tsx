@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { User, Camera, ImagePlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import ImageCropDialog from "@/components/ImageCropDialog";
 
 interface HeroSectionProps {
   onSecretAccess: () => void;
@@ -23,6 +24,8 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   const [photoClicked, setPhotoClicked] = useState(false);
   const [firstClickDone, setFirstClickDone] = useState(false);
+  const [cropDialogOpen, setCropDialogOpen] = useState(false);
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
   const rapidClicks = useRef(0);
   const rapidTimer = useRef<ReturnType<typeof setTimeout>>();
   const profileInputRef = useRef<HTMLInputElement>(null);
@@ -97,16 +100,35 @@ const HeroSection = ({
     return urlData.publicUrl + "?t=" + Date.now();
   };
 
-  const handleProfileFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProfileFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCropImageSrc(reader.result as string);
+      setCropDialogOpen(true);
+    };
+    reader.readAsDataURL(file);
+    // Reset so the same file can be re-selected
+    e.target.value = "";
+  };
+
+  const handleCropConfirm = async (blob: Blob) => {
+    setCropDialogOpen(false);
+    setCropImageSrc(null);
     toast.loading("Enviando foto...");
+    const file = new File([blob], "profile-photo.webp", { type: "image/webp" });
     const url = await uploadFile(file, "profile-photo");
     toast.dismiss();
     if (url) {
       onPhotoUploaded?.(url);
       toast.success("Foto atualizada!");
     }
+  };
+
+  const handleCropCancel = () => {
+    setCropDialogOpen(false);
+    setCropImageSrc(null);
   };
 
   const handleBgFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -250,6 +272,14 @@ const HeroSection = ({
         accept="image/*"
         className="hidden"
         onChange={handleBgFileChange}
+      />
+
+      {/* Crop dialog */}
+      <ImageCropDialog
+        open={cropDialogOpen}
+        imageSrc={cropImageSrc}
+        onConfirm={handleCropConfirm}
+        onCancel={handleCropCancel}
       />
     </section>
   );
