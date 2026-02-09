@@ -9,9 +9,13 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import AdminLogin from "@/components/AdminLogin";
 import { toast } from "sonner";
+import { useEditMode } from "@/hooks/useEditMode";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const Index = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const { isEditing } = useEditMode();
+  const { settings, updateSetting } = useSiteSettings();
 
   const handleSecretAccess = () => {
     setShowLogin(true);
@@ -19,13 +23,20 @@ const Index = () => {
 
   const handleLoginSuccess = () => {
     setShowLogin(false);
-    toast.success("Modo de edição ativado! (Painel admin em breve)");
+    toast.success("Modo de edição ativado!");
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <HeroSection onSecretAccess={handleSecretAccess} />
+      <HeroSection
+        onSecretAccess={handleSecretAccess}
+        isEditing={isEditing}
+        profilePhotoUrl={settings["profile_photo_url"]}
+        backgroundUrl={settings["hero_background_url"]}
+        onPhotoUploaded={(url) => updateSetting("profile_photo_url", url)}
+        onBackgroundUploaded={(url) => updateSetting("hero_background_url", url)}
+      />
       <AboutSection />
       <ServicesSection />
       <TestimonialsSection />
