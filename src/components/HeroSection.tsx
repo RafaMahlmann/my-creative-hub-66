@@ -1,19 +1,40 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import { User } from "lucide-react";
+import { User, Camera, ImagePlus } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface HeroSectionProps {
   onSecretAccess: () => void;
+  isEditing?: boolean;
+  profilePhotoUrl?: string;
+  backgroundUrl?: string;
+  onPhotoUploaded?: (url: string) => void;
+  onBackgroundUploaded?: (url: string) => void;
 }
 
-const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
+const HeroSection = ({
+  onSecretAccess,
+  isEditing = false,
+  profilePhotoUrl,
+  backgroundUrl,
+  onPhotoUploaded,
+  onBackgroundUploaded,
+}: HeroSectionProps) => {
   const [photoClicked, setPhotoClicked] = useState(false);
   const [firstClickDone, setFirstClickDone] = useState(false);
   const rapidClicks = useRef(0);
   const rapidTimer = useRef<ReturnType<typeof setTimeout>>();
+  const profileInputRef = useRef<HTMLInputElement>(null);
+  const bgInputRef = useRef<HTMLInputElement>(null);
 
-  // Desktop: click + Ctrl+L within 5s
   const handleProfileClick = () => {
+    // If editing, open file picker instead
+    if (isEditing) {
+      profileInputRef.current?.click();
+      return;
+    }
+
     // Mobile/tablet: rapid-click sequence
     if (firstClickDone) {
       rapidClicks.current += 1;
@@ -21,7 +42,7 @@ const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
       rapidTimer.current = setTimeout(() => {
         rapidClicks.current = 0;
         setFirstClickDone(false);
-      }, 2000); // 2s window to complete 5 rapid clicks
+      }, 2000);
 
       if (rapidClicks.current >= 5) {
         rapidClicks.current = 0;
@@ -31,14 +52,11 @@ const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
       return;
     }
 
-    // First click — start desktop flow + wait for pause before enabling rapid clicks
     setPhotoClicked(true);
     setTimeout(() => setPhotoClicked(false), 5000);
 
-    // After 4s pause, enable rapid-click mode (mobile)
     setTimeout(() => {
       setFirstClickDone(true);
-      // Auto-reset after 10s if no rapid clicks
       setTimeout(() => {
         setFirstClickDone(false);
         rapidClicks.current = 0;
@@ -46,7 +64,6 @@ const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
     }, 4000);
   };
 
-  // Desktop: Ctrl+L
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (photoClicked && e.ctrlKey && e.key === "l") {
@@ -64,20 +81,80 @@ const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
+  const uploadFile = async (file: File, path: string) => {
+    const ext = file.name.split(".").pop();
+    const filePath = `${path}.${ext}`;
+    const { error } = await supabase.storage
+      .from("hero-assets")
+      .upload(filePath, file, { upsert: true });
+    if (error) {
+      toast.error("Erro ao enviar imagem");
+      return null;
+    }
+    const { data: urlData } = supabase.storage
+      .from("hero-assets")
+      .getPublicUrl(filePath);
+    return urlData.publicUrl + "?t=" + Date.now();
+  };
+
+  const handleProfileFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    toast.loading("Enviando foto...");
+    const url = await uploadFile(file, "profile-photo");
+    toast.dismiss();
+    if (url) {
+      onPhotoUploaded?.(url);
+      toast.success("Foto atualizada!");
+    }
+  };
+
+  const handleBgFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    toast.loading("Enviando fundo...");
+    const url = await uploadFile(file, "hero-background");
+    toast.dismiss();
+    if (url) {
+      onBackgroundUploaded?.(url);
+      toast.success("Fundo atualizado!");
+    }
+  };
+
   return (
     <section
       id="inicio"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-sage-light/40 via-background to-background" />
+      {/* Background image or gradient */}
+      {backgroundUrl ? (
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${backgroundUrl})` }}
+        >
+          <div className="absolute inset-0 bg-background/60" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-b from-sage-light/40 via-background to-background" />
+      )}
 
       {/* Decorative circles */}
       <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-primary/5 blur-3xl" />
       <div className="absolute bottom-20 left-10 w-96 h-96 rounded-full bg-accent/30 blur-3xl" />
 
+      {/* Edit background button (admin only) */}
+      {isEditing && (
+        <button
+          onClick={() => bgInputRef.current?.click()}
+          className="absolute top-24 right-6 z-20 flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/90 text-primary-foreground font-body text-xs shadow-lg hover:bg-primary transition-colors"
+        >
+          <ImagePlus size={16} />
+          Alterar fundo
+        </button>
+      )}
+
       <div className="relative z-10 container mx-auto px-6 text-center">
-        {/* Profile photo — click + Ctrl+L within 5s for admin */}
+        {/* Profile photo */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -86,10 +163,25 @@ const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
         >
           <button
             onClick={handleProfileClick}
-            className="w-40 h-40 md:w-52 md:h-52 rounded-full bg-muted border-4 border-primary/20 flex items-center justify-center mx-auto overflow-hidden hover:border-primary/40 transition-colors duration-500 cursor-default"
+            className="relative w-40 h-40 md:w-52 md:h-52 rounded-full bg-muted border-4 border-primary/20 flex items-center justify-center mx-auto overflow-hidden hover:border-primary/40 transition-colors duration-500 cursor-default group"
             aria-label="Foto de perfil"
           >
-            <User className="w-16 h-16 md:w-20 md:h-20 text-muted-foreground/50" />
+            {profilePhotoUrl ? (
+              <img
+                src={profilePhotoUrl}
+                alt="Foto de perfil"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User className="w-16 h-16 md:w-20 md:h-20 text-muted-foreground/50" />
+            )}
+
+            {/* Camera overlay in edit mode */}
+            {isEditing && (
+              <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
+                <Camera className="w-8 h-8 text-white" />
+              </div>
+            )}
           </button>
         </motion.div>
 
@@ -143,6 +235,22 @@ const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
           <div className="w-1.5 h-1.5 bg-muted-foreground/50 rounded-full" />
         </motion.div>
       </motion.div>
+
+      {/* Hidden file inputs */}
+      <input
+        ref={profileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleProfileFileChange}
+      />
+      <input
+        ref={bgInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleBgFileChange}
+      />
     </section>
   );
 };
