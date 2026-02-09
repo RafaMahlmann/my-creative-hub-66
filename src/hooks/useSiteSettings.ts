@@ -14,17 +14,30 @@ function loadFromCache(): Record<string, string> {
 
 export function useSiteSettings() {
   const [settings, setSettings] = useState<Record<string, string>>(loadFromCache);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    // If we have cached data, we're not "loading" from the user's perspective
+    const cached = loadFromCache();
+    return Object.keys(cached).length === 0;
+  });
 
   const fetchSettings = async () => {
-    const { data } = await supabase.from("site_settings").select("key, value");
+    const { data, error } = await supabase.from("site_settings").select("key, value");
+    if (error) {
+      console.error("[useSiteSettings] fetch error:", error);
+      setIsLoading(false);
+      return;
+    }
     if (data) {
       const map: Record<string, string> = {};
       data.forEach((row) => {
         map[row.key] = row.value;
       });
       setSettings(map);
-      localStorage.setItem(CACHE_KEY, JSON.stringify(map));
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(map));
+      } catch {
+        // localStorage may be unavailable in some iframe contexts
+      }
     }
     setIsLoading(false);
   };
