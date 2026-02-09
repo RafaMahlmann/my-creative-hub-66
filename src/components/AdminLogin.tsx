@@ -19,16 +19,39 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
-      toast.error("Credenciais inválidas");
+      if (error) {
+        toast.error("Credenciais inválidas");
+        setLoading(false);
+        return;
+      }
+
+      // Verify admin role before declaring success
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const { data: isAdmin } = await supabase.rpc("has_role", {
+          _user_id: session.user.id,
+          _role: "admin" as const,
+        });
+
+        if (!isAdmin) {
+          toast.error("Você não tem permissão de administrador");
+          await supabase.auth.signOut();
+          setLoading(false);
+          return;
+        }
+      }
+
+      toast.success("Login realizado com sucesso!");
       setLoading(false);
-      return;
+      onSuccess();
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error("Erro ao fazer login");
+      setLoading(false);
     }
-
-    toast.success("Login realizado com sucesso!");
-    onSuccess();
   };
 
   return (
