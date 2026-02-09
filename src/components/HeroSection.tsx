@@ -8,6 +8,7 @@ import ImageCropDialog from "@/components/ImageCropDialog";
 interface HeroSectionProps {
   onSecretAccess: () => void;
   isEditing?: boolean;
+  isLoading?: boolean;
   profilePhotoUrl?: string;
   backgroundUrl?: string;
   onPhotoUploaded?: (url: string) => void;
@@ -17,6 +18,7 @@ interface HeroSectionProps {
 const HeroSection = ({
   onSecretAccess,
   isEditing = false,
+  isLoading = false,
   profilePhotoUrl,
   backgroundUrl,
   onPhotoUploaded,
@@ -198,6 +200,8 @@ const HeroSection = ({
                 alt="Foto de perfil"
                 className="w-full h-full object-cover"
               />
+            ) : isLoading ? (
+              <div className="w-full h-full bg-muted animate-pulse rounded-full" />
             ) : (
               <User className="w-16 h-16 md:w-20 md:h-20 text-muted-foreground/50" />
             )}
