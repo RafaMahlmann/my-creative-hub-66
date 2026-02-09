@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
 
@@ -8,18 +8,51 @@ interface HeroSectionProps {
 
 const HeroSection = ({ onSecretAccess }: HeroSectionProps) => {
   const [photoClicked, setPhotoClicked] = useState(false);
+  const [firstClickDone, setFirstClickDone] = useState(false);
+  const rapidClicks = useRef(0);
+  const rapidTimer = useRef<ReturnType<typeof setTimeout>>();
 
+  // Desktop: click + Ctrl+L within 5s
   const handleProfileClick = () => {
+    // Mobile/tablet: rapid-click sequence
+    if (firstClickDone) {
+      rapidClicks.current += 1;
+      clearTimeout(rapidTimer.current);
+      rapidTimer.current = setTimeout(() => {
+        rapidClicks.current = 0;
+        setFirstClickDone(false);
+      }, 2000); // 2s window to complete 5 rapid clicks
+
+      if (rapidClicks.current >= 5) {
+        rapidClicks.current = 0;
+        setFirstClickDone(false);
+        onSecretAccess();
+      }
+      return;
+    }
+
+    // First click — start desktop flow + wait for pause before enabling rapid clicks
     setPhotoClicked(true);
-    // Reset after 5 seconds
     setTimeout(() => setPhotoClicked(false), 5000);
+
+    // After 4s pause, enable rapid-click mode (mobile)
+    setTimeout(() => {
+      setFirstClickDone(true);
+      // Auto-reset after 10s if no rapid clicks
+      setTimeout(() => {
+        setFirstClickDone(false);
+        rapidClicks.current = 0;
+      }, 10000);
+    }, 4000);
   };
 
+  // Desktop: Ctrl+L
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (photoClicked && e.ctrlKey && e.key === "l") {
         e.preventDefault();
         setPhotoClicked(false);
+        setFirstClickDone(false);
         onSecretAccess();
       }
     },
