@@ -1,94 +1,39 @@
 
+# Plano: Editor de Recorte de Foto (estilo WhatsApp)
 
-# Site Profissional de Terapeuta — Com Painel de Administração Oculto
+## O que vai mudar
 
-## Visão Geral
-Site pessoal e profissional com visual **impactante, acolhedor e moderno**. Experiência fluida e intuitiva para o visitante — ele entra e imediatamente sente confiança e profissionalismo. Design de alto nível com animações suaves, transições elegantes e navegação simples. Painel admin oculto com acesso por duplo clique na foto de perfil. Backend com **Lovable Cloud (Supabase)**.
+Quando voce estiver no modo de edicao e clicar na foto de perfil, em vez de simplesmente enviar a imagem direto, vai abrir uma tela de ajuste onde voce pode:
 
----
+- Ampliar e reduzir a imagem (pinch/zoom no iPad, scroll no desktop)
+- Arrastar a imagem para enquadrar o rosto
+- Ver a previa do corte circular em tempo real
+- Confirmar ou cancelar
 
-## 🌐 Site Público — Experiência do Visitante
+## Como funciona
 
-### Página Inicial (Impacto Visual)
-- **Hero de tela cheia** com foto profissional em destaque, gradiente suave, nome em tipografia elegante e uma frase de impacto
-- Animação de entrada suave (fade-in) ao carregar a página
-- **Botão flutuante de WhatsApp** com animação sutil de pulso — sempre acessível
-- **Scroll suave** entre seções com animações de aparição conforme o visitante desce a página
-- **Navegação minimalista** no topo — apenas os itens ativos, sem poluição visual
-- Links de redes sociais com ícones elegantes
+1. Voce clica na foto de perfil (no modo edicao)
+2. Seleciona uma imagem do dispositivo
+3. Abre um modal com a imagem e uma mascara circular
+4. Voce ajusta o zoom e a posicao
+5. Clica em "Confirmar" -- a imagem e cortada e enviada ao servidor
+6. A foto fica salva permanentemente
 
-### Seção "Sobre Mim"
-- Layout lado a lado: foto + texto de apresentação
-- Tipografia grande e leve, fácil de ler
-- Sensação de proximidade e acolhimento
+## Detalhes tecnicos
 
-### Seção "Serviços / Trabalhos"
-- Cards com hover suave (escala + sombra) — o visitante passa o mouse e o card "respira"
-- Cada card: nome do serviço, descrição curta, e ao clicar abre uma página/modal com vídeo do YouTube embarcado e explicação completa
-- Serviços planejados:
-  - Atendimento de Campo Presencial (com vídeo do local)
-  - Atendimento à Distância
-  - Constelação
-  - Curso (em desenvolvimento)
-  - Joias de Campo (produtos artesanais)
+### Novo componente: `ImageCropDialog.tsx`
+- Modal usando Radix Dialog (ja instalado no projeto)
+- Canvas HTML5 para renderizar a imagem e fazer o recorte
+- Controle de zoom via slider (Radix Slider, ja instalado) e gesto de pinch no touch
+- Arrastar a imagem com drag (mouse e touch)
+- Mascara escura com recorte circular para visualizacao
+- Botoes "Cancelar" e "Confirmar"
 
-### Blog / Artigos (ativável/desativável)
-- Grid de cards com título, resumo e data
-- Página individual do artigo com leitura confortável (largura limitada, espaçamento generoso)
+### Alteracao no `HeroSection.tsx`
+- Ao selecionar arquivo, em vez de fazer upload direto, abre o `ImageCropDialog`
+- Apos confirmar o recorte, faz o upload da imagem cortada para o bucket `hero-assets`
+- O fluxo do background permanece como esta (upload direto, sem crop)
 
-### Depoimentos (ativável/desativável)
-- Carrossel elegante com transição suave entre depoimentos
-- Cards com aspas estilizadas, nome do paciente (ou anônimo)
-
-### Rodapé
-- Links de redes sociais, WhatsApp, e-mail
-- Design limpo e discreto
-
----
-
-## 🔒 Painel Admin (Oculto)
-
-### Acesso
-- **Duplo clique na foto de perfil** → abre tela de login
-- Invisível para visitantes comuns
-
-### Controle de Seções
-- Painel visual com todas as seções listadas
-- **Toggle liga/desliga** para cada seção — desligou, sumiu do site público
-- Seções: Sobre Mim, Serviços, Blog, Depoimentos, Curso, Produtos
-
-### Personalização Visual
-- **5-6 paletas de cores** pré-definidas (suaves e acolhedoras) — clica e muda tudo
-- **Opções de fontes** combinando com cada paleta
-- Preview instantâneo das mudanças
-
-### Gerenciamento de Conteúdo
-- **Artigos**: criar, editar, excluir com editor simples
-- **Depoimentos**: adicionar, editar, remover
-- **Serviços**: editar descrição e link de vídeo do YouTube
-- Interface limpa e intuitiva
-
-### Gerenciamento de Usuários
-- Admin pode cadastrar outros editores (e-mail + senha)
-- Controle de quem tem acesso ao painel
-
----
-
-## 🎨 Design e Qualidade Visual
-- Paleta padrão: tons de branco, bege claro, verde-sage — transmitindo calma
-- Tipografia premium e leve
-- Animações de entrada em cada seção (fade + slide suave)
-- Hover effects nos cards e botões
-- Espaçamento generoso, design arejado
-- Responsivo perfeito (celular, tablet, desktop)
-- Placeholders elegantes para conteúdo pendente (textos cinza, áreas de imagem marcadas)
-- Micro-interações que dão vida ao site sem ser excessivo
-
----
-
-## ⚙️ Backend (Lovable Cloud / Supabase)
-- Autenticação de admin com e-mail/senha
-- Sistema de roles (admin e editor) com tabela separada e segura
-- Banco de dados para: artigos, depoimentos, serviços, configurações de seções e tema visual
-- Armazenamento de imagens (foto de perfil, fotos dos serviços)
-
+### Sem dependencias externas
+- Implementacao 100% com Canvas API nativa + componentes ja existentes no projeto (Dialog, Slider)
+- Funciona no iPad, iPhone e desktop sem bibliotecas adicionais
