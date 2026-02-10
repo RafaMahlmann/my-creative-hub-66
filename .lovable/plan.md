@@ -1,39 +1,50 @@
 
-## Garantir que a foto de perfil salva apareça sempre
+## Corrigir foto de perfil no preview lateral (iframe)
 
-### Problema
-A foto de perfil IS salva no banco de dados e no storage (confirmei ambos), mas o componente mostra o placeholder porque:
-1. O hook `useSiteSettings` carrega os dados de forma assincrona -- enquanto carrega, `profilePhotoUrl` e `undefined`
-2. Quando o preview recarrega (durante edições de código), há um flash do placeholder antes dos dados chegarem
-3. Não há indicação visual de que os dados estão carregando
+### Problema raiz
+O preview lateral do editor roda dentro de um iframe que pode ter `localStorage` isolado/particionado. Isso significa que:
+1. O cache em `localStorage` salvo na aba separada nao e acessivel no iframe lateral
+2. A cada hot-reload (quando o codigo muda), o componente remonta e o estado React reseta
+3. Durante o fetch assincrono, o componente mostra o placeholder em vez de esperar
 
-### Solução
-
-**1. Adicionar estado de loading ao `useSiteSettings`**
-- Adicionar um `isLoading` ao hook para que os componentes saibam quando os dados ainda estão sendo buscados
-- Evitar mostrar o placeholder enquanto os dados não chegaram
-
-**2. Melhorar o HeroSection para tratar o estado de carregamento**
-- Enquanto `isLoading` for true, mostrar um skeleton/shimmer no lugar da foto (em vez do icone de usuario)
-- Quando carregar e nao tiver foto, ai sim mostrar o placeholder
-
-**3. Persistir settings em localStorage como cache**
-- Salvar os settings em localStorage apos o fetch
-- Na proxima carga, usar o cache do localStorage imediatamente enquanto o fetch atualiza em background
-- Isso elimina o flash do placeholder em recarregamentos
-
-### Detalhes Tecnicos
+### Solucao
 
 **Arquivo: `src/hooks/useSiteSettings.ts`**
-- Adicionar `isLoading` state (inicia como `true`, vira `false` apos o fetch)
-- No `useState` inicial, carregar de `localStorage.getItem("site_settings")` se existir
-- Apos cada fetch bem-sucedido, salvar em `localStorage.setItem("site_settings", JSON.stringify(map))`
-
-**Arquivo: `src/pages/Index.tsx`**
-- Desestruturar `isLoading` do `useSiteSettings()`
-- Passar `isLoading` para o `HeroSection`
+- Adicionar um cache em nivel de modulo (variavel `let moduleCache`) fora do hook
+- Esse cache persiste entre re-montagens do componente na mesma sessao do iframe
+- Ordem de prioridade: moduleCache > localStorage > fetch do banco
+- Apos cada fetch bem-sucedido, atualizar tanto moduleCache quanto localStorage
+- Isso garante que mesmo sem localStorage funcional, o cache em memoria funciona
 
 **Arquivo: `src/components/HeroSection.tsx`**
-- Adicionar prop `isLoading`
-- Quando `isLoading` for true e nao houver `profilePhotoUrl`, mostrar um Skeleton circular animado no lugar do icone de usuario
-- Quando `isLoading` for false e nao houver `profilePhotoUrl`, mostrar o icone de usuario normalmente
+- Garantir que o skeleton (shimmer) aparece enquanto `isLoading` for true, mesmo que demore
+- Nunca mostrar o icone de usuario placeholder ate o fetch completar e confirmar que nao ha foto
+
+### Detalhes tecnicos
+
+No `useSiteSettings.ts`:
+```
+// Cache em nivel de modulo - sobrevive re-montagens
+let moduleCache: Record<string, string> | null = null;
+
+function loadCache(): Record<string, string> {
+  if (moduleCache) return moduleCache;
+  // tenta localStorage como fallback
+  try {
+    const cached = localStorage.getItem("site_settings");
+    if (cached) {
+      moduleCache = JSON.parse(cached);
+      return moduleCache;
+    }
+  } catch {}
+  return {};
+}
+```
+
+No `useState` inicial, usar `loadCache()` que prioriza o moduleCache. Apos cada fetch, salvar em `moduleCache = map` antes de tentar o localStorage.
+
+Isso resolve o problema porque:
+- O moduleCache vive na memoria do JavaScript do iframe
+- Nao depende de localStorage funcionar
+- Sobrevive a re-montagens de componentes (hot-reload parcial)
+- So reseta quando o iframe recarrega completamente, mas ai o fetch traz os dados de volta
