@@ -3,20 +3,27 @@ import { supabase } from "@/integrations/supabase/client";
 
 const CACHE_KEY = "site_settings";
 
-function loadFromCache(): Record<string, string> {
+// Cache em nível de módulo - sobrevive re-montagens de componentes
+let moduleCache: Record<string, string> | null = null;
+
+function loadCache(): Record<string, string> {
+  if (moduleCache) return moduleCache;
   try {
     const cached = localStorage.getItem(CACHE_KEY);
-    return cached ? JSON.parse(cached) : {};
+    if (cached) {
+      moduleCache = JSON.parse(cached);
+      return moduleCache!;
+    }
   } catch {
-    return {};
+    // localStorage pode não funcionar em iframes
   }
+  return {};
 }
 
 export function useSiteSettings() {
-  const [settings, setSettings] = useState<Record<string, string>>(loadFromCache);
+  const [settings, setSettings] = useState<Record<string, string>>(loadCache);
   const [isLoading, setIsLoading] = useState(() => {
-    // If we have cached data, we're not "loading" from the user's perspective
-    const cached = loadFromCache();
+    const cached = loadCache();
     return Object.keys(cached).length === 0;
   });
 
@@ -32,6 +39,7 @@ export function useSiteSettings() {
       data.forEach((row) => {
         map[row.key] = row.value;
       });
+      moduleCache = map;
       setSettings(map);
       try {
         localStorage.setItem(CACHE_KEY, JSON.stringify(map));
