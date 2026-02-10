@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { ZoomIn, ZoomOut, Check, X } from "lucide-react";
+import { ZoomIn, ZoomOut, Check, X, RotateCw } from "lucide-react";
 
 type CropShape = "circle" | "rect";
 
@@ -20,11 +20,11 @@ interface ImageCropDialogProps {
   title?: string;
 }
 
-const CANVAS_SIZE = 300;
+const CANVAS_SIZE = 340;
 const CIRCLE_RADIUS = 130;
-// Rectangle crop area (16:9 aspect for backgrounds)
-const RECT_WIDTH = 280;
-const RECT_HEIGHT = 158;
+// Rectangle crop area — wider to give a better 16:9 preview
+const RECT_WIDTH = 320;
+const RECT_HEIGHT = 180;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 
@@ -41,6 +41,7 @@ const ImageCropDialog = ({
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
+  const [rotation, setRotation] = useState(0); // 0, 90, 180, 270
   const dragStart = useRef({ x: 0, y: 0 });
   const offsetStart = useRef({ x: 0, y: 0 });
   const lastPinchDist = useRef<number | null>(null);
@@ -55,6 +56,7 @@ const ImageCropDialog = ({
       imageRef.current = img;
       setZoom(1);
       setOffset({ x: 0, y: 0 });
+      setRotation(0);
       setImageLoaded(true);
     };
     img.src = imageSrc;
@@ -62,6 +64,16 @@ const ImageCropDialog = ({
       setImageLoaded(false);
     };
   }, [imageSrc]);
+
+  // Get effective image dimensions after rotation
+  const getRotatedDimensions = useCallback(() => {
+    const img = imageRef.current;
+    if (!img) return { w: 1, h: 1 };
+    if (rotation === 90 || rotation === 270) {
+      return { w: img.height, h: img.width };
+    }
+    return { w: img.width, h: img.height };
+  }, [rotation]);
 
   // Draw canvas
   const draw = useCallback(() => {
@@ -89,19 +101,19 @@ const ImageCropDialog = ({
       coverH = RECT_HEIGHT;
     }
 
-    const scale =
-      Math.max(coverW / img.width, coverH / img.height) * zoom;
-    const dw = img.width * scale;
-    const dh = img.height * scale;
-    const dx = cx - dw / 2 + offset.x;
-    const dy = cy - dh / 2 + offset.y;
+    const { w: imgW, h: imgH } = getRotatedDimensions();
+    const scale = Math.max(coverW / imgW, coverH / imgH) * zoom;
+    const dw = imgW * scale;
+    const dh = imgH * scale;
 
     // Clear
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-    // Draw image
+    // Draw rotated image
     ctx.save();
-    ctx.drawImage(img, dx, dy, dw, dh);
+    ctx.translate(cx + offset.x, cy + offset.y);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.drawImage(img, -img.width * scale / 2, -img.height * scale / 2, img.width * scale, img.height * scale);
     ctx.restore();
 
     // Dark overlay with cutout
@@ -114,7 +126,6 @@ const ImageCropDialog = ({
     } else {
       const rx = cx - RECT_WIDTH / 2;
       const ry = cy - RECT_HEIGHT / 2;
-      // Counter-clockwise rect for cutout
       ctx.moveTo(rx, ry);
       ctx.lineTo(rx, ry + RECT_HEIGHT);
       ctx.lineTo(rx + RECT_WIDTH, ry + RECT_HEIGHT);
@@ -138,11 +149,17 @@ const ImageCropDialog = ({
     }
     ctx.stroke();
     ctx.restore();
-  }, [zoom, offset, shape]);
+  }, [zoom, offset, shape, rotation, getRotatedDimensions]);
 
   useEffect(() => {
     if (imageLoaded) draw();
   }, [imageLoaded, draw]);
+
+  const handleRotate = () => {
+    setRotation((r) => (r + 90) % 360);
+    setOffset({ x: 0, y: 0 });
+    setZoom(1);
+  };
 
   // Mouse / touch handlers
   const getPos = (e: React.MouseEvent | React.TouchEvent) => {
@@ -216,12 +233,8 @@ const ImageCropDialog = ({
       coverH = RECT_HEIGHT;
     }
 
-    const scale =
-      Math.max(coverW / img.width, coverH / img.height) * zoom;
-    const dw = img.width * scale;
-    const dh = img.height * scale;
-    const dx = cx - dw / 2 + offset.x;
-    const dy = cy - dh / 2 + offset.y;
+    const { w: imgW, h: imgH } = getRotatedDimensions();
+    const scale = Math.max(coverW / imgW, coverH / imgH) * zoom;
 
     if (shape === "circle") {
       const outSize = 512;
@@ -231,16 +244,19 @@ const ImageCropDialog = ({
       const ctx = outCanvas.getContext("2d");
       if (!ctx) return;
 
-      const srcX = (cx - CIRCLE_RADIUS - dx) / scale;
-      const srcY = (cy - CIRCLE_RADIUS - dy) / scale;
-      const srcW = (CIRCLE_RADIUS * 2) / scale;
-      const srcH = (CIRCLE_RADIUS * 2) / scale;
-
+      // Draw rotated image centered, then clip circle
       ctx.beginPath();
       ctx.arc(outSize / 2, outSize / 2, outSize / 2, 0, Math.PI * 2);
       ctx.closePath();
       ctx.clip();
-      ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outSize, outSize);
+
+      ctx.translate(outSize / 2, outSize / 2);
+      // Map from canvas coords to output coords
+      const outScale = outSize / (CIRCLE_RADIUS * 2);
+      ctx.scale(outScale, outScale);
+      ctx.translate(offset.x, offset.y);
+      ctx.rotate((rotation * Math.PI) / 180);
+      ctx.drawImage(img, -img.width * scale / 2, -img.height * scale / 2, img.width * scale, img.height * scale);
 
       outCanvas.toBlob(
         (blob) => { if (blob) onConfirm(blob); },
@@ -257,14 +273,13 @@ const ImageCropDialog = ({
       const ctx = outCanvas.getContext("2d");
       if (!ctx) return;
 
-      const rx = cx - RECT_WIDTH / 2;
-      const ry = cy - RECT_HEIGHT / 2;
-      const srcX = (rx - dx) / scale;
-      const srcY = (ry - dy) / scale;
-      const srcW = RECT_WIDTH / scale;
-      const srcH = RECT_HEIGHT / scale;
-
-      ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
+      ctx.translate(outW / 2, outH / 2);
+      const outScaleX = outW / RECT_WIDTH;
+      const outScaleY = outH / RECT_HEIGHT;
+      ctx.scale(outScaleX, outScaleY);
+      ctx.translate(offset.x, offset.y);
+      ctx.rotate((rotation * Math.PI) / 180);
+      ctx.drawImage(img, -img.width * scale / 2, -img.height * scale / 2, img.width * scale, img.height * scale);
 
       outCanvas.toBlob(
         (blob) => { if (blob) onConfirm(blob); },
@@ -304,8 +319,8 @@ const ImageCropDialog = ({
             />
           </div>
 
-          {/* Zoom slider */}
-          <div className="flex items-center gap-3 w-full max-w-[280px]">
+          {/* Zoom slider + Rotate button */}
+          <div className="flex items-center gap-3 w-full max-w-[320px]">
             <ZoomOut className="w-4 h-4 text-muted-foreground flex-shrink-0" />
             <Slider
               value={[zoom]}
@@ -316,6 +331,17 @@ const ImageCropDialog = ({
               className="flex-1"
             />
             <ZoomIn className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+            {shape === "rect" && (
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleRotate}
+                className="ml-1 flex-shrink-0"
+                title="Girar 90°"
+              >
+                <RotateCw className="w-4 h-4" />
+              </Button>
+            )}
           </div>
 
           {/* Action buttons */}
