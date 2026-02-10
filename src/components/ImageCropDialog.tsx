@@ -20,11 +20,11 @@ interface ImageCropDialogProps {
   title?: string;
 }
 
-const CANVAS_SIZE = 340;
+const CANVAS_SIZE = 360;
 const CIRCLE_RADIUS = 130;
-// Rectangle crop area — wider to give a better 16:9 preview
-const RECT_WIDTH = 320;
-const RECT_HEIGHT = 180;
+// Banner-style crop area — very wide and short like Tumblr/OneNote headers
+const RECT_WIDTH = 340;
+const RECT_HEIGHT = 100;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 
@@ -264,9 +264,9 @@ const ImageCropDialog = ({
         0.9
       );
     } else {
-      // Rectangle export at 1920x1080
+      // Banner export at 1920x560
       const outW = 1920;
-      const outH = 1080;
+      const outH = 560;
       const outCanvas = document.createElement("canvas");
       outCanvas.width = outW;
       outCanvas.height = outH;
