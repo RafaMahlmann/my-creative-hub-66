@@ -154,16 +154,17 @@ const HeroSection = ({
       id="inicio"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background image or gradient */}
+      {/* Banner background image (Tumblr-style thin strip at top) */}
       {backgroundUrl ? (
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${backgroundUrl})` }}
-        >
-          <div className="absolute inset-0 bg-background/60" />
+        <div className="absolute top-0 left-0 right-0 h-48 md:h-64 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${backgroundUrl})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
         </div>
       ) : (
-        <div className="absolute inset-0 bg-gradient-to-b from-sage-light/40 via-background to-background" />
+        <div className="absolute top-0 left-0 right-0 h-48 md:h-64 bg-gradient-to-b from-sage-light/40 to-background" />
       )}
 
       {/* Decorative circles */}
@@ -174,7 +175,7 @@ const HeroSection = ({
       {isEditing && (
         <button
           onClick={() => bgInputRef.current?.click()}
-          className="absolute top-24 right-6 z-20 flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/90 text-primary-foreground font-body text-xs shadow-lg hover:bg-primary transition-colors"
+          className="absolute top-4 right-6 z-20 flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/90 text-primary-foreground font-body text-xs shadow-lg hover:bg-primary transition-colors"
         >
           <ImagePlus size={16} />
           Alterar fundo
