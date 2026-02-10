@@ -28,12 +28,14 @@ export function useSiteSettings() {
   });
 
   const fetchSettings = async () => {
+    console.log("[useSiteSettings] fetching from DB...");
     const { data, error } = await supabase.from("site_settings").select("key, value");
     if (error) {
-      console.error("[useSiteSettings] fetch error:", error);
+      console.error("[useSiteSettings] fetch error:", error.message, error.code);
       setIsLoading(false);
       return;
     }
+    console.log("[useSiteSettings] got data:", data?.length, "rows", data);
     if (data) {
       const map: Record<string, string> = {};
       data.forEach((row) => {
