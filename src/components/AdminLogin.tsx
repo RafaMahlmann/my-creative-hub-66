@@ -20,21 +20,32 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      console.log("[AdminLogin] attempting signIn...");
+      const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password });
 
       if (error) {
+        console.error("[AdminLogin] signIn error:", error.message);
         toast.error("Credenciais inválidas");
         setLoading(false);
         return;
       }
 
-      // Verify admin role before declaring success
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        const { data: isAdmin } = await supabase.rpc("has_role", {
-          _user_id: session.user.id,
+      console.log("[AdminLogin] signIn success, checking role...");
+      const userId = signInData.user?.id;
+      if (userId) {
+        const { data: isAdmin, error: rpcError } = await supabase.rpc("has_role", {
+          _user_id: userId,
           _role: "admin" as const,
         });
+
+        console.log("[AdminLogin] has_role:", isAdmin, "error:", rpcError);
+
+        if (rpcError) {
+          console.error("[AdminLogin] RPC error:", rpcError);
+          toast.error("Erro ao verificar permissões");
+          setLoading(false);
+          return;
+        }
 
         if (!isAdmin) {
           toast.error("Você não tem permissão de administrador");
@@ -48,7 +59,7 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
       setLoading(false);
       onSuccess();
     } catch (err) {
-      console.error("Login error:", err);
+      console.error("[AdminLogin] catch error:", err);
       toast.error("Erro ao fazer login");
       setLoading(false);
     }
