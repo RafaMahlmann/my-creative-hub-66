@@ -21,7 +21,25 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
 
     try {
       console.log("[AdminLogin] attempting signIn...");
-      const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password });
+      
+      // Timeout de 15s para evitar travar infinitamente no iframe
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error("timeout")), 15000)
+      );
+
+      const signInPromise = supabase.auth.signInWithPassword({ email, password });
+      
+      let signInResult;
+      try {
+        signInResult = await Promise.race([signInPromise, timeoutPromise]);
+      } catch (timeoutErr) {
+        console.error("[AdminLogin] login timeout");
+        toast.error("Login demorou demais. Tente abrir o site numa aba separada.");
+        setLoading(false);
+        return;
+      }
+
+      const { data: signInData, error } = signInResult;
 
       if (error) {
         console.error("[AdminLogin] signIn error:", error.message);
@@ -60,7 +78,7 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
       onSuccess();
     } catch (err) {
       console.error("[AdminLogin] catch error:", err);
-      toast.error("Erro ao fazer login");
+      toast.error("Erro ao fazer login. Tente numa aba separada.");
       setLoading(false);
     }
   };
