@@ -1,50 +1,21 @@
 
-## Corrigir foto de perfil no preview lateral (iframe)
 
-### Problema raiz
-O preview lateral do editor roda dentro de um iframe que pode ter `localStorage` isolado/particionado. Isso significa que:
-1. O cache em `localStorage` salvo na aba separada nao e acessivel no iframe lateral
-2. A cada hot-reload (quando o codigo muda), o componente remonta e o estado React reseta
-3. Durante o fetch assincrono, o componente mostra o placeholder em vez de esperar
+## Melhorias no formulario de login
 
-### Solucao
+### 1. Enter para submeter
+O formulario ja usa `<form onSubmit={handleLogin}>`, entao o Enter ja deveria funcionar. Porem, vou garantir que o botao de submit tenha foco acessivel e que nada bloqueie o comportamento padrao do Enter.
 
-**Arquivo: `src/hooks/useSiteSettings.ts`**
-- Adicionar um cache em nivel de modulo (variavel `let moduleCache`) fora do hook
-- Esse cache persiste entre re-montagens do componente na mesma sessao do iframe
-- Ordem de prioridade: moduleCache > localStorage > fetch do banco
-- Apos cada fetch bem-sucedido, atualizar tanto moduleCache quanto localStorage
-- Isso garante que mesmo sem localStorage funcional, o cache em memoria funciona
+### 2. Salvar senha no navegador (autocomplete)
+Para que o navegador ofereca salvar a senha, os inputs precisam dos atributos `autoComplete` corretos:
+- Input de email: `autoComplete="username"` (o navegador reconhece como campo de usuario)
+- Input de senha: `autoComplete="current-password"`
+- Adicionar `name` nos inputs (`name="email"`, `name="password"`) para o gerenciador de senhas identificar os campos
 
-**Arquivo: `src/components/HeroSection.tsx`**
-- Garantir que o skeleton (shimmer) aparece enquanto `isLoading` for true, mesmo que demore
-- Nunca mostrar o icone de usuario placeholder ate o fetch completar e confirmar que nao ha foto
+### Alteracoes
 
-### Detalhes tecnicos
+**Arquivo: `src/components/AdminLogin.tsx`**
+- Adicionar `name="email"` e `autoComplete="username"` no input de email (linha 101-108)
+- Adicionar `name="password"` e `autoComplete="current-password"` no input de senha (linha 116-123)
 
-No `useSiteSettings.ts`:
-```
-// Cache em nivel de modulo - sobrevive re-montagens
-let moduleCache: Record<string, string> | null = null;
+Sao mudancas pequenas e diretas que habilitam o gerenciador de senhas do navegador.
 
-function loadCache(): Record<string, string> {
-  if (moduleCache) return moduleCache;
-  // tenta localStorage como fallback
-  try {
-    const cached = localStorage.getItem("site_settings");
-    if (cached) {
-      moduleCache = JSON.parse(cached);
-      return moduleCache;
-    }
-  } catch {}
-  return {};
-}
-```
-
-No `useState` inicial, usar `loadCache()` que prioriza o moduleCache. Apos cada fetch, salvar em `moduleCache = map` antes de tentar o localStorage.
-
-Isso resolve o problema porque:
-- O moduleCache vive na memoria do JavaScript do iframe
-- Nao depende de localStorage funcionar
-- Sobrevive a re-montagens de componentes (hot-reload parcial)
-- So reseta quando o iframe recarrega completamente, mas ai o fetch traz os dados de volta
