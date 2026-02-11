@@ -20,35 +20,14 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
     setLoading(true);
 
     try {
-      console.log("[AdminLogin] attempting signIn...");
-      
-      // Timeout de 15s para evitar travar infinitamente no iframe
-      const timeoutPromise = new Promise<never>((_, reject) => 
-        setTimeout(() => reject(new Error("timeout")), 15000)
-      );
-
-      const signInPromise = supabase.auth.signInWithPassword({ email, password });
-      
-      let signInResult;
-      try {
-        signInResult = await Promise.race([signInPromise, timeoutPromise]);
-      } catch (timeoutErr) {
-        console.error("[AdminLogin] login timeout");
-        toast.error("Login demorou demais. Tente abrir o site numa aba separada.");
-        setLoading(false);
-        return;
-      }
-
-      const { data: signInData, error } = signInResult;
+      const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password });
 
       if (error) {
-        console.error("[AdminLogin] signIn error:", error.message);
         toast.error("Credenciais inválidas");
         setLoading(false);
         return;
       }
 
-      console.log("[AdminLogin] signIn success, checking role...");
       const userId = signInData.user?.id;
       if (userId) {
         const { data: isAdmin, error: rpcError } = await supabase.rpc("has_role", {
@@ -56,10 +35,7 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
           _role: "admin" as const,
         });
 
-        console.log("[AdminLogin] has_role:", isAdmin, "error:", rpcError);
-
         if (rpcError) {
-          console.error("[AdminLogin] RPC error:", rpcError);
           toast.error("Erro ao verificar permissões");
           setLoading(false);
           return;
@@ -77,8 +53,7 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
       setLoading(false);
       onSuccess();
     } catch (err) {
-      console.error("[AdminLogin] catch error:", err);
-      toast.error("Erro ao fazer login. Tente numa aba separada.");
+      toast.error("Erro ao fazer login");
       setLoading(false);
     }
   };
