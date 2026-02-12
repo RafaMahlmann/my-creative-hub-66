@@ -17,10 +17,13 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("[AdminLogin] INICIO handleLogin", { email });
     setLoading(true);
 
     try {
+      console.log("[AdminLogin] signInWithPassword ENVIADO...");
       const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password });
+      console.log("[AdminLogin] signInWithPassword RESULTADO:", { user: signInData?.user?.id, error: error?.message });
 
       if (error) {
         toast.error("Credenciais inválidas");
@@ -29,11 +32,15 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
       }
 
       const userId = signInData.user?.id;
+      console.log("[AdminLogin] userId:", userId);
+
       if (userId) {
+        console.log("[AdminLogin] RPC has_role ENVIADO...");
         const { data: isAdmin, error: rpcError } = await supabase.rpc("has_role", {
           _user_id: userId,
           _role: "admin" as const,
         });
+        console.log("[AdminLogin] RPC has_role RESULTADO:", { isAdmin, rpcError: rpcError?.message });
 
         if (rpcError) {
           toast.error("Erro ao verificar permissões");
@@ -49,10 +56,12 @@ const AdminLogin = ({ onClose, onSuccess }: AdminLoginProps) => {
         }
       }
 
+      console.log("[AdminLogin] LOGIN SUCESSO - chamando onSuccess()");
       toast.success("Login realizado com sucesso!");
       setLoading(false);
       onSuccess();
     } catch (err) {
+      console.error("[AdminLogin] ERRO CATCH:", err);
       toast.error("Erro ao fazer login");
       setLoading(false);
     }

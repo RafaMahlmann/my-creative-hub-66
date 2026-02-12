@@ -22,11 +22,14 @@ export function useEditMode() {
     checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      console.log("[useEditMode] onAuthStateChange evento:", _event, "session:", session ? session.user.email : "none");
       if (session) {
-        const { data } = await supabase.rpc("has_role", {
+        console.log("[useEditMode] RPC has_role ENVIADO para user:", session.user.id);
+        const { data, error } = await supabase.rpc("has_role", {
           _user_id: session.user.id,
           _role: "admin" as const,
         });
+        console.log("[useEditMode] RPC has_role RESULTADO:", { data, error: error?.message });
         setIsEditing(!!data);
       } else {
         setIsEditing(false);
