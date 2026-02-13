@@ -174,10 +174,20 @@ const HeroSection = ({
       {/* Edit background button (admin only) */}
       {isEditing && (
         <button
-          onClick={() => bgInputRef.current?.click()}
-          className="absolute top-4 right-6 z-20 flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/90 text-primary-foreground font-body text-xs shadow-lg hover:bg-primary transition-colors"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            bgInputRef.current?.click();
+          }}
+          onTouchEnd={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            bgInputRef.current?.click();
+          }}
+          className="absolute top-4 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-lg bg-primary/90 text-primary-foreground font-body text-sm shadow-lg hover:bg-primary transition-colors"
+          style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
         >
-          <ImagePlus size={16} />
+          <ImagePlus size={18} />
           Alterar fundo
         </button>
       )}
