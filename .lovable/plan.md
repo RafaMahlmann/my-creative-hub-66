@@ -1,67 +1,50 @@
 
 
-## Relatorio Diagnostico e Correcoes do Login Admin
+## Melhoria Visual do Hero com Proporcao Aurea (phi = 1.618)
 
-### Status Atual do Backend (Verificado)
+### O que e a Proporcao Aurea
 
-| Componente | Status | Detalhes |
-|---|---|---|
-| Auth (signInWithPassword) | OK | Logins com status 200, usuario `flordeplasma@gmail.com` autenticando corretamente |
-| Tabela user_roles | OK | Registro existe: user_id `1e065b4b...` com role `admin` |
-| Funcao has_role | OK | SECURITY DEFINER, retorna boolean, consulta simples na user_roles |
-| RPC via Supabase JS | Suspeito | Pode estar travando no ambiente iframe do preview |
+A proporcao aurea (phi = 1.618) divide um espaco em duas partes onde a maior esta para o todo assim como a menor esta para a maior. Aplicada ao layout, cria harmonia visual natural.
 
-### Diagnostico do Problema
+### Como Aplicar ao Hero
 
-O fluxo de login no `AdminLogin.tsx` e:
+A secao Hero ocupa `100vh` (tela inteira). Dividindo pela proporcao aurea:
+
+- **Banner de fundo**: 61.8% da tela (`61.8vh`)
+- **Conteudo abaixo**: 38.2% da tela (`38.2vh`)
+
+A foto de perfil fica exatamente na linha de transicao (61.8% do topo), criando o ponto focal natural.
 
 ```text
-1. Usuario submete form (Enter ou clique)
-2. signInWithPassword(email, password)  -->  OK (backend confirma status 200)
-3. supabase.rpc("has_role", ...)        -->  SUSPEITO: pode travar no iframe
-4. onSuccess()                          -->  nunca alcancado se passo 3 trava
+┌──────────────────────────────────┐  0%
+│                                  │
+│     ████████████████████████     │
+│     ████  FUNDO (61.8vh) ████   │
+│     ████████████████████████     │
+│     ████████████████████████     │
+│     ░░░░ degradê suave ░░░░░    │
+│           (  foto  )            │  <- 61.8% (ponto aureo)
+├──────────────────────────────────┤
+│       Nome do Terapeuta         │
+│      Frase de impacto           │  38.2%
+│        [Botao CTA]              │
+│                                  │
+└──────────────────────────────────┘  100%
 ```
 
-**Causa provavel**: A chamada RPC `has_role` apos o login pode estar travando no ambiente iframe do preview do Lovable. O `signInWithPassword` funciona (backend confirma), mas a execucao nunca chega ao `onSuccess()`.
+### Mudancas no Arquivo `src/components/HeroSection.tsx`
 
-### Plano de Correcoes
+1. **Banner de fundo (linha 159)**: Trocar `h-48 md:h-64` por `h-[61.8vh]` -- o fundo ocupa exatamente a proporcao aurea da tela.
 
-#### 1. Adicionar logs diagnosticos detalhados
+2. **Posicionamento do conteudo (linha 155)**: Trocar `flex items-center justify-center` por `flex flex-col items-center` e adicionar `pt-[calc(61.8vh-5rem)]` -- posiciona a foto de perfil no ponto aureo, com metade da foto acima e metade abaixo da linha.
 
-Adicionar `console.log` em cada etapa do `handleLogin` no `AdminLogin.tsx` para rastrear exatamente onde o fluxo para:
+3. **Degradê mais longo (linha 164)**: Usar `from-transparent via-background/20 to-background` com o degradê comecando em `top-[38.2%]` da imagem e terminando no final -- transicao suave no terco inferior do banner.
 
-- `[AdminLogin] INICIO handleLogin`
-- `[AdminLogin] signInWithPassword ENVIADO`
-- `[AdminLogin] signInWithPassword RESULTADO: sucesso/erro`
-- `[AdminLogin] RPC has_role ENVIADO`
-- `[AdminLogin] RPC has_role RESULTADO: valor/erro`
-- `[AdminLogin] onSuccess CHAMADO`
+4. **Fallback sem imagem (linha 167)**: Mesma altura `h-[61.8vh]`.
 
-Tambem adicionar logs no `useEditMode.ts`:
-- `[useEditMode] onAuthStateChange evento: {event}`
-- `[useEditMode] has_role resultado: {data}`
+5. **Mobile**: No mobile, usar `h-[55vh]` e `pt-[calc(55vh-4rem)]` para compensar barras de navegacao do iOS que reduzem o viewport real, mantendo a proporcao proxima da aurea (55/100 ~ 0.55, ajuste pratico para telas menores).
 
-#### 2. Garantir Enter = Clique no botao
+### Resultado Esperado
 
-O form ja tem `onSubmit={handleLogin}` e o botao e `type="submit"`, entao o Enter ja deveria funcionar. Mas para garantir 100%, vou adicionar um `onKeyDown` no form que dispara o submit ao pressionar Enter, como camada extra de seguranca.
-
-#### 3. Como visualizar os logs
-
-Para ver os logs apos o proximo teste de login:
-1. Abra o site numa aba separada (nao no preview lateral): clique no icone de "abrir em nova aba" no canto superior direito do preview
-2. No navegador, pressione F12 (ou Ctrl+Shift+I / Cmd+Option+I no Mac)
-3. Va na aba "Console"
-4. Tente fazer login
-5. Os logs aparecerao no console com o prefixo `[AdminLogin]` e `[useEditMode]`
-
-Alternativamente, apos tentar o login no preview lateral do Lovable, envie uma mensagem no chat - os logs do console serao capturados automaticamente e eu poderei ve-los.
-
-### Detalhes Tecnicos
-
-**Arquivo: `src/components/AdminLogin.tsx`**
-- Adicionar console.log em cada ponto do fluxo handleLogin (linhas 18-58)
-- Adicionar onKeyDown no form como fallback para Enter (linha 89)
-
-**Arquivo: `src/hooks/useEditMode.ts`**
-- Adicionar console.log no onAuthStateChange (linhas 24-34)
+A foto de perfil ficara sobreposta ao banner, exatamente no "ponto de ouro" da pagina, criando aquele efeito classico de perfil (estilo redes sociais) mas com fundamentacao matematica na proporcao aurea. O degradê sera longo e suave, sem corte abrupto.
 
