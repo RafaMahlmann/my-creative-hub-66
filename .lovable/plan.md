@@ -1,39 +1,24 @@
 
 
-## Reposicionar Foto de Perfil para o Quadrante Superior (Ponto Aureo Inverso)
+## Ajustar Posicao da Medalha no iPad/Desktop para Corresponder ao Mobile
 
-### Conceito
+### Analise
 
-Em vez de colocar a foto a 61.8% do topo (quadrante inferior), vamos posiciona-la a **38.2% do topo** -- que e o ponto aureo invertido. Isso mantem a fundamentacao matematica da proporcao aurea, mas coloca o rosto do terapeuta na zona de atencao primaria da pagina.
+Atualmente o codigo usa dois valores diferentes:
+- **Mobile**: `pt-[calc(33vh-3rem)]` -- medalha mais alta (sua preferencia)
+- **iPad/Desktop**: `pt-[calc(38.2vh-5rem)]` -- medalha mais baixa
 
-```text
-Antes (61.8% do topo):              Depois (38.2% do topo):
-┌─────────────────────┐             ┌─────────────────────┐
-│  ████ FUNDO ████████│             │  ████ FUNDO ████████│
-│  ████████████████░░ │             │  ████████████████░░ │
-│  ████████████████░░ │             │        (  foto  )   │  <- 38.2% (ponto aureo)
-│  ░░░░ degradê ░░░░░ │             │  ░░░░ degradê ░░░░░ │
-│        (  foto  )   │  <- 61.8%   │  ░░░░░░░░░░░░░░░░░░ │
-│   Nome do Terapeuta │             │   Nome do Terapeuta │
-│   Frase de impacto  │             │   Frase de impacto  │
-│                     │             │     [Botao CTA]     │
-└─────────────────────┘             └─────────────────────┘
-```
+A sua versao preferida (primeira foto) usa o valor do mobile, que posiciona a medalha a ~33% do topo. Isso esta mais proximo da **regra dos tercos** (33.3%), que e uma variacao classica da proporcao aurea usada em fotografia e design.
 
-### Vantagens
+### Mudanca
 
-- O rosto aparece antes na leitura visual (acima da dobra)
-- A imagem de fundo tem mais espaco para "respirar" abaixo da foto
-- O nome e a frase ficam na metade inferior, com mais espaco e conforto
-- A proporcao aurea continua presente (38.2% = 1 - 61.8%)
+**Arquivo: `src/components/HeroSection.tsx`, linha 155**
 
-### Mudancas no Arquivo `src/components/HeroSection.tsx`
+Unificar o padding para que iPad e desktop tambem usem a posicao mais alta:
 
-1. **Padding-top do conteudo (linha 155)**: Trocar `pt-[calc(55vh-4rem)] md:pt-[calc(61.8vh-5rem)]` por `pt-[calc(38.2vh-4rem)] md:pt-[calc(38.2vh-5rem)]` -- posiciona a foto no ponto aureo superior.
+- De: `pt-[calc(33vh-3rem)] md:pt-[calc(38.2vh-5rem)]`
+- Para: `pt-[calc(33vh-3rem)] md:pt-[calc(33vh-4rem)]`
 
-2. **Banner de fundo permanece igual**: `h-[55vh] md:h-[61.8vh]` -- o fundo continua com a proporcao aurea, mas agora a foto fica dentro dele (no terco inferior do banner), criando a sobreposicao mais elegante.
+O `md` agora usa `33vh-4rem` (em vez de `38.2vh-5rem`), mantendo a medalha na mesma zona visual em todas as telas, com um pequeno ajuste de rem para compensar o tamanho maior da fonte/espacamento no desktop.
 
-3. **Mobile**: `pt-[calc(33vh-3rem)]` para compensar as barras do iOS, mantendo a foto no terco superior da tela visivel.
-
-Nenhuma outra mudanca necessaria -- degradê, botao "Alterar fundo", animacoes e comportamento de edicao permanecem identicos.
-
+Nenhuma outra alteracao necessaria.
