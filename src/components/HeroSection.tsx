@@ -152,7 +152,7 @@ const HeroSection = ({
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex flex-col items-center overflow-hidden pt-[calc(33vh-3rem)] md:pt-[calc(38.2vh-5rem)]"
+      className="relative min-h-screen flex flex-col items-center overflow-hidden pt-[calc(33vh-3rem)] md:pt-[calc(33vh-4rem)]"
     >
       {/* Banner background image — Golden Ratio: 61.8% da tela */}
       {backgroundUrl ? (
