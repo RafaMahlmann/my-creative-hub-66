@@ -233,7 +233,7 @@ const HeroSection = ({
           transition={{ duration: 0.8, delay: 0.2 }}
           className="font-display text-5xl md:text-7xl font-light text-foreground tracking-wide mb-4"
         >
-          Nome do Terapeuta
+          Rafa Mahlmann
         </motion.h1>
 
         {/* Tagline */}
