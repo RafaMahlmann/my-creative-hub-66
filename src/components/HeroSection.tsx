@@ -152,19 +152,19 @@ const HeroSection = ({
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center overflow-hidden pt-[calc(55vh-4rem)] md:pt-[calc(61.8vh-5rem)]"
     >
-      {/* Banner background image (Tumblr-style thin strip at top) */}
+      {/* Banner background image — Golden Ratio: 61.8% da tela */}
       {backgroundUrl ? (
-        <div className="absolute top-0 left-0 right-0 h-48 md:h-64 overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-[55vh] md:h-[61.8vh] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${backgroundUrl})` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+          <div className="absolute inset-x-0 top-[38.2%] bottom-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
         </div>
       ) : (
-        <div className="absolute top-0 left-0 right-0 h-48 md:h-64 bg-gradient-to-b from-sage-light/40 to-background" />
+        <div className="absolute top-0 left-0 right-0 h-[55vh] md:h-[61.8vh] bg-gradient-to-b from-sage-light/40 to-background" />
       )}
 
       {/* Decorative circles */}
