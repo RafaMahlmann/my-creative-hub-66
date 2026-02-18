@@ -22,7 +22,7 @@ const HeroSection = ({
   profilePhotoUrl,
   backgroundUrl,
   onPhotoUploaded,
-  onBackgroundUploaded,
+  onBackgroundUploaded
 }: HeroSectionProps) => {
   const [photoClicked, setPhotoClicked] = useState(false);
   const [firstClickDone, setFirstClickDone] = useState(false);
@@ -90,16 +90,16 @@ const HeroSection = ({
   const uploadFile = async (file: File, path: string) => {
     const ext = file.name.split(".").pop();
     const filePath = `${path}.${ext}`;
-    const { error } = await supabase.storage
-      .from("hero-assets")
-      .upload(filePath, file, { upsert: true });
+    const { error } = await supabase.storage.
+    from("hero-assets").
+    upload(filePath, file, { upsert: true });
     if (error) {
       toast.error("Erro ao enviar imagem");
       return null;
     }
-    const { data: urlData } = supabase.storage
-      .from("hero-assets")
-      .getPublicUrl(filePath);
+    const { data: urlData } = supabase.storage.
+    from("hero-assets").
+    getPublicUrl(filePath);
     return urlData.publicUrl + "?t=" + Date.now();
   };
 
@@ -152,45 +152,45 @@ const HeroSection = ({
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex flex-col items-center overflow-hidden pt-[calc(33vh-3rem)] md:pt-[calc(33vh-4rem)]"
-    >
+      className="relative min-h-screen flex flex-col items-center overflow-hidden pt-[calc(33vh-3rem)] md:pt-[calc(33vh-4rem)]">
+
       {/* Banner background image — Golden Ratio: 61.8% da tela */}
-      {backgroundUrl ? (
-        <div className="absolute top-0 left-0 right-0 h-[55vh] md:h-[61.8vh] overflow-hidden">
+      {backgroundUrl ?
+      <div className="absolute top-0 left-0 right-0 h-[55vh] md:h-[61.8vh] overflow-hidden">
           <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${backgroundUrl})` }}
-          />
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${backgroundUrl})` }} />
+
           <div className="absolute inset-x-0 top-[38.2%] bottom-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
-        </div>
-      ) : (
-        <div className="absolute top-0 left-0 right-0 h-[55vh] md:h-[61.8vh] bg-gradient-to-b from-sage-light/40 to-background" />
-      )}
+        </div> :
+
+      <div className="absolute top-0 left-0 right-0 h-[55vh] md:h-[61.8vh] bg-gradient-to-b from-sage-light/40 to-background" />
+      }
 
       {/* Decorative circles */}
       <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-primary/5 blur-3xl" />
       <div className="absolute bottom-20 left-10 w-96 h-96 rounded-full bg-accent/30 blur-3xl" />
 
       {/* Edit background button (admin only) */}
-      {isEditing && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            bgInputRef.current?.click();
-          }}
-          onTouchEnd={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            bgInputRef.current?.click();
-          }}
-          className="absolute top-4 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-lg bg-primary/90 text-primary-foreground font-body text-sm shadow-lg hover:bg-primary transition-colors"
-          style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
-        >
+      {isEditing &&
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          bgInputRef.current?.click();
+        }}
+        onTouchEnd={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          bgInputRef.current?.click();
+        }}
+        className="absolute top-4 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-lg bg-primary/90 text-primary-foreground font-body text-sm shadow-lg hover:bg-primary transition-colors"
+        style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}>
+
           <ImagePlus size={18} />
           Alterar fundo
         </button>
-      )}
+      }
 
       <div className="relative z-10 container mx-auto px-6 text-center">
         {/* Profile photo */}
@@ -198,31 +198,31 @@ const HeroSection = ({
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mx-auto mb-8"
-        >
+          className="mx-auto mb-8">
+
           <button
             onClick={handleProfileClick}
             className="relative w-40 h-40 md:w-52 md:h-52 rounded-full bg-muted border-4 border-primary/20 flex items-center justify-center mx-auto overflow-hidden hover:border-primary/40 transition-colors duration-500 cursor-default group"
-            aria-label="Foto de perfil"
-          >
-            {profilePhotoUrl ? (
-              <img
-                src={profilePhotoUrl}
-                alt="Foto de perfil"
-                className="w-full h-full object-cover"
-              />
-            ) : isLoading ? (
-              <div className="w-full h-full bg-muted animate-pulse rounded-full" />
-            ) : (
-              <User className="w-16 h-16 md:w-20 md:h-20 text-muted-foreground/50" />
-            )}
+            aria-label="Foto de perfil">
+
+            {profilePhotoUrl ?
+            <img
+              src={profilePhotoUrl}
+              alt="Foto de perfil"
+              className="w-full h-full object-cover" /> :
+
+            isLoading ?
+            <div className="w-full h-full bg-muted animate-pulse rounded-full" /> :
+
+            <User className="w-16 h-16 md:w-20 md:h-20 text-muted-foreground/50" />
+            }
 
             {/* Camera overlay in edit mode */}
-            {isEditing && (
-              <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
+            {isEditing &&
+            <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
                 <Camera className="w-8 h-8 text-white" />
               </div>
-            )}
+            }
           </button>
         </motion.div>
 
@@ -231,8 +231,8 @@ const HeroSection = ({
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-display text-5xl md:text-7xl font-light text-foreground tracking-wide mb-4"
-        >
+          className="font-display text-5xl md:text-7xl font-light text-foreground tracking-wide mb-4">
+
           Rafa Mahlmann
         </motion.h1>
 
@@ -241,21 +241,21 @@ const HeroSection = ({
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed mb-10"
-        >
-          Blá blá blá blá blá — uma frase de impacto que transmite acolhimento e confiança
+          className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed mb-10">
+
+          Fundador e Curador do Ecosistema Flor de Plasma
+Terapeuta de Campo  
+
         </motion.p>
 
         {/* CTA */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
+        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.6 }}>
+
           <a
             href="#servicos"
-            className="inline-block font-body text-sm tracking-widest uppercase px-8 py-3 border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground rounded-full transition-all duration-500"
-          >
+            className="inline-block font-body text-sm tracking-widest uppercase px-8 py-3 border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground rounded-full transition-all duration-500">
+
             Conheça meu trabalho
           </a>
         </motion.div>
@@ -266,13 +266,13 @@ const HeroSection = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-      >
+        className="absolute bottom-10 left-1/2 -translate-x-1/2">
+
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex items-start justify-center pt-2"
-        >
+          className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex items-start justify-center pt-2">
+
           <div className="w-1.5 h-1.5 bg-muted-foreground/50 rounded-full" />
         </motion.div>
       </motion.div>
@@ -283,27 +283,27 @@ const HeroSection = ({
         type="file"
         accept="image/*"
         className="hidden"
-        onChange={handleProfileFileChange}
-      />
+        onChange={handleProfileFileChange} />
+
       <input
         ref={bgInputRef}
         type="file"
         accept="image/*"
         className="hidden"
-        onChange={handleBgFileChange}
-      />
+        onChange={handleBgFileChange} />
+
 
       {/* Crop dialog */}
       <ImageCropDialog
         open={cropDialogOpen}
         imageSrc={cropImageSrc}
         onConfirm={handleCropConfirm}
-        onCancel={() => { setCropDialogOpen(false); setCropImageSrc(null); }}
+        onCancel={() => {setCropDialogOpen(false);setCropImageSrc(null);}}
         shape={cropShape}
-        title={cropShape === "circle" ? "Ajustar foto" : "Ajustar fundo"}
-      />
-    </section>
-  );
+        title={cropShape === "circle" ? "Ajustar foto" : "Ajustar fundo"} />
+
+    </section>);
+
 };
 
 export default HeroSection;
