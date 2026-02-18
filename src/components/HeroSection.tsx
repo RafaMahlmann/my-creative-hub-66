@@ -243,7 +243,7 @@ const HeroSection = ({
           transition={{ duration: 0.8, delay: 0.4 }}
           className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed mb-10">
 
-          Fundador e Curador do Ecosistema Flor de Plasma
+          Fundador e Curador do Ecosistema Flor de Plasma 
 Terapeuta de Campo  
 
         </motion.p>
