@@ -241,12 +241,10 @@ const HeroSection = ({
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed mb-10 text-center">Fundador e Curador do Ecosistema Flor de Plasma  
-
-
-Terapeuta de Campo
-
-
+          className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed mb-10 text-center">
+          Fundador e Curador do Ecosistema Flor de Plasma
+          <br />
+          Terapeuta de Campo
         </motion.p>
 
         {/* CTA */}
