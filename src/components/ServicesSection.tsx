@@ -1,7 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Leaf, Video, Compass, GraduationCap, Gem, Activity, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Leaf, Video, Compass, GraduationCap, Gem, X } from "lucide-react";
 
 const services = [
   {
@@ -23,13 +22,6 @@ const services = [
     videoUrl: "",
   },
   {
-    icon: Activity,
-    title: "Análise de Biorressonância Magnética",
-    description: "Avaliação energética não invasiva que capta respostas eletromagnéticas sutis do organismo, revelando um panorama funcional do seu equilíbrio energético.",
-    videoUrl: "",
-    route: "/bioressonancia",
-  },
-  {
     icon: GraduationCap,
     title: "Curso",
     description: "Em desenvolvimento — em breve disponível.",
@@ -47,7 +39,7 @@ const ServicesSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [activeService, setActiveService] = useState<number | null>(null);
-  const navigate = useNavigate();
+  
 
   return (
     <section id="servicos" className="py-24 md:py-32 bg-secondary/30" ref={ref}>
@@ -73,13 +65,7 @@ const ServicesSection = () => {
               initial={{ y: 40, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              onClick={() => {
-                if ((service as any).route) {
-                  navigate((service as any).route);
-                } else {
-                  setActiveService(i);
-                }
-              }}
+              onClick={() => setActiveService(i)}
               className="group text-left bg-card p-8 rounded-2xl border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-1"
             >
               <service.icon className="w-8 h-8 text-primary mb-4 group-hover:scale-110 transition-transform duration-300" />
