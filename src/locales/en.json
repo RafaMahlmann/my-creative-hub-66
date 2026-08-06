@@ -1,0 +1,21 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "testimonials": "Testimonials",
+    "blog": "Blog",
+    "contact": "Contact",
+    "course": "Course"
+  },
+  "language": {
+    "pt": "PT",
+    "en": "EN"
+  },
+  "course": {
+    "comingSoon": "Coming soon",
+    "courseArea": "Course Area",
+    "description": "Here you will find courses, lessons and exclusive content about health and technology.",
+    "backToHome": "Back to home"
+  }
+}
