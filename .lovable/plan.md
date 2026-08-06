@@ -270,12 +270,15 @@ O que realmente vai te fazer falta cedo não é "quantos likes o Instagram deu".
 2. Busca de aulas.
 3. Notificações e lembretes.
 4. Otimizações mobile e PWA leve.
+5. Painel B da Central do Criador: kanban de produção (Ideia → Gravado → Editado → Legendado → Publicado).
+6. Painel C: números de audiência via Umami ou Plausible, se já houver tráfego.
 
 ## Próximos passos imediatos
 1. Aprovar este plano atualizado.
 2. Responder o item 14: onde ficam os vídeos no começo (Vimeo, Storage do Cloud ou VPS próprio).
-3. Definir nome final do projeto (Burnstore, Brainstore ou outro).
-4. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
+3. Confirmar o recorte do item 15 (Painel A agora, B e C depois).
+4. Definir nome final do projeto (Burnstore, Brainstore ou outro).
+5. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
 
 ## Nota importante
 Nenhuma alteração de código será feita neste projeto sem a autorização explícita "PODE CODAR". Este plano serve para alinharmos a arquitetura antes de começar a implementar.
