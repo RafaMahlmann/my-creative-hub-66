@@ -81,13 +81,45 @@ Observação: as tabelas de autenticação e papéis (`profiles`, `user_roles`) 
   - Aqui, a chave fica no backend (Lovable AI Gateway) e a Edge Function gerencia a transcrição.
   - O áudio não fica armazenado localmente; é processado e descartado (ou armazenado brevemente se necessário para logs).
 
-### 7. Painel administrativo
-- Reaproveitar o modo de edição existente (acesso secreto pela foto de perfil + login admin).
-- Nova seção "Gerenciar Cursos" no modo admin:
-  - CRUD de cursos, módulos e aulas.
-  - Upload de capas e apostilas para o Storage bucket `hero-assets` ou novo bucket `course-assets`.
-  - Editor de contexto do tutor de IA por módulo.
-  - Visualização de matrículas e progresso (futuro).
+### 7. Painel do Criador (estilo "Área de Produtor" do Hotmart)
+Esta é a sua experiência como dono do conteúdo. Não é um formulário técnico: é um painel com cara de aplicativo, onde você vê o mesmo layout que o aluno vê e edita ali dentro.
+
+Acesso: rota `/curso/admin`, liberada apenas para quem tem papel `admin` (reaproveita o login secreto pela foto de perfil já existente).
+
+**7.1 — Dashboard inicial do criador**
+- Visão geral em cards: total de cursos, aulas publicadas, rascunhos, alunos matriculados, aulas mais assistidas.
+- Botão grande "Novo curso".
+- Lista de cursos em grade com miniatura da capa, status (Publicado / Rascunho) e menu de ações (Editar, Duplicar, Pré-visualizar, Arquivar).
+
+**7.2 — Editor de curso (estrutura em árvore, arrastar e soltar)**
+- Coluna esquerda: árvore Curso → Módulos → Aulas, com arrastar e soltar para reordenar (usando `@dnd-kit`).
+- Botões inline "+ Novo módulo" e "+ Nova aula" dentro de cada nível.
+- Cada item mostra um selo: 🔓 Gratuita / 🔒 Paga / 📝 Rascunho.
+- Coluna direita: o editor do item selecionado, sem sair da tela.
+
+**7.3 — Editor de aula (o coração do painel)**
+Abas dentro do editor de aula, imitando o padrão Hotmart:
+- **Vídeo**: campo para colar o link ou ID do Vimeo. Assim que colar, o player já aparece embutido para você conferir. Campo de duração preenchido automaticamente quando possível.
+- **Conteúdo**: título, subtítulo e descrição em editor de texto rico (negrito, listas, links).
+- **Materiais**: área de arrastar arquivos (PDF, imagens) que sobem para o Storage e viram lista de downloads na aula.
+- **Acesso**: alternador Gratuita / Paga, e data de liberação programada (drip content) se você quiser soltar aula por aula.
+- **Tutor de IA**: caixa de texto com o contexto que a IA daquele módulo vai dominar, mais um botão "Gerar contexto a partir da transcrição do vídeo" (usa a transcrição por IA).
+
+**7.4 — Preview ao vivo lado a lado**
+- Botão alternador no topo: **Editar | Pré-visualizar**.
+- No modo Pré-visualizar, a mesma tela mostra exatamente o que o aluno vê (player, sidebar, apostila, tutor), sem precisar abrir outra aba nem sair do painel.
+- Em telas largas, opção "Dividir tela": editor à esquerda, preview do aluno à direita, atualizando conforme você digita.
+- Seletor "Ver como": Visitante / Aluno gratuito / Aluno pago — para conferir o que cada perfil enxerga.
+
+**7.5 — Salvamento e segurança de edição**
+- Salvamento automático com indicador discreto ("Salvo às 14:32").
+- Botão "Publicar" separado de "Salvar rascunho": nada aparece para o aluno até você publicar.
+- Confirmação antes de sair com alterações não salvas.
+
+**7.6 — Aparência**
+- Interface do painel com cara de aplicativo: sidebar fixa, cabeçalho com breadcrumb (Curso › Módulo › Aula), cards suaves, transições curtas.
+- Mesma paleta sálvia/cream do site, para não parecer um painel genérico colado por cima.
+
 
 ### 8. Identidade visual
 - Manter a paleta atual (sálvia/cream) e tipografia Cormorant Garamond + Nunito Sans.
