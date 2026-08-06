@@ -10,6 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 export const CourseShell = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
   const { isAuthenticated } = useStudentAuth();
+  const { isAdmin, loading: adminLoading } = useAdminAuth();
 
 
   return (
