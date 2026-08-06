@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, GraduationCap, LogOut } from 'lucide-react';
+import { ArrowLeft, GraduationCap, LayoutDashboard, LogOut } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useStudentAuth } from '@/hooks/useStudentAuth';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { supabase } from '@/integrations/supabase/client';
 
 export const CourseShell = ({ children }: { children: ReactNode }) => {
