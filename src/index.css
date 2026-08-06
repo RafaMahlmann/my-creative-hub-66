@@ -52,6 +52,23 @@
     --sidebar-border: 40 20% 88%;
     --sidebar-ring: 150 20% 42%;
 
+    /* Course area — Jellyflix dark variant */
+    --course-background: 220 25% 8%;
+    --course-foreground: 40 20% 96%;
+    --course-card: 220 20% 12%;
+    --course-card-foreground: 40 20% 96%;
+    --course-primary: 150 25% 55%;
+    --course-primary-foreground: 220 25% 8%;
+    --course-secondary: 220 18% 18%;
+    --course-secondary-foreground: 40 20% 92%;
+    --course-muted: 220 18% 18%;
+    --course-muted-foreground: 40 15% 65%;
+    --course-accent: 30 35% 75%;
+    --course-accent-foreground: 220 25% 8%;
+    --course-border: 220 18% 22%;
+    --course-input: 220 18% 22%;
+    --course-ring: 150 25% 55%;
+
     /* Typography */
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'Nunito Sans', sans-serif;
@@ -85,23 +102,6 @@
     --sidebar-accent-foreground: 40 20% 92%;
     --sidebar-border: 150 10% 20%;
     --sidebar-ring: 150 25% 55%;
-
-    /* Course area — Jellyflix dark variant */
-    --course-background: 220 25% 8%;
-    --course-foreground: 40 20% 96%;
-    --course-card: 220 20% 12%;
-    --course-card-foreground: 40 20% 96%;
-    --course-primary: 150 25% 55%;
-    --course-primary-foreground: 220 25% 8%;
-    --course-secondary: 220 18% 18%;
-    --course-secondary-foreground: 40 20% 92%;
-    --course-muted: 220 18% 18%;
-    --course-muted-foreground: 40 15% 65%;
-    --course-accent: 30 35% 75%;
-    --course-accent-foreground: 220 25% 8%;
-    --course-border: 220 18% 22%;
-    --course-input: 220 18% 22%;
-    --course-ring: 150 25% 55%;
   }
 }
 
