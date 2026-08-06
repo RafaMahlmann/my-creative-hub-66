@@ -111,7 +111,9 @@
     "notUsed": "Not used in any lesson yet.",
     "trailer": "Trailer",
     "videoFree": "Free",
-    "openLibrary": "Video library"
+    "openLibrary": "Video library",
+    "openStudents": "Students",
+    "backToDashboard": "Back to dashboard"
   },
   "home": {
     "hero": {
@@ -180,5 +182,49 @@
     "whatsapp": {
       "aria": "Contact via WhatsApp"
     }
+  },
+  "auth": {
+    "signInTitle": "Sign in",
+    "signUpTitle": "Create account",
+    "subtitle": "Access your lessons, save your progress and resume where you left off.",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "signOut": "Sign out",
+    "or": "or",
+    "google": "Continue with Google",
+    "toSignUp": "No account yet? Create one",
+    "toSignIn": "Already have an account? Sign in",
+    "checkEmail": "We sent you a confirmation email. Confirm it to access your lessons.",
+    "genericError": "Something went wrong. Please try again."
+  },
+  "access": {
+    "needSignIn": "This lesson is premium. Sign in to continue.",
+    "needEnrollment": "This lesson is premium. Your enrollment for this course is not active yet.",
+    "markCompleted": "Mark as completed",
+    "completed": "Lesson completed"
+  },
+  "myLessons": {
+    "title": "My lessons",
+    "subtitle": "Your progress and what is still unfinished.",
+    "continue": "Resume where you left off",
+    "resume": "Resume lesson",
+    "empty": "You haven't started any lesson yet.",
+    "completed": "Completed",
+    "inProgress": "In progress"
+  },
+  "students": {
+    "title": "Students and enrollments",
+    "subtitle": "Grant or revoke access to each course's premium content.",
+    "selectCourse": "Select a course",
+    "empty": "No students registered yet.",
+    "unnamed": "Unnamed student",
+    "hasAccess": "Access granted",
+    "freeOnly": "Free only",
+    "granted": "Access granted.",
+    "revoked": "Access revoked.",
+    "error": "Could not update the enrollment."
   }
 }

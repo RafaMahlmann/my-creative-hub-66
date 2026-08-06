@@ -111,7 +111,9 @@
     "notUsed": "Ainda não usado em nenhuma aula.",
     "trailer": "Trailer",
     "videoFree": "Gratuito",
-    "openLibrary": "Biblioteca de vídeos"
+    "openLibrary": "Biblioteca de vídeos",
+    "openStudents": "Alunos",
+    "backToDashboard": "Voltar ao painel"
   },
   "home": {
     "hero": {
@@ -180,5 +182,49 @@
     "whatsapp": {
       "aria": "Contato via WhatsApp"
     }
+  },
+  "auth": {
+    "signInTitle": "Entrar",
+    "signUpTitle": "Criar conta",
+    "subtitle": "Acesse suas aulas, salve seu progresso e continue de onde parou.",
+    "name": "Nome",
+    "email": "E-mail",
+    "password": "Senha",
+    "signIn": "Entrar",
+    "signUp": "Criar conta",
+    "signOut": "Sair",
+    "or": "ou",
+    "google": "Continuar com Google",
+    "toSignUp": "Ainda não tem conta? Criar conta",
+    "toSignIn": "Já tem conta? Entrar",
+    "checkEmail": "Enviamos um e-mail de confirmação. Confirme para acessar suas aulas.",
+    "genericError": "Não foi possível concluir. Tente novamente."
+  },
+  "access": {
+    "needSignIn": "Esta aula é exclusiva. Entre com sua conta para continuar.",
+    "needEnrollment": "Esta aula é exclusiva. Sua matrícula ainda não foi liberada para este curso.",
+    "markCompleted": "Marcar como concluída",
+    "completed": "Aula concluída"
+  },
+  "myLessons": {
+    "title": "Minhas aulas",
+    "subtitle": "Seu progresso e o que ficou pela metade.",
+    "continue": "Continuar de onde parou",
+    "resume": "Retomar aula",
+    "empty": "Você ainda não começou nenhuma aula.",
+    "completed": "Concluída",
+    "inProgress": "Em andamento"
+  },
+  "students": {
+    "title": "Alunos e matrículas",
+    "subtitle": "Libere ou revogue o acesso ao conteúdo exclusivo de cada curso.",
+    "selectCourse": "Selecione um curso",
+    "empty": "Nenhum aluno cadastrado ainda.",
+    "unnamed": "Aluno sem nome",
+    "hasAccess": "Acesso liberado",
+    "freeOnly": "Somente gratuito",
+    "granted": "Acesso liberado.",
+    "revoked": "Acesso revogado.",
+    "error": "Não foi possível atualizar a matrícula."
   }
 }
