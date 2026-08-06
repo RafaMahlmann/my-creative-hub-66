@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { TranscriptPanel } from '@/components/course/TranscriptPanel';
+import { TutorPanel } from '@/components/course/TutorPanel';
 import { useLesson } from '@/hooks/useLesson';
 import { useStudentAuth } from '@/hooks/useStudentAuth';
 import { useEnrollment, useLessonProgress } from '@/hooks/useEnrollment';
@@ -143,6 +144,13 @@ const LessonPage = () => {
           )}
 
           {!locked && <TranscriptPanel videoId={lesson.videos?.id} />}
+
+          {!locked && (
+            <TutorPanel
+              moduleId={lesson.module_id}
+              signInHref={`/curso/entrar?next=/curso/${course.slug}/${lesson.slug}`}
+            />
+          )}
 
           <section className="rounded-xl border border-course-border bg-course-card p-5">
             <h2 className="mb-3 font-display text-xl font-semibold">{t('lesson.materials')}</h2>

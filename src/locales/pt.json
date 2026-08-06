@@ -243,5 +243,26 @@
     "needPt": "Adicione primeiro a legenda em português.",
     "auto": "Gerada automaticamente",
     "cues": "trechos"
+  },
+  "tutor": {
+    "title": "Tutor de IA do módulo",
+    "scope": "Responde apenas sobre o conteúdo deste módulo.",
+    "empty": "Faça sua primeira pergunta sobre esta aula.",
+    "placeholder": "Escreva sua pergunta…",
+    "send": "Enviar",
+    "thinking": "Pensando…",
+    "error": "Não consegui responder agora. Tente novamente.",
+    "signInToAsk": "Entrar para perguntar ao tutor",
+    "disclaimer": "Conteúdo educativo. Não substitui avaliação de profissional de saúde.",
+    "tab": "Tutor",
+    "needModule": "Salve a aula em um módulo para configurar o tutor.",
+    "contextHelp": "Este texto é a base de conhecimento do tutor deste módulo.",
+    "generate": "Gerar contexto a partir das aulas e transcrições",
+    "generating": "Gerando…",
+    "generated": "Contexto gerado. Revise antes de publicar.",
+    "context_pt": "Contexto em português",
+    "context_en": "Contexto em inglês",
+    "save": "Salvar contexto",
+    "saved": "Contexto salvo."
   }
 }

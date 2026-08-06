@@ -8,6 +8,7 @@ import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { SubtitlesTab } from '@/components/course/SubtitlesTab';
+import { TutorContextTab } from '@/components/course/TutorContextTab';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -190,6 +191,7 @@ const Inner = () => {
             <TabsTrigger value="content">{t('admin.tabContent')}</TabsTrigger>
             <TabsTrigger value="materials">{t('admin.tabMaterials')}</TabsTrigger>
             <TabsTrigger value="subtitles">{t('subtitles.tab')}</TabsTrigger>
+            <TabsTrigger value="tutor">{t('tutor.tab')}</TabsTrigger>
             <TabsTrigger value="access">{t('admin.tabAccess')}</TabsTrigger>
           </TabsList>
 
@@ -392,6 +394,12 @@ const Inner = () => {
           <TabsContent value="subtitles" className="space-y-4 pt-4">
             <SubtitlesTab videoId={video?.id ?? null} />
           </TabsContent>
+
+          <TabsContent value="tutor" className="space-y-4 pt-4">
+            <TutorContextTab moduleId={(lesson as { module_id?: string })?.module_id ?? null} />
+          </TabsContent>
+
+
 
           <TabsContent value="access" className="space-y-4 pt-4">
             <label className="flex items-center gap-3 rounded-lg border border-course-border bg-course-card px-4 py-3 font-body text-sm">
