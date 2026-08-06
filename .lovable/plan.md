@@ -1,13 +1,13 @@
 # Plano: Área de Cursos "Burnstore" no Site do Terapeuta
 
 ## Visão geral
-Transformar a aba **Curso** (hoje um card em branco na seção Serviços) em uma área de membros completa dentro do site atual, com experiência visual entre Hotmart (catálogo + aula) e Jellyflix (navegação fluida em catálogo de vídeos). O conteúdo será hospedado no Vimeo, com aulas gratuitas de isca e módulos pagos. Cada módulo terá um tutor de IA que conhece apenas o conteúdo daquele módulo.
+Transformar a aba **Curso** (hoje um card em branco na seção Serviços) em uma área de membros completa dentro do site atual, com experiência visual entre Hotmart (catálogo + aula) e Jellyflix (navegação fluida em catálogo de vídeos). O conteúdo será hospedado no Vimeo, com aulas gratuitas de isca e módulos pagos. Cada módulo terá um tutor de IA que conhece apenas o conteúdo daquele módulo, e o aluno poderá fazer perguntas por voz usando a lógica de áudio adaptada do Meutranscritor.
 
 ## Decisões já tomadas
 - Escopo: aba "Curso" no site atual (não app separado no MVP).
 - Monetização: freemium — vídeos/apostilas gratuitas + conteúdo pago desbloqueável.
 - IA: tutor por curso/módulo, não assistente geral.
-- MVP: catálogo de cursos, player de vídeo do Vimeo, apostilas e tutor de IA por módulo.
+- MVP: catálogo de cursos, player de vídeo do Vimeo, apostilas, tutor de IA por módulo e interação por voz.
 
 ## O que não está no MVP inicial
 - Pagamentos integrados (será adicionado na fase 2, após a estrutura de conteúdo estar validada).
@@ -21,7 +21,7 @@ Transformar a aba **Curso** (hoje um card em branco na seção Serviços) em uma
 - Sub-rotas dentro da área de cursos:
   - `/curso` → catálogo de cursos (estilo capa/Jellyflix).
   - `/curso/:courseSlug` → página do curso com módulos e aulas.
-  - `/curso/:courseSlug/:moduleSlug/:lessonSlug` → player de aula + apostila + tutor de IA.
+  - `/curso/:courseSlug/:moduleSlug/:lessonSlug` → player de aula + apostila + tutor de IA + pergunta por voz.
 - A navegação global do site continua visível, mas dentro da área de curso o foco é a sidebar/playlist de aulas.
 
 ### 2. Banco de dados (Lovable Cloud / Supabase)
@@ -49,9 +49,9 @@ Observação: as tabelas de autenticação e papéis (`profiles`, `user_roles`) 
 - Layout dividido em três colunas em desktop:
   - Esquerda: playlist de módulos/aulas com progresso.
   - Centro: player do Vimeo + título/descrição + botão "Marcar como concluída".
-  - Direita: abas "Apostila" e "Tutor de IA".
-- Em mobile: abas inferiores ou acordeão (Player, Conteúdo, Apostila, Tutor).
-- Player responsivo com `react-player` ou iframe nativo do Vimeo.
+  - Direita: abas "Apostila", "Tutor de IA" e "Perguntar por voz".
+- Em mobile: abas inferiores ou acordeão (Player, Conteúdo, Apostila, Tutor, Voz).
+- Player responsivo com iframe nativo do Vimeo.
 
 ### 5. Tutor de IA por módulo
 - Cada módulo tem um contexto fixo (`module_tutor_context`) com resumo do conteúdo, transcrição ou notas do instrutor.
@@ -62,7 +62,26 @@ Observação: as tabelas de autenticação e papéis (`profiles`, `user_roles`) 
   - Respostas em português, tom calmo e acolhedor, alinhado à identidade visual do site.
 - Histórico salvo em `chat_threads` + `chat_messages` para o usuário logado.
 
-### 6. Painel administrativo
+### 6. Interação por voz (adaptado do Meutranscritor)
+- Reaproveitar a lógica de gravação de áudio do Meutranscritor:
+  - `navigator.mediaDevices.getUserMedia` para capturar o microfone.
+  - `MediaRecorder` para gravar em `audio/webm` (Chrome/Firefox) ou `audio/mp4` (Safari).
+  - `AudioContext` + `AnalyserNode` para o medidor VU (ondinha visual durante a gravação).
+- Converter para React:
+  - Hook `useAudioRecorder` com estados `idle | recording | processing`.
+  - Componente `VoiceRecorder` com botão de gravar, timer e visualização VU.
+- Fluxo de uso na aula:
+  - Aluno segura/clica no botão de microfone e fala a pergunta.
+  - Áudio é enviado para uma Edge Function `transcribe-audio`.
+  - Edge Function usa Lovable AI Gateway (modelo `openai/gpt-4o-transcribe` ou similar) para converter fala em texto.
+  - Texto transcrito é inserido automaticamente no campo de pergunta do tutor de IA.
+  - Aluno envia a pergunta e recebe resposta do tutor.
+- Diferença em relação ao Meutranscritor original:
+  - No Meutranscritor, a chave da API fica no navegador do usuário (BYOK).
+  - Aqui, a chave fica no backend (Lovable AI Gateway) e a Edge Function gerencia a transcrição.
+  - O áudio não fica armazenado localmente; é processado e descartado (ou armazenado brevemente se necessário para logs).
+
+### 7. Painel administrativo
 - Reaproveitar o modo de edição existente (acesso secreto pela foto de perfil + login admin).
 - Nova seção "Gerenciar Cursos" no modo admin:
   - CRUD de cursos, módulos e aulas.
@@ -70,40 +89,46 @@ Observação: as tabelas de autenticação e papéis (`profiles`, `user_roles`) 
   - Editor de contexto do tutor de IA por módulo.
   - Visualização de matrículas e progresso (futuro).
 
-### 7. Identidade visual
+### 8. Identidade visual
 - Manter a paleta atual (sálvia/cream) e tipografia Cormorant Garamond + Nunito Sans.
 - Área de curso terá aparência mais "app": cards com hover, transições suaves, sidebar fixa, player centralizado.
 - Não usar gradientes genéricos; seguir o estilo calmo e minimalista já estabelecido.
 
-### 8. Fases de implementação
+## Fases de implementação
 
-#### Fase 1 — Estrutura e catálogo (sem pagamento)
+### Fase 1 — Estrutura e catálogo (sem pagamento)
 1. Criar tabelas: `courses`, `modules`, `lessons`, `lesson_materials`.
 2. Criar rota `/curso` e página de catálogo.
 3. Criar página de curso com lista de módulos/aulas.
 4. Criar player de aula com Vimeo (apenas aulas gratuitas inicialmente).
 5. Criar painel admin para gerenciar cursos, módulos e aulas.
 
-#### Fase 2 — Acesso pago e matrículas
+### Fase 2 — Acesso pago e matrículas
 1. Criar tabelas `enrollments` e `lesson_progress`.
 2. Implementar controle de acesso (free vs paid).
 3. Integrar pagamentos (Paddle ou Stripe, a definir na fase 2).
 4. Criar página "Minhas Matrículas" para o aluno.
 
-#### Fase 3 — Tutor de IA
+### Fase 3 — Tutor de IA
 1. Criar tabelas `module_tutor_context`, `chat_threads`, `chat_messages`.
 2. Criar Edge Function para o tutor de IA por módulo.
 3. Criar interface de chat na página de aula.
 4. Permitir que admin edite o contexto de cada módulo.
 
-#### Fase 4 — Polimento
+### Fase 4 — Pergunta por voz
+1. Criar hook/componente de gravação de áudio adaptado do Meutranscritor.
+2. Criar Edge Function `transcribe-audio` usando Lovable AI Gateway.
+3. Integrar botão de voz no chat do tutor de IA.
+4. Testar em Chrome, Safari e mobile.
+
+### Fase 5 — Polimento
 1. Progresso do aluno (barra de conclusão, continuar assistindo).
 2. Busca de aulas.
 3. Notificações e lembretes.
 4. Otimizações mobile e PWA leve.
 
 ## Próximos passos imediatos
-1. Aprovar este plano.
+1. Aprovar este plano atualizado.
 2. Definir nome final do projeto (Burnstore, Brainstore ou outro).
 3. Criar conta Vimeo Pro/Business e configurar privacidade de domínio.
 4. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
