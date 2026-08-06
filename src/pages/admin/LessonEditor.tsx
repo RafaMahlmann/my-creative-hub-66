@@ -96,7 +96,10 @@ const Inner = () => {
     qc.invalidateQueries({ queryKey: ['free-lessons'] });
   };
 
-  const saveLesson = async (patch: Record<string, unknown>) => {
+  const saveLesson = async (patch: Partial<{
+    title_pt: string; title_en: string; description_pt: string; description_en: string;
+    content_pt: string; content_en: string; is_free: boolean; is_published: boolean;
+  }>) => {
     const { error } = await supabase.from('lessons').update(patch).eq('id', lessonId!);
     if (error) return toast.error(error.message);
     refresh();
