@@ -99,16 +99,19 @@
 
 ---
 
-## Etapa 7 — Contas, matrículas e acesso pago (2 dias)
-**Objetivo:** conteúdo pago protegido de verdade.
+## Etapa 7 — Contas e matrículas (modelo freemium, sem gateway de pagamento) (2 dias)
+**Objetivo:** aluno com conta, progresso salvo e conteúdo destravado por matrícula — sem cobrança nesta fase.
 
+- **Decisão:** nesta etapa NÃO entra Stripe nem Paddle. O modelo é **freemium**: conteúdo gratuito aberto e conteúdo "premium" liberado por matrícula concedida (manual pelo admin ou automática ao se inscrever no curso gratuito).
 - Tabelas `enrollments` e `lesson_progress` com RLS por usuário.
 - Login de aluno (e-mail/senha + Google), separado do acesso oculto de admin.
-- Acesso a aula paga verificado no backend; o `video_ref` pago só é devolvido para quem tem matrícula.
-- Página "Minhas aulas" com progresso e continuidade ("continuar de onde parou").
-- Pagamento (Stripe ou Paddle) entra ao final desta etapa, depois do acesso já estar validado com matrícula manual.
+- Acesso a aula premium verificado no backend; o `video_ref` restrito só é devolvido para quem tem matrícula ativa.
+- Painel do criador: conceder/revogar matrícula de um aluno com um clique.
+- Página "Minhas aulas" com progresso e "continuar de onde parou".
 
-**Pronto quando:** um aluno paga, é matriculado e destrava o conteúdo.
+**Pronto quando:** o aluno cria conta, o admin concede matrícula e o conteúdo premium destrava, com progresso salvo.
+
+> Cobrança (Stripe/Paddle) fica registrada como etapa futura opcional, a ser ativada só quando o catálogo justificar. A estrutura de matrícula já é compatível: basta que o pagamento crie a linha em `enrollments`.
 
 ---
 
@@ -164,7 +167,7 @@
 ```
 
 **Mínimo para o produto existir:** Etapas 0 a 4.
-**Mínimo para vender:** + Etapa 7.
+**Mínimo para vender:** + Etapa 7 (freemium; cobrança só em etapa futura opcional).
 **Diferencial competitivo:** Etapas 8 e 9.
 
 ## Regras de idioma na prática
