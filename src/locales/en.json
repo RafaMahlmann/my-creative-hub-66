@@ -226,5 +226,22 @@
     "granted": "Access granted.",
     "revoked": "Access revoked.",
     "error": "Could not update the enrollment."
+  },
+  "subtitles": {
+    "transcript": "Transcript",
+    "search": "Search the transcript",
+    "noResults": "No matching passage.",
+    "tab": "Subtitles",
+    "pt": "Portuguese subtitles (WebVTT)",
+    "en": "English subtitles (WebVTT)",
+    "import": "Import .vtt file",
+    "translate": "Translate PT → EN with AI",
+    "translating": "Translating…",
+    "translated": "Translation generated. Review before publishing.",
+    "saved": "Subtitles saved.",
+    "needVideo": "Save this lesson's video before adding subtitles.",
+    "needPt": "Add the Portuguese subtitles first.",
+    "auto": "Auto-generated",
+    "cues": "cues"
   }
 }

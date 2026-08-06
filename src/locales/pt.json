@@ -226,5 +226,22 @@
     "granted": "Acesso liberado.",
     "revoked": "Acesso revogado.",
     "error": "Não foi possível atualizar a matrícula."
+  },
+  "subtitles": {
+    "transcript": "Transcrição",
+    "search": "Buscar na transcrição",
+    "noResults": "Nenhum trecho encontrado.",
+    "tab": "Legendas",
+    "pt": "Legenda em português (WebVTT)",
+    "en": "Legenda em inglês (WebVTT)",
+    "import": "Importar arquivo .vtt",
+    "translate": "Traduzir PT → EN com IA",
+    "translating": "Traduzindo…",
+    "translated": "Tradução gerada. Revise antes de publicar.",
+    "saved": "Legenda salva.",
+    "needVideo": "Salve o vídeo desta aula antes de adicionar legendas.",
+    "needPt": "Adicione primeiro a legenda em português.",
+    "auto": "Gerada automaticamente",
+    "cues": "trechos"
   }
 }
