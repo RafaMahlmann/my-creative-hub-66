@@ -188,6 +188,45 @@ Você mencionou querer tudo em servidor local. Preciso confirmar o que isso sign
 
 O plano do item 9 já é feito para suportar as três ao mesmo tempo — dá para começar com Vimeo e migrar aula por aula depois. Só preciso saber qual será a principal no começo.
 
+### 15. Painel auxiliar de operação (Central do Criador)
+
+**Cinco projetos open source pesquisados como referência:**
+
+| Projeto | Estrelas | O que ele resolve | Dá para integrar? |
+|---|---|---|---|
+| Postiz | ~34.000 | Agendamento e publicação em todas as redes, calendário visual, analytics por post | Não colar inteiro (Next.js + Redis), mas é a melhor referência de calendário e de "um card por post". Pode rodar separado e ser embutido por link. |
+| Brightbean Studio | ~2.100 | Alternativa ao Buffer, self-hosted, dashboard único para 10+ redes | Não (Django/Python). Boa referência de layout de dashboard. |
+| Trypost | ~465 | Agendamento focado em criador, simples | Não (Laravel/Vue). Referência de simplicidade. |
+| Umami | grande | Analytics de site self-hosted, privacidade-first, painel limpo | **Sim** — dá para plugar por script e ver visitas por página/aula. Integração real e barata. |
+| Plausible | grande | Mesma ideia do Umami, também self-hosted | **Sim**, alternativa ao Umami. Escolher um dos dois. |
+
+**O que eu vejo que talvez você não esteja vendo:**
+
+O risco aqui não é falta de painel — é excesso. Painel de campanha social é uma ferramenta de *marketing*, e ela só faz sentido quando já existe conteúdo publicado e tráfego chegando. Se construirmos isso agora, junto com o curso, você vai passar tempo alimentando tabelas vazias em vez de gravar aula. E painel desatualizado é pior que painel nenhum, porque você para de confiar nele.
+
+O que realmente vai te fazer falta cedo não é "quantos likes o Instagram deu". É outra coisa, mais chata e mais útil:
+
+1. **Inventário de vídeos** — você vai ter vídeo no Vimeo, no YouTube, arquivo bruto no computador, versão cortada para o Reels. Em três meses ninguém lembra qual é qual. Uma tabela `videos` com origem, status (bruto / editado / publicado), onde está usado e se é gratuito ou pago resolve 80% da dor. **E isso já está no item 9 do plano** — só precisa de uma tela listando.
+2. **Onde cada vídeo aparece** — o mesmo vídeo pode estar na aula 3, num post de Instagram e na página de vendas. Uma coluna "usado em" evita você despublicar algo e quebrar três lugares sem perceber.
+3. **Um checklist de lançamento por aula** — gravado / editado / legenda revisada / apostila pronta / publicado. Isso é um kanban de cinco colunas, não uma plataforma de marketing.
+
+**Proposta concreta — "Central do Criador", uma aba, três painéis, nada além disso:**
+
+- **Painel A — Biblioteca de vídeos**: tabela única de todos os vídeos com origem (Vimeo/YouTube/arquivo), duração, gratuito/pago com o mesmo interruptor de um clique, e "usado em" listando cada lugar. Filtro por status. É a visão que você pediu de "acompanhar a estrutura dos vídeos gratuitos".
+- **Painel B — Produção (kanban)**: colunas Ideia → Gravado → Editado → Legendado → Publicado. Cada card é uma aula ou um vídeo avulso, arrastável. Usa o mesmo `@dnd-kit` do painel de curso, então custa pouco.
+- **Painel C — Números**: visitas por página e por aula (via Umami ou Plausible, self-hosted), aulas mais assistidas, matrículas do mês. Somente leitura, sem configuração.
+
+**O que fica de fora de propósito** (e por quê):
+- Agendamento e publicação automática em redes sociais — exige aprovação de app em cada rede (Instagram e TikTok levam semanas) e quebra sozinho quando as APIs mudam. Se você quiser isso depois, rodamos o Postiz separado e colocamos só um link no painel.
+- Métricas de Instagram/YouTube dentro do nosso painel — mesma razão. Se for necessário, começamos com campos manuais que você preenche uma vez por semana; se você não preencher duas semanas seguidas, é sinal de que não era necessário mesmo.
+
+**Quando construir**: depois do curso estar de pé com pelo menos um módulo publicado. O Painel A é o único que vale antecipar, porque nasce quase de graça da tabela `videos` da Fase 1.
+
+**Minha recomendação honesta**: aprovar o Painel A junto da Fase 1, deixar o Painel B para a Fase 6 e só decidir sobre o Painel C quando houver tráfego real para medir.
+
+
+
+
 
 
 ## Fases de implementação
@@ -199,6 +238,7 @@ O plano do item 9 já é feito para suportar as três ao mesmo tempo — dá par
 4. Criar player multi-fonte com react-player (Vimeo, YouTube e arquivo), começando pelas aulas gratuitas.
 5. Criar o Painel do Criador em `/curso/admin`: dashboard, árvore arrastável de módulos/aulas, editor de aula em abas e alternador Editar / Pré-visualizar com "Ver como".
 6. Interruptor 🔓/🔒 de gratuito/pago com salvamento imediato.
+7. Painel A da Central do Criador: biblioteca de vídeos com origem, status e "usado em".
 
 ### Fase 2 — Idiomas e legendas
 1. Instalar i18next e extrair todos os textos da interface para `pt.json` e `en.json`.
@@ -230,12 +270,15 @@ O plano do item 9 já é feito para suportar as três ao mesmo tempo — dá par
 2. Busca de aulas.
 3. Notificações e lembretes.
 4. Otimizações mobile e PWA leve.
+5. Painel B da Central do Criador: kanban de produção (Ideia → Gravado → Editado → Legendado → Publicado).
+6. Painel C: números de audiência via Umami ou Plausible, se já houver tráfego.
 
 ## Próximos passos imediatos
 1. Aprovar este plano atualizado.
 2. Responder o item 14: onde ficam os vídeos no começo (Vimeo, Storage do Cloud ou VPS próprio).
-3. Definir nome final do projeto (Burnstore, Brainstore ou outro).
-4. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
+3. Confirmar o recorte do item 15 (Painel A agora, B e C depois).
+4. Definir nome final do projeto (Burnstore, Brainstore ou outro).
+5. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
 
 ## Nota importante
 Nenhuma alteração de código será feita neste projeto sem a autorização explícita "PODE CODAR". Este plano serve para alinharmos a arquitetura antes de começar a implementar.
