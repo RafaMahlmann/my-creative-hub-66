@@ -243,5 +243,26 @@
     "needPt": "Add the Portuguese subtitles first.",
     "auto": "Auto-generated",
     "cues": "cues"
+  },
+  "tutor": {
+    "title": "Module AI tutor",
+    "scope": "Answers only about this module's content.",
+    "empty": "Ask your first question about this lesson.",
+    "placeholder": "Write your question…",
+    "send": "Send",
+    "thinking": "Thinking…",
+    "error": "I couldn't answer right now. Please try again.",
+    "signInToAsk": "Sign in to ask the tutor",
+    "disclaimer": "Educational content. It does not replace a health professional.",
+    "tab": "Tutor",
+    "needModule": "Save the lesson inside a module to set up the tutor.",
+    "contextHelp": "This text is the knowledge base of this module's tutor.",
+    "generate": "Generate context from lessons and transcripts",
+    "generating": "Generating…",
+    "generated": "Context generated. Review before publishing.",
+    "context_pt": "Portuguese context",
+    "context_en": "English context",
+    "save": "Save context",
+    "saved": "Context saved."
   }
 }
