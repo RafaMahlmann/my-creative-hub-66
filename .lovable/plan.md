@@ -224,9 +224,7 @@ O que realmente vai te fazer falta cedo não é "quantos likes o Instagram deu".
 - Agendamento e publicação automática em redes sociais — exige aprovação de app em cada rede (Instagram e TikTok levam semanas) e quebra sozinho quando as APIs mudam. Se você quiser isso depois, rodamos o Postiz separado e colocamos só um link no painel.
 - Métricas de Instagram/YouTube dentro do nosso painel — mesma razão. Se for necessário, começamos com campos manuais que você preenche uma vez por semana; se você não preencher duas semanas seguidas, é sinal de que não era necessário mesmo.
 
-**Quando construir**: depois do curso estar de pé com pelo menos um módulo publicado. O Painel A é o único que vale antecipar, porque nasce quase de graça da tabela `videos` da Fase 1.
-
-**Minha recomendação honesta**: aprovar o Painel A junto da Fase 1, deixar o Painel B para a Fase 6 e só decidir sobre o Painel C quando houver tráfego real para medir.
+**Decidido**: os três painéis (A, B e C) estão aprovados e a Central do Criador vira uma aba própria. Ordem de construção: Painel A junto da Fase 1 (nasce da tabela `videos`), Painel B na Fase 6 e Painel C na Fase 6, ligado assim que houver tráfego real para medir.
 
 
 
