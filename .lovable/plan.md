@@ -193,31 +193,39 @@ O plano do item 9 já é feito para suportar as três ao mesmo tempo — dá par
 ## Fases de implementação
 
 ### Fase 1 — Estrutura, catálogo e Painel do Criador
-1. Criar tabelas: `courses`, `modules`, `lessons`, `lesson_materials`.
+1. Criar tabelas: `courses`, `modules`, `lessons`, `videos`, `lesson_materials`.
 2. Criar rota `/curso` e página de catálogo.
 3. Criar página de curso com lista de módulos/aulas.
-4. Criar player de aula com Vimeo (apenas aulas gratuitas inicialmente).
+4. Criar player multi-fonte com react-player (Vimeo, YouTube e arquivo), começando pelas aulas gratuitas.
 5. Criar o Painel do Criador em `/curso/admin`: dashboard, árvore arrastável de módulos/aulas, editor de aula em abas e alternador Editar / Pré-visualizar com "Ver como".
+6. Interruptor 🔓/🔒 de gratuito/pago com salvamento imediato.
 
-### Fase 2 — Acesso pago e matrículas
+### Fase 2 — Idiomas e legendas
+1. Instalar i18next e extrair todos os textos da interface para `pt.json` e `en.json`.
+2. Seletor de idioma no cabeçalho, com preferência salva.
+3. Campos de conteúdo com abas PT | EN no painel.
+4. Tabela `subtitles` e Edge Function de geração automática de legenda em WebVTT.
+5. Editor de legendas no painel e botão CC no player.
+
+### Fase 3 — Acesso pago e matrículas
 1. Criar tabelas `enrollments` e `lesson_progress`.
 2. Implementar controle de acesso (free vs paid).
-3. Integrar pagamentos (Paddle ou Stripe, a definir na fase 2).
+3. Integrar pagamentos (Paddle ou Stripe, a definir nesta fase).
 4. Criar página "Minhas Matrículas" para o aluno.
 
-### Fase 3 — Tutor de IA
+### Fase 4 — Tutor de IA
 1. Criar tabelas `module_tutor_context`, `chat_threads`, `chat_messages`.
 2. Criar Edge Function para o tutor de IA por módulo.
 3. Criar interface de chat na página de aula.
-4. Permitir que admin edite o contexto de cada módulo.
+4. Alimentar o contexto do tutor automaticamente com a transcrição das legendas.
 
-### Fase 4 — Pergunta por voz
+### Fase 5 — Pergunta por voz
 1. Criar hook/componente de gravação de áudio adaptado do Meutranscritor.
 2. Criar Edge Function `transcribe-audio` usando Lovable AI Gateway.
 3. Integrar botão de voz no chat do tutor de IA.
 4. Testar em Chrome, Safari e mobile.
 
-### Fase 5 — Polimento
+### Fase 6 — Polimento
 1. Progresso do aluno (barra de conclusão, continuar assistindo).
 2. Busca de aulas.
 3. Notificações e lembretes.
@@ -225,8 +233,8 @@ O plano do item 9 já é feito para suportar as três ao mesmo tempo — dá par
 
 ## Próximos passos imediatos
 1. Aprovar este plano atualizado.
-2. Definir nome final do projeto (Burnstore, Brainstore ou outro).
-3. Criar conta Vimeo Pro/Business e configurar privacidade de domínio.
+2. Responder o item 14: onde ficam os vídeos no começo (Vimeo, Storage do Cloud ou VPS próprio).
+3. Definir nome final do projeto (Burnstore, Brainstore ou outro).
 4. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
 
 ## Nota importante
