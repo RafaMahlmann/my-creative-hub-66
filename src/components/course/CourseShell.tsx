@@ -1,14 +1,16 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, GraduationCap, LogOut } from 'lucide-react';
+import { ArrowLeft, GraduationCap, LayoutDashboard, LogOut } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useStudentAuth } from '@/hooks/useStudentAuth';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { supabase } from '@/integrations/supabase/client';
 
 export const CourseShell = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
   const { isAuthenticated } = useStudentAuth();
+  const { isAdmin, loading: adminLoading } = useAdminAuth();
 
 
   return (
@@ -33,6 +35,15 @@ export const CourseShell = ({ children }: { children: ReactNode }) => {
             </Link>
             {isAuthenticated ? (
               <>
+                {!adminLoading && isAdmin && (
+                  <Link
+                    to="/curso/admin"
+                    className="flex items-center gap-1.5 rounded-full bg-course-primary/10 px-3 py-1.5 font-body text-sm font-medium text-course-primary transition-colors hover:bg-course-primary/15"
+                  >
+                    <LayoutDashboard className="h-4 w-4" />
+                    {t('admin.panel')}
+                  </Link>
+                )}
                 <Link
                   to="/curso/minhas-aulas"
                   className="font-body text-sm text-course-muted-foreground transition-colors hover:text-course-foreground"
