@@ -277,10 +277,8 @@ O que realmente vai te fazer falta cedo não é "quantos likes o Instagram deu".
 
 ## Próximos passos imediatos
 1. Aprovar este plano atualizado.
-2. Responder o item 14: onde ficam os vídeos no começo (Vimeo, Storage do Cloud ou VPS próprio).
-3. Confirmar o recorte do item 15 (Painel A agora, B e C depois).
-4. Definir nome final do projeto (Burnstore, Brainstore ou outro).
-5. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
+2. Definir nome final do projeto (Burnstore, Brainstore ou outro).
+3. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
 
 ## Nota importante
 Nenhuma alteração de código será feita neste projeto sem a autorização explícita "PODE CODAR". Este plano serve para alinharmos a arquitetura antes de começar a implementar.
