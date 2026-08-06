@@ -1,26 +1,19 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
-  {
-    text: "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
-    name: "Nome do Paciente",
-  },
-  {
-    text: "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
-    name: "Anônimo",
-  },
-  {
-    text: "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
-    name: "Nome do Paciente",
-  },
+  { textKey: "home.testimonials.t1", nameKey: "home.testimonials.patient" },
+  { textKey: "home.testimonials.t2", nameKey: "home.testimonials.anonymous" },
+  { textKey: "home.testimonials.t3", nameKey: "home.testimonials.patient" },
 ];
 
 const TestimonialsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [current, setCurrent] = useState(0);
+  const { t } = useTranslation();
 
   const prev = () => setCurrent((c) => (c === 0 ? testimonials.length - 1 : c - 1));
   const next = () => setCurrent((c) => (c === testimonials.length - 1 ? 0 : c + 1));
@@ -35,10 +28,10 @@ const TestimonialsSection = () => {
           className="text-center mb-16"
         >
           <h2 className="font-display text-4xl md:text-5xl font-light text-foreground mb-4">
-            Depoimentos
+            {t("home.testimonials.title")}
           </h2>
           <p className="font-body text-muted-foreground">
-            O que dizem sobre o trabalho
+            {t("home.testimonials.subtitle")}
           </p>
         </motion.div>
 
@@ -59,10 +52,10 @@ const TestimonialsSection = () => {
               transition={{ duration: 0.4 }}
             >
               <p className="font-body text-lg text-foreground leading-relaxed mb-6 italic">
-                "{testimonials[current].text}"
+                "{t(testimonials[current].textKey)}"
               </p>
               <p className="font-display text-base text-muted-foreground">
-                — {testimonials[current].name}
+                — {t(testimonials[current].nameKey)}
               </p>
             </motion.div>
           </div>
@@ -74,7 +67,7 @@ const TestimonialsSection = () => {
             >
               <ChevronLeft size={18} />
             </button>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               {testimonials.map((_, i) => (
                 <button
                   key={i}

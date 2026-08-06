@@ -1,45 +1,21 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Leaf, Video, Compass, GraduationCap, Gem, X } from "lucide-react";
 
 const services = [
-  {
-    icon: Leaf,
-    title: "Atendimento de Campo Presencial",
-    description: "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
-    videoUrl: "",
-  },
-  {
-    icon: Video,
-    title: "Atendimento à Distância",
-    description: "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
-    videoUrl: "",
-  },
-  {
-    icon: Compass,
-    title: "Constelação",
-    description: "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
-    videoUrl: "",
-  },
-  {
-    icon: GraduationCap,
-    title: "Curso",
-    description: "Em desenvolvimento — em breve disponível.",
-    videoUrl: "",
-  },
-  {
-    icon: Gem,
-    title: "Joias de Campo",
-    description: "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
-    videoUrl: "",
-  },
+  { icon: Leaf, key: "presential" },
+  { icon: Video, key: "remote" },
+  { icon: Compass, key: "constellation" },
+  { icon: GraduationCap, key: "course" },
+  { icon: Gem, key: "jewels" },
 ];
 
 const ServicesSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [activeService, setActiveService] = useState<number | null>(null);
-  
+  const { t } = useTranslation();
 
   return (
     <section id="servicos" className="py-24 md:py-32 bg-secondary/30" ref={ref}>
@@ -51,17 +27,17 @@ const ServicesSection = () => {
           className="text-center mb-16"
         >
           <h2 className="font-display text-4xl md:text-5xl font-light text-foreground mb-4">
-            Serviços
+            {t("home.services.title")}
           </h2>
           <p className="font-body text-muted-foreground max-w-md mx-auto">
-            Blá blá blá blá blá blá blá blá blá blá blá
+            {t("home.services.subtitle")}
           </p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {services.map((service, i) => (
             <motion.button
-              key={service.title}
+              key={service.key}
               initial={{ y: 40, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: i * 0.1 }}
@@ -70,10 +46,10 @@ const ServicesSection = () => {
             >
               <service.icon className="w-8 h-8 text-primary mb-4 group-hover:scale-110 transition-transform duration-300" />
               <h3 className="font-display text-xl font-medium text-foreground mb-2">
-                {service.title}
+                {t(`home.services.${service.key}.title`)}
               </h3>
               <p className="font-body text-sm text-muted-foreground leading-relaxed">
-                {service.description}
+                {t(`home.services.${service.key}.description`)}
               </p>
             </motion.button>
           ))}
@@ -107,7 +83,7 @@ const ServicesSection = () => {
                 return <Icon className="w-8 h-8 text-primary" />;
               })()}
               <h3 className="font-display text-2xl text-foreground">
-                {services[activeService].title}
+                {t(`home.services.${services[activeService].key}.title`)}
               </h3>
             </div>
             {/* Video placeholder */}
@@ -115,7 +91,8 @@ const ServicesSection = () => {
               <Video className="w-12 h-12 text-muted-foreground/30" />
             </div>
             <p className="font-body text-muted-foreground leading-relaxed">
-              {services[activeService].description} Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.
+              {t(`home.services.${services[activeService].key}.description`)}{" "}
+              {t("home.services.modalExtra")}
             </p>
           </motion.div>
         </motion.div>

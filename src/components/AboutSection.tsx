@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { User } from "lucide-react";
 
 const AboutSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t } = useTranslation();
 
   return (
     <section id="sobre" className="py-24 md:py-32" ref={ref}>
@@ -29,18 +31,14 @@ const AboutSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <h2 className="font-display text-4xl md:text-5xl font-light text-foreground mb-6">
-              Sobre Mim
+              {t("home.about.title")}
             </h2>
             <div className="space-y-4">
-              <p className="font-body text-base text-muted-foreground leading-relaxed">
-                Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.
-              </p>
-              <p className="font-body text-base text-muted-foreground leading-relaxed">
-                Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.
-              </p>
-              <p className="font-body text-base text-muted-foreground leading-relaxed">
-                Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.
-              </p>
+              {["p1", "p2", "p3"].map((k) => (
+                <p key={k} className="font-body text-base text-muted-foreground leading-relaxed">
+                  {t(`home.about.${k}`)}
+                </p>
+              ))}
             </div>
           </motion.div>
         </div>

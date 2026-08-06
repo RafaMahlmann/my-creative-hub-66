@@ -112,5 +112,73 @@
     "trailer": "Trailer",
     "videoFree": "Gratuito",
     "openLibrary": "Biblioteca de vídeos"
+  },
+  "home": {
+    "hero": {
+      "tagline1": "Fundador e Curador do Ecossistema Flor de Plasma",
+      "tagline2": "Terapeuta de Campo",
+      "cta": "Conheça meu trabalho",
+      "profileAlt": "Foto de perfil",
+      "changeBackground": "Alterar fundo",
+      "adjustPhoto": "Ajustar foto",
+      "adjustBackground": "Ajustar fundo"
+    },
+    "about": {
+      "title": "Sobre Mim",
+      "p1": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+      "p2": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+      "p3": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá."
+    },
+    "services": {
+      "title": "Serviços",
+      "subtitle": "Blá blá blá blá blá blá blá blá blá blá blá",
+      "modalExtra": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+      "presential": {
+        "title": "Atendimento de Campo Presencial",
+        "description": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá."
+      },
+      "remote": {
+        "title": "Atendimento à Distância",
+        "description": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá."
+      },
+      "constellation": {
+        "title": "Constelação",
+        "description": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá."
+      },
+      "course": {
+        "title": "Curso",
+        "description": "Em desenvolvimento — em breve disponível."
+      },
+      "jewels": {
+        "title": "Joias de Campo",
+        "description": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá."
+      }
+    },
+    "testimonials": {
+      "title": "Depoimentos",
+      "subtitle": "O que dizem sobre o trabalho",
+      "anonymous": "Anônimo",
+      "patient": "Nome do Paciente",
+      "t1": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+      "t2": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+      "t3": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá."
+    },
+    "blog": {
+      "title": "Blog & Artigos",
+      "subtitle": "Reflexões e conhecimento",
+      "readMore": "Ler mais",
+      "postTitle": "Título do Artigo",
+      "s1": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+      "s2": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+      "s3": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá."
+    },
+    "footer": {
+      "brand": "Terapeuta",
+      "description": "Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+      "rights": "© 2026 — Todos os direitos reservados"
+    },
+    "whatsapp": {
+      "aria": "Contato via WhatsApp"
+    }
   }
 }

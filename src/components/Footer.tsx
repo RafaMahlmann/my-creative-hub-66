@@ -1,15 +1,16 @@
+import { useTranslation } from "react-i18next";
 import { Instagram, Youtube, Facebook, Mail, Phone } from "lucide-react";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer id="contato" className="py-16 border-t border-border">
       <div className="container mx-auto px-6">
         <div className="flex flex-col items-center text-center gap-6">
-          <h3 className="font-display text-2xl text-foreground">
-            Terapeuta
-          </h3>
+          <h3 className="font-display text-2xl text-foreground">{t("home.footer.brand")}</h3>
           <p className="font-body text-sm text-muted-foreground max-w-md">
-            Blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.
+            {t("home.footer.description")}
           </p>
 
           {/* Social links */}
@@ -35,7 +36,7 @@ const Footer = () => {
           </div>
 
           <p className="font-body text-xs text-muted-foreground/60 mt-4">
-            © 2026 — Todos os direitos reservados
+            {t("home.footer.rights")}
           </p>
         </div>
       </div>
