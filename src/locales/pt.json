@@ -16,6 +16,23 @@
     "comingSoon": "Em breve",
     "courseArea": "Área de Cursos",
     "description": "Aqui você encontrará cursos, aulas e conteúdos exclusivos sobre saúde e a tecnologia.",
-    "backToHome": "Voltar ao início"
+    "backToHome": "Voltar ao início",
+    "backToCatalog": "Voltar ao catálogo",
+    "spotlight": "Em destaque",
+    "startNow": "Começar agora",
+    "rowStartHere": "Comece por aqui",
+    "rowFree": "Aulas gratuitas",
+    "free": "Gratuita",
+    "paid": "Exclusiva",
+    "emptyCatalog": "Nenhum curso publicado ainda.",
+    "emptyFree": "Nenhuma aula gratuita publicada ainda.",
+    "emptyModules": "Este curso ainda não tem módulos publicados.",
+    "emptyLessons": "Nenhuma aula publicada neste módulo.",
+    "notFound": "Curso não encontrado.",
+    "moduleLabel": "Módulo {{number}}",
+    "moduleCount": "{{count}} módulo",
+    "moduleCount_other": "{{count}} módulos",
+    "lessonCount": "{{count}} aula",
+    "lessonCount_other": "{{count}} aulas"
   }
 }
