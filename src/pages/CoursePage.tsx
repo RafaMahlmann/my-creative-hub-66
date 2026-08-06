@@ -134,6 +134,7 @@ const CoursePage = () => {
                     {l.is_free ? <LockOpen size={11} /> : <Lock size={11} />}
                     {l.is_free ? t('course.free') : t('course.paid')}
                   </span>
+                  </Link>
                 </li>
               ))}
             </ul>
