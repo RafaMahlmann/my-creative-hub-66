@@ -35,6 +35,15 @@ export const CourseShell = ({ children }: { children: ReactNode }) => {
             </Link>
             {isAuthenticated ? (
               <>
+                {!adminLoading && isAdmin && (
+                  <Link
+                    to="/curso/admin"
+                    className="flex items-center gap-1.5 rounded-full bg-course-primary/10 px-3 py-1.5 font-body text-sm font-medium text-course-primary transition-colors hover:bg-course-primary/15"
+                  >
+                    <LayoutDashboard className="h-4 w-4" />
+                    {t('admin.panel')}
+                  </Link>
+                )}
                 <Link
                   to="/curso/minhas-aulas"
                   className="font-body text-sm text-course-muted-foreground transition-colors hover:text-course-foreground"
