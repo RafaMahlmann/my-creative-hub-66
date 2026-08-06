@@ -2,12 +2,16 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 const CourseIndex = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="course-area min-h-screen bg-course-background text-course-foreground flex flex-col items-center justify-center px-6">
+    <div className="course-area min-h-screen bg-course-background text-course-foreground flex flex-col items-center justify-center px-6 relative">
+      <div className="absolute top-6 right-6">
+        <LanguageSwitcher />
+      </div>
       <div className="max-w-xl text-center space-y-6">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-course-primary/10 text-course-primary mb-4">
           <GraduationCap size={32} />
