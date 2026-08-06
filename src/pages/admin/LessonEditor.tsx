@@ -188,6 +188,7 @@ const Inner = () => {
             <TabsTrigger value="video">{t('admin.tabVideo')}</TabsTrigger>
             <TabsTrigger value="content">{t('admin.tabContent')}</TabsTrigger>
             <TabsTrigger value="materials">{t('admin.tabMaterials')}</TabsTrigger>
+            <TabsTrigger value="subtitles">{t('subtitles.tab')}</TabsTrigger>
             <TabsTrigger value="access">{t('admin.tabAccess')}</TabsTrigger>
           </TabsList>
 
