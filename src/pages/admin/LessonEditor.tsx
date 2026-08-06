@@ -7,6 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
+import { SubtitlesTab } from '@/components/course/SubtitlesTab';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -188,6 +189,7 @@ const Inner = () => {
             <TabsTrigger value="video">{t('admin.tabVideo')}</TabsTrigger>
             <TabsTrigger value="content">{t('admin.tabContent')}</TabsTrigger>
             <TabsTrigger value="materials">{t('admin.tabMaterials')}</TabsTrigger>
+            <TabsTrigger value="subtitles">{t('subtitles.tab')}</TabsTrigger>
             <TabsTrigger value="access">{t('admin.tabAccess')}</TabsTrigger>
           </TabsList>
 
@@ -385,6 +387,10 @@ const Inner = () => {
             >
               <Plus className="mr-2 h-4 w-4" /> {t('admin.addMaterial')}
             </Button>
+          </TabsContent>
+
+          <TabsContent value="subtitles" className="space-y-4 pt-4">
+            <SubtitlesTab videoId={video?.id ?? null} />
           </TabsContent>
 
           <TabsContent value="access" className="space-y-4 pt-4">
