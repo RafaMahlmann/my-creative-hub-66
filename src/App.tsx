@@ -14,6 +14,9 @@ import CourseAdmin from "./pages/admin/CourseAdmin";
 import VideoLibrary from "./pages/admin/VideoLibrary";
 import CourseEditor from "./pages/admin/CourseEditor";
 import LessonEditor from "./pages/admin/LessonEditor";
+import StudentAuth from "./pages/StudentAuth";
+import MyLessons from "./pages/MyLessons";
+import Students from "./pages/admin/Students";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,7 +32,10 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/bioressonancia" element={<Navigate to="/" />} />
             <Route path="/curso" element={<CourseIndex />} />
+            <Route path="/curso/entrar" element={<StudentAuth />} />
+            <Route path="/curso/minhas-aulas" element={<MyLessons />} />
             <Route path="/curso/admin" element={<CourseAdmin />} />
+            <Route path="/curso/admin/alunos" element={<Students />} />
             <Route path="/curso/admin/videos" element={<VideoLibrary />} />
             <Route path="/curso/admin/:courseId" element={<CourseEditor />} />
 

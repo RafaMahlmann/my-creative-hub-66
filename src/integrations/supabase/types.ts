@@ -70,6 +70,44 @@ export type Database = {
           },
         ]
       }
+      enrollments: {
+        Row: {
+          course_id: string
+          created_at: string
+          id: string
+          is_active: boolean
+          source: Database["public"]["Enums"]["enrollment_source"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          source?: Database["public"]["Enums"]["enrollment_source"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          source?: Database["public"]["Enums"]["enrollment_source"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_materials: {
         Row: {
           created_at: string
@@ -107,6 +145,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "lesson_materials_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_progress: {
+        Row: {
+          created_at: string
+          id: string
+          is_completed: boolean
+          last_seen_at: string
+          lesson_id: string
+          seconds_watched: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_completed?: boolean
+          last_seen_at?: string
+          lesson_id: string
+          seconds_watched?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_completed?: boolean
+          last_seen_at?: string
+          lesson_id?: string
+          seconds_watched?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_progress_lesson_id_fkey"
             columns: ["lesson_id"]
             isOneToOne: false
             referencedRelation: "lessons"
@@ -356,6 +435,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "editor"
+      enrollment_source: "free" | "admin_grant" | "courtesy"
       video_provider: "vimeo" | "youtube" | "hls" | "file"
       video_status: "ideia" | "gravado" | "editado" | "legendado" | "publicado"
     }
@@ -486,6 +566,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "editor"],
+      enrollment_source: ["free", "admin_grant", "courtesy"],
       video_provider: ["vimeo", "youtube", "hls", "file"],
       video_status: ["ideia", "gravado", "editado", "legendado", "publicado"],
     },

@@ -1,17 +1,32 @@
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, ArrowRight, Download, Lock, LockOpen } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Download, Lock, LockOpen } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { useLesson } from '@/hooks/useLesson';
+import { useStudentAuth } from '@/hooks/useStudentAuth';
+import { useEnrollment, useLessonProgress } from '@/hooks/useEnrollment';
 import { pick, formatDuration } from '@/lib/course';
 
 const LessonPage = () => {
   const { courseSlug, lessonSlug } = useParams();
   const { t } = useTranslation();
   const { data, isLoading } = useLesson(courseSlug, lessonSlug);
+  const { isAuthenticated } = useStudentAuth();
+  const { hasPremiumAccess } = useEnrollment(data?.course?.id);
+  const { progress, save } = useLessonProgress(data?.lesson?.id);
+
+  const lessonId = data?.lesson?.id;
+  const canWatch = !!data?.lesson?.is_free || hasPremiumAccess;
+
+  useEffect(() => {
+    if (lessonId && isAuthenticated && canWatch) save.mutate({});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessonId, isAuthenticated, canWatch]);
+
 
   if (isLoading) {
     return (
@@ -44,7 +59,7 @@ const LessonPage = () => {
   }
 
   const { course, lesson, materials, ordered, prev, next } = data;
-  const locked = !lesson.is_free;
+  const locked = !canWatch;
   const content = pick(lesson.content_pt, lesson.content_en);
 
   return (
@@ -59,6 +74,35 @@ const LessonPage = () => {
           </Link>
 
           <VideoPlayer video={lesson.videos} locked={locked} />
+
+          {locked && (
+            <div className="rounded-xl border border-course-border bg-course-card p-5">
+              <p className="font-body text-sm text-course-muted-foreground">
+                {isAuthenticated ? t('access.needEnrollment') : t('access.needSignIn')}
+              </p>
+              {!isAuthenticated && (
+                <Link to={`/curso/entrar?next=/curso/${course.slug}/${lesson.slug}`}>
+                  <Button className="mt-4 bg-course-primary text-course-primary-foreground hover:bg-course-primary/90">
+                    {t('auth.signIn')}
+                  </Button>
+                </Link>
+              )}
+            </div>
+          )}
+
+          {!locked && isAuthenticated && (
+            <Button
+              variant="outline"
+              onClick={() => save.mutate({ is_completed: !progress?.is_completed })}
+              className="border-course-border bg-course-card text-course-foreground hover:bg-course-secondary"
+            >
+              <CheckCircle2
+                className={`mr-2 h-4 w-4 ${progress?.is_completed ? 'text-course-primary' : ''}`}
+              />
+              {progress?.is_completed ? t('access.completed') : t('access.markCompleted')}
+            </Button>
+          )}
+
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-3">

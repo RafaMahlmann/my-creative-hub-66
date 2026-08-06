@@ -1,11 +1,15 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, GraduationCap } from 'lucide-react';
+import { ArrowLeft, GraduationCap, LogOut } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useStudentAuth } from '@/hooks/useStudentAuth';
+import { supabase } from '@/integrations/supabase/client';
 
 export const CourseShell = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
+  const { isAuthenticated } = useStudentAuth();
+
 
   return (
     <div className="course-area min-h-screen bg-course-background text-course-foreground">
@@ -27,7 +31,33 @@ export const CourseShell = ({ children }: { children: ReactNode }) => {
               <ArrowLeft className="h-4 w-4" />
               {t('course.backToHome')}
             </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/curso/minhas-aulas"
+                  className="font-body text-sm text-course-muted-foreground transition-colors hover:text-course-foreground"
+                >
+                  {t('myLessons.title')}
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => supabase.auth.signOut()}
+                  aria-label={t('auth.signOut')}
+                  className="flex items-center gap-1 font-body text-sm text-course-muted-foreground transition-colors hover:text-course-foreground"
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/curso/entrar"
+                className="font-body text-sm text-course-muted-foreground transition-colors hover:text-course-foreground"
+              >
+                {t('auth.signIn')}
+              </Link>
+            )}
             <LanguageSwitcher />
+
           </div>
         </div>
       </header>
