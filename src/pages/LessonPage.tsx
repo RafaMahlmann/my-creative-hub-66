@@ -59,7 +59,7 @@ const LessonPage = () => {
   }
 
   const { course, lesson, materials, ordered, prev, next } = data;
-  const locked = !lesson.is_free;
+  const locked = !canWatch;
   const content = pick(lesson.content_pt, lesson.content_en);
 
   return (
@@ -74,6 +74,35 @@ const LessonPage = () => {
           </Link>
 
           <VideoPlayer video={lesson.videos} locked={locked} />
+
+          {locked && (
+            <div className="rounded-xl border border-course-border bg-course-card p-5">
+              <p className="font-body text-sm text-course-muted-foreground">
+                {isAuthenticated ? t('access.needEnrollment') : t('access.needSignIn')}
+              </p>
+              {!isAuthenticated && (
+                <Link to={`/curso/entrar?next=/curso/${course.slug}/${lesson.slug}`}>
+                  <Button className="mt-4 bg-course-primary text-course-primary-foreground hover:bg-course-primary/90">
+                    {t('auth.signIn')}
+                  </Button>
+                </Link>
+              )}
+            </div>
+          )}
+
+          {!locked && isAuthenticated && (
+            <Button
+              variant="outline"
+              onClick={() => save.mutate({ is_completed: !progress?.is_completed })}
+              className="border-course-border bg-course-card text-course-foreground hover:bg-course-secondary"
+            >
+              <CheckCircle2
+                className={`mr-2 h-4 w-4 ${progress?.is_completed ? 'text-course-primary' : ''}`}
+              />
+              {progress?.is_completed ? t('access.completed') : t('access.markCompleted')}
+            </Button>
+          )}
+
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-3">
