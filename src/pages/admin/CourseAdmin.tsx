@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText } from 'lucide-react';
+import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { Button } from '@/components/ui/button';
