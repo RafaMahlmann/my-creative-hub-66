@@ -126,34 +126,106 @@ Abas dentro do editor de aula, imitando o padrão Hotmart:
 - Área de curso terá aparência mais "app": cards com hover, transições suaves, sidebar fixa, player centralizado.
 - Não usar gradientes genéricos; seguir o estilo calmo e minimalista já estabelecido.
 
+### 9. Player multi-fonte (Vimeo, YouTube, arquivo próprio)
+Em vez de amarrar cada aula ao Vimeo, cada aula guarda um **par: provedor + referência**.
+
+- Campo `video_provider`: `vimeo` | `youtube` | `hls` | `file`.
+- Campo `video_ref`: o ID ou a URL correspondente.
+- No painel, você cola qualquer link (Vimeo, YouTube ou URL de arquivo/HLS) e o sistema detecta sozinho o provedor. Se errar a detecção, você troca no seletor.
+- Biblioteca recomendada: **react-player v3** (MIT, ~10k estrelas, 2,2 milhões de downloads/semana, mantida ativamente). Já entrega YouTube, Vimeo, HLS, DASH e arquivo local com a mesma API, e suporta faixas de legenda.
+- Alternativa se quisermos um player 100% com a nossa cara: **Vidstack Player** (MIT, mesma cobertura de provedores, mais controle visual, um pouco mais de trabalho para montar). Sugestão: começar com react-player e migrar para Vidstack só se precisarmos de skin totalmente própria.
+- **Reuso do mesmo vídeo em vários lugares**: o vídeo vira um registro próprio na tabela `videos`. As aulas apontam para um vídeo por referência. Assim o mesmo vídeo pode aparecer na aula, numa página de vendas e num destaque do catálogo — e se você trocar o arquivo, troca em todos de uma vez.
+
+### 10. Gratuito ou pago com um clique
+- Na árvore de módulos/aulas do painel, cada aula tem um interruptor 🔓/🔒 que salva na hora, sem abrir formulário.
+- O mesmo interruptor existe no nível do módulo ("liberar módulo inteiro") e do curso ("curso gratuito").
+- Efeito imediato no preview do aluno, sem recarregar a página.
+
+### 11. Legendas
+Fluxo em três camadas, todas com base em ferramentas maduras:
+
+1. **Geração automática**: ao subir/vincular um vídeo, uma Edge Function envia o áudio para transcrição (Lovable AI Gateway, mesmo motor da pergunta por voz) e devolve a transcrição com marcação de tempo. Isso gera um arquivo **WebVTT** — o formato padrão da web para legenda.
+2. **Edição manual**: editor de legendas simples no painel, listando cada trecho com tempo de início/fim e texto, para você corrigir termos técnicos que a IA errar.
+3. **Exibição**: o WebVTT é anexado ao player como faixa de legenda (`<track>`), com botão CC para ligar/desligar. Funciona igual para Vimeo, YouTube e arquivo próprio.
+
+Bibliotecas open source a adotar em vez de escrever do zero: **subtitle** ou **webvtt-parser** (npm, MIT) para ler/escrever WebVTT e converter de/para SRT.
+
+Bônus: a transcrição gerada aqui alimenta automaticamente o contexto do Tutor de IA daquele módulo — um trabalho só, dois resultados.
+
+### 12. Idiomas (Português e Inglês)
+- Biblioteca: **i18next + react-i18next** (MIT, padrão de mercado, muito madura).
+- Todos os textos da interface saem para arquivos `pt.json` e `en.json`. Nada de texto fixo no código.
+- Seletor de idioma no cabeçalho; escolha guardada no navegador e no perfil do usuário logado.
+- Conteúdo do curso (título, descrição, apostila) ganha versão por idioma: o painel mostra abas PT | EN em cada campo de texto, e o que estiver vazio cai no português como padrão.
+- Legendas por idioma: cada vídeo pode ter faixa PT e faixa EN. A faixa EN pode ser gerada por tradução automática da PT e depois revisada por você.
+- Os vídeos continuam falados em português; o inglês é atendido por interface traduzida + legenda.
+
+### 13. Sobre reaproveitar projetos open source prontos
+Pesquisei o que existe hoje de plataforma de curso open source. O resumo honesto:
+
+| Projeto | Estrelas | Stack | Serve para copiar inteiro? |
+|---|---|---|---|
+| CourseLit | ~1.200 | Next.js + MongoDB | Não — stack incompatível com este projeto (React/Vite + Cloud). Serve como referência de fluxo de produtor. |
+| LearnHouse | grande | Next.js + Python/FastAPI | Não — precisa de backend Python separado. Boa referência do editor de conteúdo em blocos. |
+| ClassroomIO | médio | SvelteKit | Não — framework diferente. |
+| Hubfy Lite | ~27 | **React + Supabase** | Stack compatível, mas licença BSL (restringe uso comercial) e projeto muito novo. Só como referência visual. |
+
+Conclusão: **não existe um "Hotmart open source" que dê para colar inteiro aqui** sem trocar toda a base do site (React + Vite + Lovable Cloud). O que faz sentido é o meio-termo: copiar bibliotecas maduras para as peças difíceis (player, legendas, idiomas, arrastar e soltar, editor de texto) e construir só a camada de produto — que é onde está a sua diferença. Peças que vamos adotar prontas:
+
+- `react-player` — player multi-provedor (MIT)
+- `subtitle` / `webvtt-parser` — legendas (MIT)
+- `i18next` + `react-i18next` — idiomas (MIT)
+- `@dnd-kit` — arrastar e soltar no painel (MIT)
+- `Tiptap` — editor de texto rico das descrições (MIT)
+- `shadcn/ui` — componentes de interface, já no projeto (MIT)
+
+### 14. Ponto pendente: "servidor local"
+Você mencionou querer tudo em servidor local. Preciso confirmar o que isso significa, porque muda bastante o plano e conflita com uma regra que você definiu antes ("nunca hospedar arquivos de vídeo direto no site"):
+
+- **Opção A — Vimeo/YouTube (recomendado)**: vídeo fica no Vimeo (pago/protegido) ou YouTube (gratuito). Custo baixo, entrega rápida no Brasil inteiro, nada de banda no seu servidor.
+- **Opção B — Storage do Lovable Cloud**: os arquivos ficam num bucket privado do próprio projeto, com link assinado por aluno. É "nosso servidor" sem servidor extra. Funciona bem até uns poucos gigabytes; acima disso o custo de banda sobe.
+- **Opção C — Servidor seu de verdade (VPS)**: você aluga uma máquina e serve os vídeos por HLS. Máximo controle, mas exige manutenção, conversão dos arquivos e custo fixo mensal.
+
+O plano do item 9 já é feito para suportar as três ao mesmo tempo — dá para começar com Vimeo e migrar aula por aula depois. Só preciso saber qual será a principal no começo.
+
+
+
 ## Fases de implementação
 
 ### Fase 1 — Estrutura, catálogo e Painel do Criador
-1. Criar tabelas: `courses`, `modules`, `lessons`, `lesson_materials`.
+1. Criar tabelas: `courses`, `modules`, `lessons`, `videos`, `lesson_materials`.
 2. Criar rota `/curso` e página de catálogo.
 3. Criar página de curso com lista de módulos/aulas.
-4. Criar player de aula com Vimeo (apenas aulas gratuitas inicialmente).
+4. Criar player multi-fonte com react-player (Vimeo, YouTube e arquivo), começando pelas aulas gratuitas.
 5. Criar o Painel do Criador em `/curso/admin`: dashboard, árvore arrastável de módulos/aulas, editor de aula em abas e alternador Editar / Pré-visualizar com "Ver como".
+6. Interruptor 🔓/🔒 de gratuito/pago com salvamento imediato.
 
-### Fase 2 — Acesso pago e matrículas
+### Fase 2 — Idiomas e legendas
+1. Instalar i18next e extrair todos os textos da interface para `pt.json` e `en.json`.
+2. Seletor de idioma no cabeçalho, com preferência salva.
+3. Campos de conteúdo com abas PT | EN no painel.
+4. Tabela `subtitles` e Edge Function de geração automática de legenda em WebVTT.
+5. Editor de legendas no painel e botão CC no player.
+
+### Fase 3 — Acesso pago e matrículas
 1. Criar tabelas `enrollments` e `lesson_progress`.
 2. Implementar controle de acesso (free vs paid).
-3. Integrar pagamentos (Paddle ou Stripe, a definir na fase 2).
+3. Integrar pagamentos (Paddle ou Stripe, a definir nesta fase).
 4. Criar página "Minhas Matrículas" para o aluno.
 
-### Fase 3 — Tutor de IA
+### Fase 4 — Tutor de IA
 1. Criar tabelas `module_tutor_context`, `chat_threads`, `chat_messages`.
 2. Criar Edge Function para o tutor de IA por módulo.
 3. Criar interface de chat na página de aula.
-4. Permitir que admin edite o contexto de cada módulo.
+4. Alimentar o contexto do tutor automaticamente com a transcrição das legendas.
 
-### Fase 4 — Pergunta por voz
+### Fase 5 — Pergunta por voz
 1. Criar hook/componente de gravação de áudio adaptado do Meutranscritor.
 2. Criar Edge Function `transcribe-audio` usando Lovable AI Gateway.
 3. Integrar botão de voz no chat do tutor de IA.
 4. Testar em Chrome, Safari e mobile.
 
-### Fase 5 — Polimento
+### Fase 6 — Polimento
 1. Progresso do aluno (barra de conclusão, continuar assistindo).
 2. Busca de aulas.
 3. Notificações e lembretes.
@@ -161,8 +233,8 @@ Abas dentro do editor de aula, imitando o padrão Hotmart:
 
 ## Próximos passos imediatos
 1. Aprovar este plano atualizado.
-2. Definir nome final do projeto (Burnstore, Brainstore ou outro).
-3. Criar conta Vimeo Pro/Business e configurar privacidade de domínio.
+2. Responder o item 14: onde ficam os vídeos no começo (Vimeo, Storage do Cloud ou VPS próprio).
+3. Definir nome final do projeto (Burnstore, Brainstore ou outro).
 4. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
 
 ## Nota importante
