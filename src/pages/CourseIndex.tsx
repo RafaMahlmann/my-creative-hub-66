@@ -27,7 +27,7 @@ const CourseIndex = () => {
         </div>
         <div className="pt-6">
           <Link to="/">
-            <Button variant="outline" className="border-course-border text-course-foreground hover:bg-course-accent hover:text-course-accent-foreground">
+            <Button variant="outline" className="border-course-border bg-course-card text-course-foreground hover:bg-course-accent hover:text-course-accent-foreground">
               <ArrowLeft className="mr-2 h-4 w-4" />
               {t('course.backToHome')}
             </Button>
