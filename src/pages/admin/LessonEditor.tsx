@@ -399,7 +399,7 @@ const Inner = () => {
             <TutorContextTab moduleId={(lesson as { module_id?: string })?.module_id ?? null} />
           </TabsContent>
 
-          </TabsContent>
+
 
           <TabsContent value="access" className="space-y-4 pt-4">
             <label className="flex items-center gap-3 rounded-lg border border-course-border bg-course-card px-4 py-3 font-body text-sm">
