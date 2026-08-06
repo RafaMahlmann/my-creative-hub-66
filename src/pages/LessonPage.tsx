@@ -1,17 +1,32 @@
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, ArrowRight, Download, Lock, LockOpen } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Download, Lock, LockOpen } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { useLesson } from '@/hooks/useLesson';
+import { useStudentAuth } from '@/hooks/useStudentAuth';
+import { useEnrollment, useLessonProgress } from '@/hooks/useEnrollment';
 import { pick, formatDuration } from '@/lib/course';
 
 const LessonPage = () => {
   const { courseSlug, lessonSlug } = useParams();
   const { t } = useTranslation();
   const { data, isLoading } = useLesson(courseSlug, lessonSlug);
+  const { isAuthenticated } = useStudentAuth();
+  const { hasPremiumAccess } = useEnrollment(data?.course?.id);
+  const { progress, save } = useLessonProgress(data?.lesson?.id);
+
+  const lessonId = data?.lesson?.id;
+  const canWatch = !!data?.lesson?.is_free || hasPremiumAccess;
+
+  useEffect(() => {
+    if (lessonId && isAuthenticated && canWatch) save.mutate({});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessonId, isAuthenticated, canWatch]);
+
 
   if (isLoading) {
     return (
