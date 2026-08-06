@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { TranscriptPanel } from '@/components/course/TranscriptPanel';
+import { TutorPanel } from '@/components/course/TutorPanel';
 import { useLesson } from '@/hooks/useLesson';
 import { useStudentAuth } from '@/hooks/useStudentAuth';
 import { useEnrollment, useLessonProgress } from '@/hooks/useEnrollment';
