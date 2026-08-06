@@ -52,6 +52,23 @@
     --sidebar-border: 40 20% 88%;
     --sidebar-ring: 150 20% 42%;
 
+    /* Course area — Jellyflix dark variant */
+    --course-background: 220 25% 8%;
+    --course-foreground: 40 20% 96%;
+    --course-card: 220 20% 12%;
+    --course-card-foreground: 40 20% 96%;
+    --course-primary: 150 25% 55%;
+    --course-primary-foreground: 220 25% 8%;
+    --course-secondary: 220 18% 18%;
+    --course-secondary-foreground: 40 20% 92%;
+    --course-muted: 220 18% 18%;
+    --course-muted-foreground: 40 15% 65%;
+    --course-accent: 30 35% 75%;
+    --course-accent-foreground: 220 25% 8%;
+    --course-border: 220 18% 22%;
+    --course-input: 220 18% 22%;
+    --course-ring: 150 25% 55%;
+
     /* Typography */
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'Nunito Sans', sans-serif;
@@ -101,6 +118,26 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
   }
+}
+
+@layer utilities {
+  .bg-course-background { background-color: hsl(var(--course-background)); }
+  .text-course-foreground { color: hsl(var(--course-foreground)); }
+  .bg-course-card { background-color: hsl(var(--course-card)); }
+  .text-course-card-foreground { color: hsl(var(--course-card-foreground)); }
+  .bg-course-primary { background-color: hsl(var(--course-primary)); }
+  .text-course-primary { color: hsl(var(--course-primary)); }
+  .bg-course-primary\/10 { background-color: hsl(var(--course-primary) / 0.1); }
+  .text-course-primary-foreground { color: hsl(var(--course-primary-foreground)); }
+  .bg-course-secondary { background-color: hsl(var(--course-secondary)); }
+  .text-course-secondary-foreground { color: hsl(var(--course-secondary-foreground)); }
+  .bg-course-muted { background-color: hsl(var(--course-muted)); }
+  .text-course-muted-foreground { color: hsl(var(--course-muted-foreground)); }
+  .bg-course-accent { background-color: hsl(var(--course-accent)); }
+  .text-course-accent-foreground { color: hsl(var(--course-accent-foreground)); }
+  .border-course-border { border-color: hsl(var(--course-border)); }
+  .bg-course-input { background-color: hsl(var(--course-input)); }
+  .ring-course-ring { --tw-ring-color: hsl(var(--course-ring)); }
 }
 
 /* Smooth scroll */

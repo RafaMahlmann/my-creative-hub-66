@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const navItems = [
-  { label: "Início", href: "#inicio" },
-  { label: "Sobre", href: "#sobre" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Depoimentos", href: "#depoimentos" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contato", href: "#contato" },
+  { labelKey: "nav.home", href: "#inicio" },
+  { labelKey: "nav.about", href: "#sobre" },
+  { labelKey: "nav.services", href: "#servicos" },
+  { labelKey: "nav.testimonials", href: "#depoimentos" },
+  { labelKey: "nav.blog", href: "#blog" },
+  { labelKey: "nav.contact", href: "#contato" },
 ];
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t } = useTranslation();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -39,17 +45,29 @@ const Navigation = () => {
 
         {/* Desktop */}
         <ul className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
+          {isHome && navItems.map((item) => (
             <li key={item.href}>
               <a
                 href={item.href}
                 className="font-body text-sm tracking-wide text-muted-foreground hover:text-primary transition-colors duration-300"
               >
-                {item.label}
+                {t(item.labelKey)}
               </a>
             </li>
           ))}
+          <li>
+            <Link
+              to="/curso"
+              className="font-body text-sm tracking-wide text-muted-foreground hover:text-primary transition-colors duration-300"
+            >
+              {t("nav.course")}
+            </Link>
+          </li>
         </ul>
+
+        <div className="hidden md:flex items-center gap-4">
+          <LanguageSwitcher />
+        </div>
 
         {/* Mobile toggle */}
         <button
@@ -71,17 +89,29 @@ const Navigation = () => {
             className="md:hidden bg-background/95 backdrop-blur-md border-b border-border"
           >
             <ul className="flex flex-col items-center gap-6 py-8">
-              {navItems.map((item) => (
+              {isHome && navItems.map((item) => (
                 <li key={item.href}>
                   <a
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className="font-body text-base text-muted-foreground hover:text-primary transition-colors"
                   >
-                    {item.label}
+                    {t(item.labelKey)}
                   </a>
                 </li>
               ))}
+              <li>
+                <Link
+                  to="/curso"
+                  onClick={() => setMobileOpen(false)}
+                  className="font-body text-base text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t("nav.course")}
+                </Link>
+              </li>
+              <li>
+                <LanguageSwitcher />
+              </li>
             </ul>
           </motion.div>
         )}
