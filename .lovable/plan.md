@@ -179,14 +179,18 @@ Conclusão: **não existe um "Hotmart open source" que dê para colar inteiro aq
 - `Tiptap` — editor de texto rico das descrições (MIT)
 - `shadcn/ui` — componentes de interface, já no projeto (MIT)
 
-### 14. Ponto pendente: "servidor local"
-Você mencionou querer tudo em servidor local. Preciso confirmar o que isso significa, porque muda bastante o plano e conflita com uma regra que você definiu antes ("nunca hospedar arquivos de vídeo direto no site"):
+### 14. Decidido: hospedagem no Vimeo/YouTube + registro do caminho do arquivo original
+Nada de servidor próprio por enquanto. Os vídeos ficam no Vimeo (pago/protegido) ou YouTube (gratuito), como já previsto no item 9.
 
-- **Opção A — Vimeo/YouTube (recomendado)**: vídeo fica no Vimeo (pago/protegido) ou YouTube (gratuito). Custo baixo, entrega rápida no Brasil inteiro, nada de banda no seu servidor.
-- **Opção B — Storage do Lovable Cloud**: os arquivos ficam num bucket privado do próprio projeto, com link assinado por aluno. É "nosso servidor" sem servidor extra. Funciona bem até uns poucos gigabytes; acima disso o custo de banda sobe.
-- **Opção C — Servidor seu de verdade (VPS)**: você aluga uma máquina e serve os vídeos por HLS. Máximo controle, mas exige manutenção, conversão dos arquivos e custo fixo mensal.
+O que muda: cada vídeo ganha um campo **"Arquivo original"** — um texto livre onde você, como editor, guarda o caminho do arquivo no seu computador (ex.: `D:\Cursos\Modulo2\aula-03-final.mp4`). Só registro, nenhum upload.
 
-O plano do item 9 já é feito para suportar as três ao mesmo tempo — dá para começar com Vimeo e migrar aula por aula depois. Só preciso saber qual será a principal no começo.
+- Campo `source_path` (texto) e `source_note` (observação curta, opcional: disco externo, versão, data da edição) na tabela `videos`.
+- Aparece na aba **Vídeo** do editor de aula e como coluna no **Painel A — Biblioteca de vídeos**.
+- Botão "copiar caminho" com um clique, para colar direto no explorador de arquivos.
+- Busca no Painel A cobre o caminho, então você acha por nome de pasta ou de arquivo.
+- Visível apenas para admin/editor — nunca exposto ao aluno.
+
+
 
 ### 15. Painel auxiliar de operação (Central do Criador)
 
