@@ -85,14 +85,17 @@
 
 ---
 
-## Step 7 — Accounts, enrollments and paid access (2 days)
+## Step 7 — Accounts and enrollments (freemium model, no payment gateway) (2 days)
+- **Decision:** no Stripe and no Paddle in this step. The model is **freemium**: free content is open, premium content is unlocked by a granted enrollment (manual by admin or automatic on free signup).
 - `enrollments` and `lesson_progress` tables with per-user RLS.
 - Student login (email/password + Google), separate from the hidden admin access.
-- Paid lesson access verified server-side; the paid `video_ref` is only returned to enrolled users.
+- Premium lesson access verified server-side; the restricted `video_ref` is only returned to enrolled users.
+- Creator dashboard: grant/revoke a student's enrollment in one click.
 - "My lessons" page with progress and resume-where-you-left-off.
-- Payments (Stripe or Paddle) land at the end of this step, after access is validated with manual enrollment.
 
-**Done when:** a student pays, gets enrolled and unlocks the content.
+**Done when:** a student signs up, the admin grants enrollment and premium content unlocks, with progress saved.
+
+> Billing (Stripe/Paddle) stays recorded as an optional future step, to be enabled only when the catalog justifies it. The enrollment structure is already compatible: payment simply creates the `enrollments` row.
 
 ---
 
@@ -142,5 +145,5 @@
 ```
 
 **Minimum viable product:** Steps 0–4.
-**Minimum to sell:** + Step 7.
+**Minimum to sell:** + Step 7 (freemium; billing only in an optional future step).
 **Competitive edge:** Steps 8 and 9.
