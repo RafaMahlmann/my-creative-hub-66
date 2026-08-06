@@ -16,6 +16,23 @@
     "comingSoon": "Coming soon",
     "courseArea": "Course Area",
     "description": "Here you will find courses, lessons and exclusive content about health and technology.",
-    "backToHome": "Back to home"
+    "backToHome": "Back to home",
+    "backToCatalog": "Back to catalog",
+    "spotlight": "Spotlight",
+    "startNow": "Start now",
+    "rowStartHere": "Start here",
+    "rowFree": "Free lessons",
+    "free": "Free",
+    "paid": "Exclusive",
+    "emptyCatalog": "No course published yet.",
+    "emptyFree": "No free lesson published yet.",
+    "emptyModules": "This course has no published modules yet.",
+    "emptyLessons": "No published lesson in this module.",
+    "notFound": "Course not found.",
+    "moduleLabel": "Module {{number}}",
+    "moduleCount": "{{count}} module",
+    "moduleCount_other": "{{count}} modules",
+    "lessonCount": "{{count}} lesson",
+    "lessonCount_other": "{{count}} lessons"
   }
 }

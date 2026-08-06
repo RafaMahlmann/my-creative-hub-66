@@ -8,6 +8,7 @@ import i18n from "./i18n";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import CourseIndex from "./pages/CourseIndex";
+import CoursePage from "./pages/CoursePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/bioressonancia" element={<Navigate to="/" />} />
             <Route path="/curso" element={<CourseIndex />} />
+            <Route path="/curso/:courseSlug" element={<CoursePage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
