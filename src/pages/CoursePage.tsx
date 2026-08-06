@@ -101,10 +101,11 @@ const CoursePage = () => {
                 </li>
               )}
               {m.lessons.map((l, li) => (
-                <li
-                  key={l.id}
-                  className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-course-secondary/60"
-                >
+                <li key={l.id}>
+                  <Link
+                    to={`/curso/${course.slug}/${l.slug}`}
+                    className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-course-secondary/60"
+                  >
                   <span className="font-body text-sm tabular-nums text-course-muted-foreground">
                     {String(li + 1).padStart(2, '0')}
                   </span>
@@ -133,6 +134,7 @@ const CoursePage = () => {
                     {l.is_free ? <LockOpen size={11} /> : <Lock size={11} />}
                     {l.is_free ? t('course.free') : t('course.paid')}
                   </span>
+                  </Link>
                 </li>
               ))}
             </ul>

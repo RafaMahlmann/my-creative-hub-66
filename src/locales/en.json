@@ -34,5 +34,16 @@
     "moduleCount_other": "{{count}} modules",
     "lessonCount": "{{count}} lesson",
     "lessonCount_other": "{{count}} lessons"
+  },
+  "lesson": {
+    "about": "About this lesson",
+    "materials": "Materials",
+    "noMaterials": "No materials available for this lesson.",
+    "previous": "Previous lesson",
+    "next": "Next lesson",
+    "playlist": "Course content",
+    "locked": "This lesson is exclusive to students.",
+    "noVideo": "Video not available yet.",
+    "notFound": "Lesson not found."
   }
 }
