@@ -112,5 +112,73 @@
     "trailer": "Trailer",
     "videoFree": "Free",
     "openLibrary": "Video library"
+  },
+  "home": {
+    "hero": {
+      "tagline1": "Founder and Curator of the Flor de Plasma Ecosystem",
+      "tagline2": "Field Therapist",
+      "cta": "Discover my work",
+      "profileAlt": "Profile photo",
+      "changeBackground": "Change background",
+      "adjustPhoto": "Adjust photo",
+      "adjustBackground": "Adjust background"
+    },
+    "about": {
+      "title": "About Me",
+      "p1": "Blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.",
+      "p2": "Blah blah blah blah blah blah blah blah blah blah blah blah.",
+      "p3": "Blah blah blah blah blah blah blah blah blah."
+    },
+    "services": {
+      "title": "Services",
+      "subtitle": "Blah blah blah blah blah blah",
+      "modalExtra": "Blah blah blah blah blah blah blah blah blah blah blah blah blah.",
+      "presential": {
+        "title": "In-Person Field Session",
+        "description": "Blah blah blah blah blah blah blah blah."
+      },
+      "remote": {
+        "title": "Remote Session",
+        "description": "Blah blah blah blah blah blah blah blah."
+      },
+      "constellation": {
+        "title": "Constellation",
+        "description": "Blah blah blah blah blah blah blah blah."
+      },
+      "course": {
+        "title": "Course",
+        "description": "In development — available soon."
+      },
+      "jewels": {
+        "title": "Field Jewels",
+        "description": "Blah blah blah blah blah blah blah blah."
+      }
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "subtitle": "What people say about the work",
+      "anonymous": "Anonymous",
+      "patient": "Client name",
+      "t1": "Blah blah blah blah blah blah blah blah blah blah blah blah blah.",
+      "t2": "Blah blah blah blah blah blah blah blah blah blah blah.",
+      "t3": "Blah blah blah blah blah blah blah blah blah blah blah blah blah blah."
+    },
+    "blog": {
+      "title": "Blog & Articles",
+      "subtitle": "Reflections and knowledge",
+      "readMore": "Read more",
+      "postTitle": "Article title",
+      "s1": "Blah blah blah blah blah blah blah blah blah blah.",
+      "s2": "Blah blah blah blah blah blah blah blah.",
+      "s3": "Blah blah blah blah blah blah blah blah blah blah blah."
+    },
+    "footer": {
+      "brand": "Therapist",
+      "description": "Blah blah blah blah blah blah blah blah.",
+      "rights": "© 2026 — All rights reserved"
+    },
+    "whatsapp": {
+      "aria": "Contact via WhatsApp"
+    }
   }
 }
