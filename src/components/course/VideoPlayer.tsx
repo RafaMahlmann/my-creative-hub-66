@@ -51,7 +51,7 @@ export const VideoPlayer = ({ video, locked }: Props) => {
         controls
         width="100%"
         height="100%"
-        config={{ vimeo: { playerOptions: { texttrack: 'pt' } } }}
+        config={{ vimeo: { cc: true } }}
       />
     </div>
   );
