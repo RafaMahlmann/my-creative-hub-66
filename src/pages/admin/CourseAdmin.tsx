@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText } from 'lucide-react';
+import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { Button } from '@/components/ui/button';
@@ -31,11 +31,18 @@ const Inner = () => {
   return (
     <CourseShell>
       <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
-        <header className="space-y-1">
-          <p className="font-body text-xs uppercase tracking-widest text-course-muted-foreground">
-            {t('admin.panel')}
-          </p>
-          <h1 className="font-display text-4xl font-semibold">{t('admin.title')}</h1>
+        <header className="flex flex-wrap items-end justify-between gap-4">
+          <div className="space-y-1">
+            <p className="font-body text-xs uppercase tracking-widest text-course-muted-foreground">
+              {t('admin.panel')}
+            </p>
+            <h1 className="font-display text-4xl font-semibold">{t('admin.title')}</h1>
+          </div>
+          <Link to="/curso/admin/videos">
+            <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
+              <Film className="mr-2 h-4 w-4" /> {t('admin.openLibrary')}
+            </Button>
+          </Link>
         </header>
 
         <div className="grid gap-4 sm:grid-cols-3">

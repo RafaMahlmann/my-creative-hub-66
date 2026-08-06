@@ -11,6 +11,7 @@ import CourseIndex from "./pages/CourseIndex";
 import CoursePage from "./pages/CoursePage";
 import LessonPage from "./pages/LessonPage";
 import CourseAdmin from "./pages/admin/CourseAdmin";
+import VideoLibrary from "./pages/admin/VideoLibrary";
 import CourseEditor from "./pages/admin/CourseEditor";
 import LessonEditor from "./pages/admin/LessonEditor";
 import NotFound from "./pages/NotFound";
@@ -29,7 +30,9 @@ const App = () => (
             <Route path="/bioressonancia" element={<Navigate to="/" />} />
             <Route path="/curso" element={<CourseIndex />} />
             <Route path="/curso/admin" element={<CourseAdmin />} />
+            <Route path="/curso/admin/videos" element={<VideoLibrary />} />
             <Route path="/curso/admin/:courseId" element={<CourseEditor />} />
+
             <Route path="/curso/admin/:courseId/aula/:lessonId" element={<LessonEditor />} />
             <Route path="/curso/:courseSlug" element={<CoursePage />} />
             <Route path="/curso/:courseSlug/:lessonSlug" element={<LessonPage />} />

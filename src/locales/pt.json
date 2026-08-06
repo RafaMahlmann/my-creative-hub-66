@@ -99,6 +99,18 @@
     "saved": "Salvo",
     "livePreview": "Pré-visualização",
     "materialTitle": "Título do material",
-    "addMaterial": "Adicionar material"
+    "addMaterial": "Adicionar material",
+    "videoLibrary": "Biblioteca de vídeos",
+    "videoLibraryHint": "Todos os vídeos do curso: origem, status, uso e caminho do arquivo original.",
+    "searchVideos": "Buscar por título, caminho ou observação",
+    "allStatuses": "Todos os status",
+    "allProviders": "Todas as origens",
+    "newVideoPlaceholder": "Título do novo vídeo",
+    "noVideos": "Nenhum vídeo encontrado.",
+    "usedIn": "Usado em",
+    "notUsed": "Ainda não usado em nenhuma aula.",
+    "trailer": "Trailer",
+    "videoFree": "Gratuito",
+    "openLibrary": "Biblioteca de vídeos"
   }
 }
