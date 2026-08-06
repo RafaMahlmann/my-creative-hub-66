@@ -99,6 +99,18 @@
     "saved": "Saved",
     "livePreview": "Preview",
     "materialTitle": "Material title",
-    "addMaterial": "Add material"
+    "addMaterial": "Add material",
+    "videoLibrary": "Video library",
+    "videoLibraryHint": "Every course video: source, status, usage and original file path.",
+    "searchVideos": "Search by title, path or note",
+    "allStatuses": "All statuses",
+    "allProviders": "All sources",
+    "newVideoPlaceholder": "New video title",
+    "noVideos": "No videos found.",
+    "usedIn": "Used in",
+    "notUsed": "Not used in any lesson yet.",
+    "trailer": "Trailer",
+    "videoFree": "Free",
+    "openLibrary": "Video library"
   }
 }

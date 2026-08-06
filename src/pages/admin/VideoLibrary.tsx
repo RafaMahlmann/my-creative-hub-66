@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Copy, Film, Plus, Search, Trash2 } from 'lucide-react';
+import { ArrowLeft, Copy, Plus, Search, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
