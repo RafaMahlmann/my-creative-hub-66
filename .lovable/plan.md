@@ -238,6 +238,7 @@ O que realmente vai te fazer falta cedo não é "quantos likes o Instagram deu".
 4. Criar player multi-fonte com react-player (Vimeo, YouTube e arquivo), começando pelas aulas gratuitas.
 5. Criar o Painel do Criador em `/curso/admin`: dashboard, árvore arrastável de módulos/aulas, editor de aula em abas e alternador Editar / Pré-visualizar com "Ver como".
 6. Interruptor 🔓/🔒 de gratuito/pago com salvamento imediato.
+7. Painel A da Central do Criador: biblioteca de vídeos com origem, status e "usado em".
 
 ### Fase 2 — Idiomas e legendas
 1. Instalar i18next e extrair todos os textos da interface para `pt.json` e `en.json`.
