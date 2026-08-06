@@ -24,6 +24,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/bioressonancia" element={<Navigate to="/" />} />
             <Route path="/curso" element={<CourseIndex />} />
+            <Route path="/curso/:courseSlug" element={<CoursePage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
