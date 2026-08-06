@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { User, Camera, ImagePlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,6 +25,7 @@ const HeroSection = ({
   onPhotoUploaded,
   onBackgroundUploaded
 }: HeroSectionProps) => {
+  const { t } = useTranslation();
   const [photoClicked, setPhotoClicked] = useState(false);
   const [firstClickDone, setFirstClickDone] = useState(false);
   const [cropDialogOpen, setCropDialogOpen] = useState(false);
@@ -188,7 +190,7 @@ const HeroSection = ({
         style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}>
 
           <ImagePlus size={18} />
-          Alterar fundo
+          {t("home.hero.changeBackground")}
         </button>
       }
 
@@ -203,12 +205,12 @@ const HeroSection = ({
           <button
             onClick={handleProfileClick}
             className="relative w-40 h-40 md:w-52 md:h-52 rounded-full bg-muted border-4 border-primary/20 flex items-center justify-center mx-auto overflow-hidden hover:border-primary/40 transition-colors duration-500 cursor-default group"
-            aria-label="Foto de perfil">
+            aria-label={t("home.hero.profileAlt")}>
 
             {profilePhotoUrl ?
             <img
               src={profilePhotoUrl}
-              alt="Foto de perfil"
+              alt={t("home.hero.profileAlt")}
               className="w-full h-full object-cover" /> :
 
             isLoading ?
@@ -242,9 +244,9 @@ const HeroSection = ({
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed mb-10 text-center">
-          Fundador e Curador do Ecosistema Flor de Plasma
+          {t("home.hero.tagline1")}
           <br />
-          Terapeuta de Campo
+          {t("home.hero.tagline2")}
         </motion.p>
 
         {/* CTA */}
@@ -254,7 +256,7 @@ const HeroSection = ({
             href="#servicos"
             className="inline-block font-body text-sm tracking-widest uppercase px-8 py-3 border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground rounded-full transition-all duration-500">
 
-            Conheça meu trabalho
+            {t("home.hero.cta")}
           </a>
         </motion.div>
       </div>
@@ -298,7 +300,7 @@ const HeroSection = ({
         onConfirm={handleCropConfirm}
         onCancel={() => {setCropDialogOpen(false);setCropImageSrc(null);}}
         shape={cropShape}
-        title={cropShape === "circle" ? "Ajustar foto" : "Ajustar fundo"} />
+        title={cropShape === "circle" ? t("home.hero.adjustPhoto") : t("home.hero.adjustBackground")} />
 
     </section>);
 
