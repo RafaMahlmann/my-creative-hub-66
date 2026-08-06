@@ -114,7 +114,7 @@ const CourseIndex = () => {
             freeLessons.map((l) => (
               <CourseCard
                 key={`${l.id}-${lang}`}
-                to={`/curso/${l.modules?.courses?.slug ?? ''}`}
+                to={`/curso/${l.modules?.courses?.slug ?? ''}/${l.slug}`}
                 title={pick(l.title_pt, l.title_en)}
                 subtitle={pick(l.description_pt, l.description_en)}
                 isFree
