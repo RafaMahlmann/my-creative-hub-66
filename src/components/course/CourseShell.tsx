@@ -1,11 +1,15 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, GraduationCap } from 'lucide-react';
+import { ArrowLeft, GraduationCap, LogOut } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useStudentAuth } from '@/hooks/useStudentAuth';
+import { supabase } from '@/integrations/supabase/client';
 
 export const CourseShell = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
+  const { isAuthenticated } = useStudentAuth();
+
 
   return (
     <div className="course-area min-h-screen bg-course-background text-course-foreground">
