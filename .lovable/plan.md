@@ -128,12 +128,12 @@ Abas dentro do editor de aula, imitando o padrão Hotmart:
 
 ## Fases de implementação
 
-### Fase 1 — Estrutura e catálogo (sem pagamento)
+### Fase 1 — Estrutura, catálogo e Painel do Criador
 1. Criar tabelas: `courses`, `modules`, `lessons`, `lesson_materials`.
 2. Criar rota `/curso` e página de catálogo.
 3. Criar página de curso com lista de módulos/aulas.
 4. Criar player de aula com Vimeo (apenas aulas gratuitas inicialmente).
-5. Criar painel admin para gerenciar cursos, módulos e aulas.
+5. Criar o Painel do Criador em `/curso/admin`: dashboard, árvore arrastável de módulos/aulas, editor de aula em abas e alternador Editar / Pré-visualizar com "Ver como".
 
 ### Fase 2 — Acesso pago e matrículas
 1. Criar tabelas `enrollments` e `lesson_progress`.
