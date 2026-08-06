@@ -179,14 +179,18 @@ Conclusão: **não existe um "Hotmart open source" que dê para colar inteiro aq
 - `Tiptap` — editor de texto rico das descrições (MIT)
 - `shadcn/ui` — componentes de interface, já no projeto (MIT)
 
-### 14. Ponto pendente: "servidor local"
-Você mencionou querer tudo em servidor local. Preciso confirmar o que isso significa, porque muda bastante o plano e conflita com uma regra que você definiu antes ("nunca hospedar arquivos de vídeo direto no site"):
+### 14. Decidido: hospedagem no Vimeo/YouTube + registro do caminho do arquivo original
+Nada de servidor próprio por enquanto. Os vídeos ficam no Vimeo (pago/protegido) ou YouTube (gratuito), como já previsto no item 9.
 
-- **Opção A — Vimeo/YouTube (recomendado)**: vídeo fica no Vimeo (pago/protegido) ou YouTube (gratuito). Custo baixo, entrega rápida no Brasil inteiro, nada de banda no seu servidor.
-- **Opção B — Storage do Lovable Cloud**: os arquivos ficam num bucket privado do próprio projeto, com link assinado por aluno. É "nosso servidor" sem servidor extra. Funciona bem até uns poucos gigabytes; acima disso o custo de banda sobe.
-- **Opção C — Servidor seu de verdade (VPS)**: você aluga uma máquina e serve os vídeos por HLS. Máximo controle, mas exige manutenção, conversão dos arquivos e custo fixo mensal.
+O que muda: cada vídeo ganha um campo **"Arquivo original"** — um texto livre onde você, como editor, guarda o caminho do arquivo no seu computador (ex.: `D:\Cursos\Modulo2\aula-03-final.mp4`). Só registro, nenhum upload.
 
-O plano do item 9 já é feito para suportar as três ao mesmo tempo — dá para começar com Vimeo e migrar aula por aula depois. Só preciso saber qual será a principal no começo.
+- Campo `source_path` (texto) e `source_note` (observação curta, opcional: disco externo, versão, data da edição) na tabela `videos`.
+- Aparece na aba **Vídeo** do editor de aula e como coluna no **Painel A — Biblioteca de vídeos**.
+- Botão "copiar caminho" com um clique, para colar direto no explorador de arquivos.
+- Busca no Painel A cobre o caminho, então você acha por nome de pasta ou de arquivo.
+- Visível apenas para admin/editor — nunca exposto ao aluno.
+
+
 
 ### 15. Painel auxiliar de operação (Central do Criador)
 
@@ -220,9 +224,7 @@ O que realmente vai te fazer falta cedo não é "quantos likes o Instagram deu".
 - Agendamento e publicação automática em redes sociais — exige aprovação de app em cada rede (Instagram e TikTok levam semanas) e quebra sozinho quando as APIs mudam. Se você quiser isso depois, rodamos o Postiz separado e colocamos só um link no painel.
 - Métricas de Instagram/YouTube dentro do nosso painel — mesma razão. Se for necessário, começamos com campos manuais que você preenche uma vez por semana; se você não preencher duas semanas seguidas, é sinal de que não era necessário mesmo.
 
-**Quando construir**: depois do curso estar de pé com pelo menos um módulo publicado. O Painel A é o único que vale antecipar, porque nasce quase de graça da tabela `videos` da Fase 1.
-
-**Minha recomendação honesta**: aprovar o Painel A junto da Fase 1, deixar o Painel B para a Fase 6 e só decidir sobre o Painel C quando houver tráfego real para medir.
+**Decidido**: os três painéis (A, B e C) estão aprovados e a Central do Criador vira uma aba própria. Ordem de construção: Painel A junto da Fase 1 (nasce da tabela `videos`), Painel B na Fase 6 e Painel C na Fase 6, ligado assim que houver tráfego real para medir.
 
 
 
@@ -275,10 +277,8 @@ O que realmente vai te fazer falta cedo não é "quantos likes o Instagram deu".
 
 ## Próximos passos imediatos
 1. Aprovar este plano atualizado.
-2. Responder o item 14: onde ficam os vídeos no começo (Vimeo, Storage do Cloud ou VPS próprio).
-3. Confirmar o recorte do item 15 (Painel A agora, B e C depois).
-4. Definir nome final do projeto (Burnstore, Brainstore ou outro).
-5. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
+2. Definir nome final do projeto (Burnstore, Brainstore ou outro).
+3. Preparar o primeiro curso piloto: título, módulos, aulas gratuitas e apostilas.
 
 ## Nota importante
 Nenhuma alteração de código será feita neste projeto sem a autorização explícita "PODE CODAR". Este plano serve para alinharmos a arquitetura antes de começar a implementar.
