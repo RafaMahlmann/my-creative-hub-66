@@ -141,6 +141,8 @@ const LessonPage = () => {
             </section>
           )}
 
+          {!locked && <TranscriptPanel videoId={lesson.videos?.id} />}
+
           <section className="rounded-xl border border-course-border bg-course-card p-5">
             <h2 className="mb-3 font-display text-xl font-semibold">{t('lesson.materials')}</h2>
             {materials.length === 0 ? (
