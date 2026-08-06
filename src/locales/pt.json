@@ -34,5 +34,16 @@
     "moduleCount_other": "{{count}} módulos",
     "lessonCount": "{{count}} aula",
     "lessonCount_other": "{{count}} aulas"
+  },
+  "lesson": {
+    "about": "Sobre esta aula",
+    "materials": "Materiais",
+    "noMaterials": "Nenhum material disponível nesta aula.",
+    "previous": "Aula anterior",
+    "next": "Próxima aula",
+    "playlist": "Conteúdo do curso",
+    "locked": "Esta aula é exclusiva para alunos.",
+    "noVideo": "Vídeo ainda não disponível.",
+    "notFound": "Aula não encontrada."
   }
 }
