@@ -98,3 +98,33 @@ export function useCourseDetail(courseSlug?: string) {
     },
   });
 }
+
+export type FreeLesson = {
+  id: string;
+  slug: string;
+  title_pt: string;
+  title_en: string | null;
+  description_pt: string | null;
+  description_en: string | null;
+  modules: { slug: string; courses: { slug: string; title_pt: string; title_en: string | null } | null } | null;
+  videos: { duration_seconds: number | null } | null;
+};
+
+export function useFreeLessons() {
+  return useQuery({
+    queryKey: ['free-lessons'],
+    queryFn: async (): Promise<FreeLesson[]> => {
+      const { data, error } = await supabase
+        .from('lessons')
+        .select(
+          'id, slug, title_pt, title_en, description_pt, description_en, modules(slug, courses(slug, title_pt, title_en)), videos(duration_seconds)'
+        )
+        .eq('is_free', true)
+        .eq('is_published', true)
+        .order('position', { ascending: true })
+        .limit(12);
+      if (error) throw error;
+      return (data ?? []) as unknown as FreeLesson[];
+    },
+  });
+}
