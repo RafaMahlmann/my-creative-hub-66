@@ -50,6 +50,12 @@ export const CourseShell = ({ children }: { children: ReactNode }) => {
                 >
                   {t('myLessons.title')}
                 </Link>
+                <Link
+                  to="/curso/seguranca"
+                  className="font-body text-sm text-course-muted-foreground transition-colors hover:text-course-foreground"
+                >
+                  {t('security.title')}
+                </Link>
                 <button
                   type="button"
                   onClick={() => supabase.auth.signOut()}
