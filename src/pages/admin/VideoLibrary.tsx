@@ -58,6 +58,16 @@ const VideoCard = ({ video }: { video: AdminVideo }) => {
             <Badge className={`border-none font-body text-xs ${statusTone[video.status]}`}>
               {t(`admin.status_${video.status}`)}
             </Badge>
+            {video.storage_path && video.provider === 'file' && (
+              <Badge className="border-none bg-amber-500/15 font-body text-xs text-amber-300">
+                {t('upload.badgeCloud')}
+              </Badge>
+            )}
+            {video.provider === 'vimeo' && video.ref && (
+              <Badge className="border-none bg-emerald-500/15 font-body text-xs text-emerald-300">
+                {t('upload.badgeVimeo')}
+              </Badge>
+            )}
             <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
               {video.provider}
             </span>
@@ -67,6 +77,7 @@ const VideoCard = ({ video }: { video: AdminVideo }) => {
               </span>
             )}
           </div>
+
         </div>
 
         <div className="flex items-center gap-3">
