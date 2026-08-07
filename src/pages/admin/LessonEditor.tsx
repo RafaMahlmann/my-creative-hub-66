@@ -294,9 +294,31 @@ const Inner = () => {
               </label>
             </div>
 
-            <Button onClick={saveVideo} className="bg-course-primary text-course-primary-foreground hover:bg-course-primary/90">
+            <Button onClick={() => saveVideo()} className="bg-course-primary text-course-primary-foreground hover:bg-course-primary/90">
               <Save className="mr-2 h-4 w-4" /> {t('admin.save')}
             </Button>
+
+            <CloudVideoUpload
+              storagePath={vForm.storage_path || null}
+              isVimeo={vForm.provider === 'vimeo' && !!vForm.ref}
+              onUploaded={({ storagePath, url, fileName }) => {
+                const patch = {
+                  provider: 'file',
+                  ref: url,
+                  storage_path: storagePath,
+                  source_path: vForm.source_path || fileName,
+                  status: vForm.status === 'ideia' ? 'gravado' : vForm.status,
+                };
+                setVForm((s) => ({ ...s, ...patch }));
+                saveVideo(patch);
+              }}
+              onRemoved={() => {
+                const patch = { storage_path: '', ref: vForm.provider === 'file' ? '' : vForm.ref };
+                setVForm((s) => ({ ...s, ...patch }));
+                saveVideo(patch);
+              }}
+            />
+
 
             <div className="pt-2">
               <p className="mb-2 font-body text-xs uppercase tracking-wide text-course-muted-foreground">
