@@ -22,6 +22,7 @@ export type AdminVideo = {
   is_free: boolean;
   source_path: string | null;
   source_note: string | null;
+  storage_path: string | null;
   status: VideoStatus;
   usage: VideoUsage[];
 };
@@ -32,7 +33,7 @@ export function useAdminVideos() {
     queryFn: async (): Promise<AdminVideo[]> => {
       const { data: videos, error } = await supabase
         .from('videos')
-        .select('id, title_pt, title_en, provider, ref, duration_seconds, is_free, source_path, source_note, status')
+        .select('id, title_pt, title_en, provider, ref, duration_seconds, is_free, source_path, source_note, storage_path, status')
         .order('created_at', { ascending: false });
       if (error) throw error;
 
