@@ -8,6 +8,8 @@ import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { SubtitlesTab } from '@/components/course/SubtitlesTab';
+import { CloudVideoUpload } from '@/components/course/CloudVideoUpload';
+
 import { TutorContextTab } from '@/components/course/TutorContextTab';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
