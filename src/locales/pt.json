@@ -288,5 +288,138 @@
     "cloudOnlyPanel": "Vídeos ainda só no Cloud",
     "cloudOnlyHint": "Estes vídeos estão como rascunho no armazenamento. Publique-os no Vimeo quando puder.",
     "cloudOnlyNone": "Nenhum vídeo pendente. Tudo publicado fora do Cloud."
+  },
+  "help": {
+    "show": "Mostrar ajuda",
+    "hide": "Ocultar ajuda",
+    "cards": {
+      "dashboard": {
+        "title": "Bem-vindo ao seu painel — vamos por partes",
+        "intro": "Pensa assim: o curso é uma estante, os módulos são as prateleiras e as aulas são os livros. Você monta de cima para baixo, na calma.",
+        "steps": [
+          "Crie o curso aqui embaixo, em \"Novo curso\". Pode ser só o nome por enquanto — dá para mudar tudo depois.",
+          "Clique em \"Editar\" no curso para criar os módulos e, dentro deles, as aulas.",
+          "Dentro de cada aula você coloca o vídeo, o texto, os materiais e decide se ela é gratuita ou paga.",
+          "Enquanto a chavinha estiver em \"Rascunho\", ninguém vê. Vire para \"Publicado\" só quando estiver do seu jeito.",
+          "Use \"Pré-visualizar\" a qualquer momento para ver exatamente o que o aluno vê."
+        ],
+        "tip": "Nada aqui é definitivo. Pode criar, testar e apagar à vontade — enquanto estiver como rascunho, é só seu."
+      },
+      "courseEditor": {
+        "title": "Montando o esqueleto do curso",
+        "intro": "Esta é a página onde você organiza a ordem das coisas. É como montar o índice de um livro antes de escrever os capítulos.",
+        "steps": [
+          "Preencha o título e a descrição em português e em inglês (o site troca de idioma sozinho).",
+          "Crie os módulos: são os grandes blocos, tipo \"Módulo 1 — Fundamentos\".",
+          "Dentro de cada módulo, adicione as aulas na ordem em que quer ensinar.",
+          "Segure o pontinho da esquerda e arraste para reordenar módulos e aulas.",
+          "Clique no lápis de uma aula para abrir o editor dela e colocar o vídeo."
+        ],
+        "tip": "Capa do curso: use uma imagem horizontal (16:9). É ela que aparece grande no catálogo."
+      },
+      "lessonEditor": {
+        "title": "Editor da aula — cada aba cuida de uma coisa",
+        "intro": "Aqui é onde a aula ganha vida. Não precisa preencher tudo de uma vez; salve o que fez e volte depois.",
+        "steps": [
+          "Vídeo: escolha de onde vem o vídeo (Vimeo, YouTube ou enviado por você) e veja a pré-visualização.",
+          "Conteúdo: título, resumo e o texto da aula, nos dois idiomas.",
+          "Materiais: PDFs, links, arquivos de apoio para o aluno baixar.",
+          "Legendas: gere ou cole as legendas do vídeo.",
+          "Tutor IA: o resumo que ensina a inteligência artificial a responder dúvidas sobre esta aula.",
+          "Acesso: define se a aula é gratuita (isca) ou exclusiva de quem pagou."
+        ],
+        "tip": "Cada aba tem o próprio botão \"Salvar\". Clicou em salvar, está guardado — pode fechar sem medo."
+      },
+      "lessonVideo": {
+        "title": "Como colocar o vídeo na aula",
+        "intro": "Você tem dois caminhos, e os dois funcionam do mesmo jeito para o aluno.",
+        "steps": [
+          "Caminho rápido (grátis): suba o vídeo no YouTube ou Vimeo, copie o link ou o número do vídeo e cole no campo \"ID ou link\". Escolha a fonte certa acima.",
+          "Caminho direto: arraste o arquivo do seu computador na área de envio abaixo. Ele fica como rascunho no nosso servidor (até 500 MB).",
+          "Anote sempre o \"Arquivo original\" — é o endereço da pasta no seu computador. Um dia você vai precisar reenviar e vai agradecer.",
+          "Vá mudando o \"Status de produção\" conforme avança: ideia → gravado → editado → legendado → publicado.",
+          "Confira embaixo, na pré-visualização, se o vídeo abre certinho."
+        ],
+        "tip": "Vídeo pago e vídeo grátis usam a mesma tela. Quem manda no acesso é a aba \"Acesso\", não o lugar onde o vídeo está hospedado."
+      },
+      "lessonContent": {
+        "title": "O texto que acompanha o vídeo",
+        "intro": "O aluno lê isto ao lado do player. Escreva como se estivesse conversando: o que ele vai aprender e por que importa.",
+        "steps": [
+          "Título: curto e direto, como uma manchete.",
+          "Descrição: duas ou três linhas resumindo a aula.",
+          "Conteúdo: o texto completo, passo a passo, lista de materiais usados, avisos.",
+          "Preencha também os campos (EN) — se deixar vazio, o aluno em inglês vê o texto em português."
+        ],
+        "tip": "Não precisa escrever tudo hoje. Salve o rascunho e volte quando a ideia estiver mais madura."
+      },
+      "lessonMaterials": {
+        "title": "Materiais de apoio",
+        "intro": "Tudo que o aluno baixa ou consulta: PDF, esquema, lista de componentes, link de loja.",
+        "steps": [
+          "Dê um nome que o aluno entenda, tipo \"Lista de peças — Aula 3\".",
+          "Cole o link do arquivo (Drive, site do fabricante, etc.).",
+          "Adicione quantos quiser; eles aparecem em lista na página da aula."
+        ],
+        "tip": "Links de loja e de componentes envelhecem rápido. Vale revisar de tempos em tempos."
+      },
+      "lessonSubtitles": {
+        "title": "Legendas, sem complicação",
+        "intro": "As legendas ajudam quem assiste sem som e abrem o curso para o público em inglês.",
+        "steps": [
+          "Gere a legenda automática a partir do áudio da aula.",
+          "Leia e corrija os termos técnicos — a máquina erra nomes próprios.",
+          "Salve. A legenda passa a aparecer no player do aluno."
+        ],
+        "tip": "Sempre revise a legenda em português antes de traduzir. Erro traduzido vira dois erros."
+      },
+      "lessonTutor": {
+        "title": "Ensinando o tutor de IA",
+        "intro": "O tutor é um assistente que responde dúvidas do aluno sobre esta aula. Ele só sabe o que você contar aqui.",
+        "steps": [
+          "Gere o resumo automático a partir do conteúdo da aula.",
+          "Acrescente o que a IA não teria como adivinhar: cuidados, valores, marcas, limites do que pode ser dito.",
+          "Salve. A partir daí o tutor responde dentro desse assunto e não sai inventando."
+        ],
+        "tip": "Vale escrever aqui também o que o tutor NÃO deve dizer (por exemplo, nada que soe como diagnóstico médico)."
+      },
+      "lessonAccess": {
+        "title": "Grátis ou exclusiva? Você decide com um clique",
+        "intro": "Esta chavinha é o porteiro da aula. Ela vale tanto para vídeo do YouTube quanto para vídeo hospedado por nós.",
+        "steps": [
+          "Aula gratuita: qualquer visitante assiste. Ótimo para as primeiras aulas, que servem de convite.",
+          "Aula exclusiva: só quem está matriculado consegue abrir o player.",
+          "Pode mudar de ideia quando quiser — a alteração vale na hora."
+        ],
+        "tip": "Uma boa receita: as duas primeiras aulas de cada módulo abertas, o resto exclusivo."
+      },
+      "videoLibrary": {
+        "title": "Sua estante de vídeos",
+        "intro": "Aqui ficam todos os vídeos juntos, mesmo os que ainda não estão em nenhuma aula. É seu inventário.",
+        "steps": [
+          "Use a busca e os filtros para achar por título, status ou origem.",
+          "\"Usado em\" mostra em qual aula aquele vídeo aparece — e avisa quando ele está sobrando.",
+          "O campo do arquivo original guarda o caminho no seu computador; clique em copiar e cole no explorador de arquivos.",
+          "O painel de pendências lista o que ainda está só no nosso servidor, esperando ir para o Vimeo um dia."
+        ],
+        "tip": "Um mesmo vídeo pode ser usado em mais de uma aula. Não precisa subir duas vezes."
+      },
+      "students": {
+        "title": "Quem está estudando com você",
+        "intro": "Lista de pessoas matriculadas e o andamento de cada uma.",
+        "steps": [
+          "Veja quem entrou, em que curso está e quanto já assistiu.",
+          "Use isso para saber onde as pessoas travam — normalmente é ali que falta uma explicação.",
+          "Matrículas pagas vão aparecer aqui automaticamente quando o pagamento estiver ligado."
+        ],
+        "tip": "Se um aluno some depois da mesma aula sempre, provavelmente o problema é a aula, não o aluno."
+      }
+    },
+    "notes": {
+      "sourcePath": "Cole aqui o caminho da pasta no seu computador (ex.: D:\\videos\\aula01.mp4). Serve só para você reencontrar o arquivo original depois.",
+      "provider": "Vimeo/YouTube = o vídeo mora lá e o site só mostra. \"Arquivo\" = o vídeo foi enviado por você para o nosso servidor.",
+      "publishToggle": "Rascunho = invisível para o público. Publicado = já aparece no catálogo.",
+      "freeToggle": "Gratuita = qualquer pessoa assiste. Exclusiva = só quem está matriculado."
+    }
   }
 }

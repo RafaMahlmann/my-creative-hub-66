@@ -6,6 +6,7 @@ import { ArrowLeft, Copy, Plus, Save, Trash2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
+import { HelpCard, HelpModeToggle, HelpNote } from '@/components/course/HelpCard';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { SubtitlesTab } from '@/components/course/SubtitlesTab';
 import { CloudVideoUpload } from '@/components/course/CloudVideoUpload';
@@ -191,7 +192,12 @@ const Inner = () => {
           <ArrowLeft className="h-4 w-4" /> {t('admin.backToCourse')}
         </Link>
 
-        <h1 className="font-display text-3xl font-semibold">{lesson.title_pt}</h1>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h1 className="font-display text-3xl font-semibold">{lesson.title_pt}</h1>
+          <HelpModeToggle />
+        </div>
+
+        <HelpCard id="lessonEditor" collapsed />
 
         <Tabs defaultValue="video">
           <TabsList className="bg-course-card">
@@ -204,6 +210,7 @@ const Inner = () => {
           </TabsList>
 
           <TabsContent value="video" className="space-y-4 pt-4">
+            <HelpCard id="lessonVideo" />
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="space-y-1">
                 <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
@@ -220,6 +227,7 @@ const Inner = () => {
                     <SelectItem value="file">{t('admin.fileUrl')}</SelectItem>
                   </SelectContent>
                 </Select>
+                <HelpNote id="provider" />
               </label>
               <label className="space-y-1">
                 <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
@@ -282,6 +290,7 @@ const Inner = () => {
                     <Copy className="h-4 w-4" />
                   </Button>
                 </div>
+                <HelpNote id="sourcePath" />
               </label>
               <label className="space-y-1 sm:col-span-2">
                 <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
@@ -339,6 +348,7 @@ const Inner = () => {
           </TabsContent>
 
           <TabsContent value="content" className="space-y-4 pt-4">
+            <HelpCard id="lessonContent" />
             <div className="grid gap-4 sm:grid-cols-2">
               {field('title_pt', t('admin.titlePt'))}
               {field('title_en', t('admin.titleEn'))}
@@ -356,6 +366,7 @@ const Inner = () => {
           </TabsContent>
 
           <TabsContent value="materials" className="space-y-4 pt-4">
+            <HelpCard id="lessonMaterials" />
             <ul className="space-y-2">
               {data?.materials.map((mt) => (
                 <li
@@ -422,16 +433,19 @@ const Inner = () => {
           </TabsContent>
 
           <TabsContent value="subtitles" className="space-y-4 pt-4">
+            <HelpCard id="lessonSubtitles" />
             <SubtitlesTab videoId={video?.id ?? null} />
           </TabsContent>
 
           <TabsContent value="tutor" className="space-y-4 pt-4">
+            <HelpCard id="lessonTutor" />
             <TutorContextTab moduleId={(lesson as { module_id?: string })?.module_id ?? null} />
           </TabsContent>
 
 
 
           <TabsContent value="access" className="space-y-4 pt-4">
+            <HelpCard id="lessonAccess" />
             <label className="flex items-center gap-3 rounded-lg border border-course-border bg-course-card px-4 py-3 font-body text-sm">
               <Switch
                 checked={!!lesson.is_free}
@@ -439,6 +453,7 @@ const Inner = () => {
               />
               {lesson.is_free ? t('course.free') : t('course.paid')}
             </label>
+            <HelpNote id="freeToggle" />
             <label className="flex items-center gap-3 rounded-lg border border-course-border bg-course-card px-4 py-3 font-body text-sm">
               <Switch
                 checked={!!lesson.is_published}
@@ -446,6 +461,7 @@ const Inner = () => {
               />
               {lesson.is_published ? t('admin.published') : t('admin.draft')}
             </label>
+            <HelpNote id="publishToggle" />
           </TabsContent>
         </Tabs>
       </div>

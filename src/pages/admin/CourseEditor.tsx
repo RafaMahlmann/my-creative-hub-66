@@ -19,6 +19,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { ArrowLeft, GripVertical, Plus, Trash2, Pencil, Eye } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
+import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -111,7 +112,11 @@ const Inner = () => {
         </Link>
 
         <section className="space-y-4 rounded-xl border border-course-border bg-course-card p-5">
-          <h1 className="font-display text-2xl font-semibold">{t('admin.courseData')}</h1>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h1 className="font-display text-2xl font-semibold">{t('admin.courseData')}</h1>
+            <HelpModeToggle />
+          </div>
+          <HelpCard id="courseEditor" />
           <div className="grid gap-4 sm:grid-cols-2">
             <FieldText
               label={t('admin.titlePt')}
