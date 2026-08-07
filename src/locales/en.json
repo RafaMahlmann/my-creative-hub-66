@@ -264,5 +264,29 @@
     "context_en": "English context",
     "save": "Save context",
     "saved": "Context saved."
+  },
+  "upload": {
+    "title": "Upload from my computer",
+    "badgeCloud": "Cloud draft",
+    "badgeVimeo": "Published on Vimeo",
+    "cloudWarning": "This video is stored as a draft in Cloud storage. It works, but publishing to Vimeo is better: adaptive streaming, better performance and download protection.",
+    "dropzone": "Drag the video here or click to choose",
+    "limits": "MP4, MOV or WebM · up to 500 MB",
+    "tooLarge": "File too large. 500 MB limit.",
+    "done": "Video uploaded as a Cloud draft.",
+    "openFile": "Open/download file",
+    "migrateCta": "I moved it to Vimeo",
+    "removeDraft": "Delete Cloud draft",
+    "confirmRemove": "Delete the file from Cloud? This cannot be undone.",
+    "removed": "Cloud draft deleted.",
+    "guideTitle": "Publish on Vimeo (step by step)",
+    "guideIntro": "Follow the steps below to move this video from the Cloud draft to Vimeo.",
+    "step1": "Download the file from Cloud (or use the original on your computer).",
+    "step2": "Open vimeo.com/upload and upload the video.",
+    "step3": "Copy the Vimeo video ID, pick the \"Vimeo\" provider above and paste the ID in the reference field. Then click Save.",
+    "step4": "Come back here and delete the Cloud draft to free up space.",
+    "cloudOnlyPanel": "Videos still Cloud-only",
+    "cloudOnlyHint": "These videos are drafts in storage. Publish them to Vimeo when you can.",
+    "cloudOnlyNone": "Nothing pending. Everything is hosted outside Cloud."
   }
 }
