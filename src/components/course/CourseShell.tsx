@@ -27,12 +27,19 @@ export const CourseShell = ({ children }: { children: ReactNode }) => {
           </Link>
           <div className="flex items-center gap-4">
             <Link
-              to="/"
+              to="/curso"
               className="hidden items-center gap-1 font-body text-sm text-course-muted-foreground transition-colors hover:text-course-foreground sm:flex"
             >
               <ArrowLeft className="h-4 w-4" />
-              {t('course.backToHome')}
+              {t('course.backToCourseHome')}
             </Link>
+            <Link
+              to="/"
+              className="hidden font-body text-xs text-course-muted-foreground/70 transition-colors hover:text-course-foreground lg:block"
+            >
+              {t('course.therapistSite')}
+            </Link>
+
             {isAuthenticated ? (
               <>
                 {!adminLoading && isAdmin && (

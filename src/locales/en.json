@@ -33,7 +33,9 @@
     "moduleCount": "{{count}} module",
     "moduleCount_other": "{{count}} modules",
     "lessonCount": "{{count}} lesson",
-    "lessonCount_other": "{{count}} lessons"
+    "lessonCount_other": "{{count}} lessons",
+    "backToCourseHome": "Course home",
+    "therapistSite": "Therapist site"
   },
   "lesson": {
     "about": "About this lesson",
@@ -506,5 +508,29 @@
     "adminSubtitle": "Electronic acceptance evidence for each student. Records cannot be edited or deleted.",
     "adminSearch": "Search by name, email or tax ID",
     "adminEmpty": "No acceptance registered yet."
+  },
+  "editor": {
+    "editMode": "Edit mode",
+    "viewAsStudent": "View as student",
+    "openPanel": "Open panel",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "editFeatured": "Edit spotlight",
+    "featuredTitle": "Spotlight block",
+    "featuredHelp": "Choose which course shows in the big spotlight block, tweak the text and pick the video that plays there. With no video, only the cover image is shown.",
+    "featuredEmpty": "No video or cover yet — click the pencil to pick one.",
+    "chooseCourse": "Featured course",
+    "chooseVideo": "Spotlight video",
+    "searchVideo": "Search the video library…",
+    "noVideo": "No video (show cover only)",
+    "fieldTitle": "Title",
+    "fieldSubtitle": "Short description",
+    "fieldCover": "Cover image (URL)",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "makeFree": "Make it free",
+    "makePaid": "Make it exclusive",
+    "addCourse": "New course"
   }
 }

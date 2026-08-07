@@ -13,6 +13,7 @@ export type AdminCourse = {
   is_published: boolean;
   is_featured: boolean;
   position: number;
+  trailer_video_id?: string | null;
 };
 
 export type AdminModule = {
@@ -57,7 +58,7 @@ export function useAdminCourses() {
     queryFn: async (): Promise<AdminCourse[]> => {
       const { data, error } = await supabase
         .from('courses')
-        .select('id, slug, title_pt, title_en, description_pt, description_en, cover_url, is_published, is_featured, position')
+        .select('id, slug, title_pt, title_en, description_pt, description_en, cover_url, is_published, is_featured, position, trailer_video_id')
         .order('position', { ascending: true });
       if (error) throw error;
       return data ?? [];
@@ -72,7 +73,7 @@ export function useAdminCourseTree(courseId?: string) {
     queryFn: async () => {
       const { data: course, error } = await supabase
         .from('courses')
-        .select('id, slug, title_pt, title_en, description_pt, description_en, cover_url, is_published, is_featured, position')
+        .select('id, slug, title_pt, title_en, description_pt, description_en, cover_url, is_published, is_featured, position, trailer_video_id')
         .eq('id', courseId!)
         .maybeSingle();
       if (error) throw error;

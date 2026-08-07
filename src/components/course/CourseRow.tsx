@@ -4,9 +4,12 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 type Props = {
   title: string;
   children: ReactNode;
+  /** modo edição: contorno pontilhado e ações da faixa */
+  editing?: boolean;
+  actions?: ReactNode;
 };
 
-export const CourseRow = ({ title, children }: Props) => {
+export const CourseRow = ({ title, children, editing, actions }: Props) => {
   const scroller = useRef<HTMLDivElement>(null);
 
   const scrollBy = (dir: 1 | -1) => {
@@ -14,26 +17,33 @@ export const CourseRow = ({ title, children }: Props) => {
   };
 
   return (
-    <section className="space-y-3">
+    <section
+      className={`space-y-3 ${
+        editing ? 'mx-4 rounded-2xl border border-dashed border-course-primary/40 py-3' : ''
+      }`}
+    >
       <div className="flex items-center justify-between gap-4 px-6">
         <h2 className="font-display text-2xl font-semibold text-course-foreground">{title}</h2>
-        <div className="hidden gap-2 sm:flex">
-          <button
-            type="button"
-            aria-label="scroll left"
-            onClick={() => scrollBy(-1)}
-            className="rounded-full border border-course-border bg-course-card p-2 text-course-muted-foreground transition-colors hover:text-course-foreground"
-          >
-            <ChevronLeft size={16} />
-          </button>
-          <button
-            type="button"
-            aria-label="scroll right"
-            onClick={() => scrollBy(1)}
-            className="rounded-full border border-course-border bg-course-card p-2 text-course-muted-foreground transition-colors hover:text-course-foreground"
-          >
-            <ChevronRight size={16} />
-          </button>
+        <div className="flex items-center gap-2">
+          {editing && actions}
+          <div className="hidden gap-2 sm:flex">
+            <button
+              type="button"
+              aria-label="scroll left"
+              onClick={() => scrollBy(-1)}
+              className="rounded-full border border-course-border bg-course-card p-2 text-course-muted-foreground transition-colors hover:text-course-foreground"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              type="button"
+              aria-label="scroll right"
+              onClick={() => scrollBy(1)}
+              className="rounded-full border border-course-border bg-course-card p-2 text-course-muted-foreground transition-colors hover:text-course-foreground"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
         </div>
       </div>
       <div

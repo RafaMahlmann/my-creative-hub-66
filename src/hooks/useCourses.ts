@@ -11,6 +11,7 @@ export type CourseRow = {
   cover_url: string | null;
   is_featured: boolean;
   position: number;
+  trailer?: { id: string; provider: 'vimeo' | 'youtube' | 'hls' | 'file'; ref: string | null; duration_seconds: number | null; is_free: boolean } | null;
 };
 
 export function useCourses() {
@@ -19,11 +20,11 @@ export function useCourses() {
     queryFn: async (): Promise<CourseRow[]> => {
       const { data, error } = await supabase
         .from('courses')
-        .select('id, slug, title_pt, title_en, description_pt, description_en, cover_url, is_featured, position')
+        .select('id, slug, title_pt, title_en, description_pt, description_en, cover_url, is_featured, position, trailer:videos(id, provider, ref, duration_seconds, is_free)')
         .eq('is_published', true)
         .order('position', { ascending: true });
       if (error) throw error;
-      return data ?? [];
+      return (data ?? []) as unknown as CourseRow[];
     },
   });
 }
@@ -106,7 +107,8 @@ export type FreeLesson = {
   title_en: string | null;
   description_pt: string | null;
   description_en: string | null;
-  modules: { slug: string; courses: { slug: string; title_pt: string; title_en: string | null } | null } | null;
+  is_free: boolean;
+  modules: { id: string; slug: string; courses: { id: string; slug: string; title_pt: string; title_en: string | null } | null } | null;
   videos: { duration_seconds: number | null } | null;
 };
 
@@ -117,7 +119,7 @@ export function useFreeLessons() {
       const { data, error } = await supabase
         .from('lessons')
         .select(
-          'id, slug, title_pt, title_en, description_pt, description_en, modules(slug, courses(slug, title_pt, title_en)), videos(duration_seconds)'
+          'id, slug, title_pt, title_en, description_pt, description_en, is_free, modules(id, slug, courses(id, slug, title_pt, title_en)), videos(duration_seconds)'
         )
         .eq('is_free', true)
         .eq('is_published', true)
