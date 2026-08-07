@@ -63,7 +63,10 @@ const StudentsInner = () => {
           {t('students.title')}
         </h1>
         <p className="font-body text-course-muted-foreground">{t('students.subtitle')}</p>
+        <HelpModeToggle />
       </div>
+
+      <HelpCard id="students" />
 
       <div className="max-w-sm">
         {loadingCourses ? (

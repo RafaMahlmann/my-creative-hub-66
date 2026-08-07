@@ -227,6 +227,7 @@ const Inner = () => {
                     <SelectItem value="file">{t('admin.fileUrl')}</SelectItem>
                   </SelectContent>
                 </Select>
+                <HelpNote id="provider" />
               </label>
               <label className="space-y-1">
                 <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
@@ -289,6 +290,7 @@ const Inner = () => {
                     <Copy className="h-4 w-4" />
                   </Button>
                 </div>
+                <HelpNote id="sourcePath" />
               </label>
               <label className="space-y-1 sm:col-span-2">
                 <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
@@ -451,6 +453,7 @@ const Inner = () => {
               />
               {lesson.is_free ? t('course.free') : t('course.paid')}
             </label>
+            <HelpNote id="freeToggle" />
             <label className="flex items-center gap-3 rounded-lg border border-course-border bg-course-card px-4 py-3 font-body text-sm">
               <Switch
                 checked={!!lesson.is_published}
@@ -458,6 +461,7 @@ const Inner = () => {
               />
               {lesson.is_published ? t('admin.published') : t('admin.draft')}
             </label>
+            <HelpNote id="publishToggle" />
           </TabsContent>
         </Tabs>
       </div>

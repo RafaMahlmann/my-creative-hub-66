@@ -208,7 +208,10 @@ const Inner = () => {
           </Link>
           <h1 className="font-display text-4xl font-semibold">{t('admin.videoLibrary')}</h1>
           <p className="font-body text-sm text-course-muted-foreground">{t('admin.videoLibraryHint')}</p>
+          <HelpModeToggle className="mt-2" />
         </header>
+
+        <HelpCard id="videoLibrary" />
 
         <section className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
           <div className="flex items-center gap-2">
