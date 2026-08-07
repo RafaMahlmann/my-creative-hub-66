@@ -421,5 +421,90 @@
       "publishToggle": "Rascunho = invisível para o público. Publicado = já aparece no catálogo.",
       "freeToggle": "Gratuita = qualquer pessoa assiste. Exclusiva = só quem está matriculado."
     }
+  },
+  "consent": {
+    "title": "Antes de começar: termo do aluno",
+    "subtitle": "Precisamos do seu cadastro e do seu aceite ao termo da formação. É rápido e feito uma única vez.",
+    "formTitle": "Seus dados",
+    "fullName": "Nome completo",
+    "cpf": "CPF",
+    "cpfInvalid": "CPF inválido.",
+    "birthDate": "Data de nascimento",
+    "phone": "Telefone / WhatsApp",
+    "email": "E-mail",
+    "cep": "CEP",
+    "street": "Rua",
+    "number": "Número",
+    "complement": "Complemento",
+    "neighborhood": "Bairro",
+    "city": "Cidade",
+    "state": "UF",
+    "termTitle": "Termo de ciência, responsabilidade e uso",
+    "termVersion": "Versão {{version}}",
+    "scrollHint": "role o texto até o fim para habilitar o aceite",
+    "mustScroll": "Continue rolando o texto até o final.",
+    "checkbox": "Li integralmente o termo acima e aceito seus termos de forma livre, informada e inequívoca.",
+    "typeName": "Digite seu nome completo para assinar",
+    "nameMismatch": "O nome digitado precisa ser igual ao nome do cadastro.",
+    "proofNote": "Seu aceite será registrado com data e hora do servidor, endereço IP, versão do termo e hash SHA-256 do texto assinado.",
+    "submit": "Registrar meu aceite",
+    "saved": "Aceite registrado.",
+    "saveError": "Não foi possível registrar o aceite. Tente novamente.",
+    "loadError": "Não conseguimos verificar seu aceite agora. Por segurança, o conteúdo fica bloqueado até a verificação funcionar.",
+    "retry": "Tentar de novo"
+  },
+  "security": {
+    "title": "Segurança e documentos",
+    "subtitle": "Onde ficam guardadas as provas do seu aceite eletrônico.",
+    "tabHow": "Como funciona",
+    "tabDocs": "Seus documentos",
+    "tabChallenge": "Se for questionado",
+    "tabFaq": "Dúvidas",
+    "howIntro": "Quando você aceita o termo, o sistema guarda um conjunto de evidências que permite reconstituir exatamente o que foi aceito.",
+    "howItems": [
+      "Identificação com CPF conferido pelo servidor.",
+      "Texto integral exibido na tela, sem link externo.",
+      "Rolagem obrigatória até o fim antes de liberar o aceite.",
+      "Aceite ativo: caixa marcada por você e nome completo digitado.",
+      "Data e hora gravadas pelo servidor, não pelo seu computador.",
+      "Endereço IP de origem da requisição.",
+      "Hash SHA-256 do texto exato e número da versão do termo."
+    ],
+    "noDocs": "Você ainda não registrou nenhum aceite.",
+    "studentTerm": "Termo do aluno",
+    "acceptedAt": "Data e hora do aceite",
+    "ip": "Endereço IP",
+    "version": "Versão do termo",
+    "hash": "Hash SHA-256 do texto",
+    "download": "Baixar comprovante em PDF",
+    "challengeIntro": "Se um dia o aceite for contestado, este é o caminho:",
+    "challengeItems": [
+      "Baixe o comprovante em PDF: ele traz os dados do aceite e o texto integral.",
+      "Confira que o hash impresso no PDF é igual ao hash da versão do termo guardada no sistema.",
+      "O registro não pode ser editado nem apagado por ninguém dentro do aplicativo.",
+      "Cada alteração de texto gera uma nova versão; a versão já assinada permanece intacta."
+    ],
+    "faq": [
+      {
+        "q": "Preciso aceitar de novo a cada acesso?",
+        "a": "Não. O aceite é registrado uma única vez por aluno."
+      },
+      {
+        "q": "E se o texto do termo mudar?",
+        "a": "Uma nova versão é criada. O que você assinou continua guardado exatamente como estava."
+      },
+      {
+        "q": "Quem vê meus dados?",
+        "a": "Você e a administração da plataforma. O encarregado de dados (DPO) está identificado no próprio termo."
+      },
+      {
+        "q": "Por quanto tempo os registros ficam guardados?",
+        "a": "No mínimo cinco anos após o encerramento da relação, por obrigação legal."
+      }
+    ],
+    "adminTitle": "Aceites registrados",
+    "adminSubtitle": "Prova de aceite eletrônico de cada aluno. Registros não podem ser editados nem apagados.",
+    "adminSearch": "Buscar por nome, e-mail ou CPF",
+    "adminEmpty": "Nenhum aceite registrado ainda."
   }
 }

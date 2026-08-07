@@ -17,6 +17,8 @@ import LessonEditor from "./pages/admin/LessonEditor";
 import StudentAuth from "./pages/StudentAuth";
 import MyLessons from "./pages/MyLessons";
 import Students from "./pages/admin/Students";
+import SegurancaPage from "./pages/SegurancaPage";
+import { StudentConsentGate } from "./components/course/StudentConsentGate";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,15 +35,37 @@ const App = () => (
             <Route path="/bioressonancia" element={<Navigate to="/" />} />
             <Route path="/curso" element={<CourseIndex />} />
             <Route path="/curso/entrar" element={<StudentAuth />} />
-            <Route path="/curso/minhas-aulas" element={<MyLessons />} />
+            <Route path="/curso/seguranca" element={<SegurancaPage />} />
+            <Route
+              path="/curso/minhas-aulas"
+              element={
+                <StudentConsentGate>
+                  <MyLessons />
+                </StudentConsentGate>
+              }
+            />
             <Route path="/curso/admin" element={<CourseAdmin />} />
             <Route path="/curso/admin/alunos" element={<Students />} />
             <Route path="/curso/admin/videos" element={<VideoLibrary />} />
             <Route path="/curso/admin/:courseId" element={<CourseEditor />} />
 
             <Route path="/curso/admin/:courseId/aula/:lessonId" element={<LessonEditor />} />
-            <Route path="/curso/:courseSlug" element={<CoursePage />} />
-            <Route path="/curso/:courseSlug/:lessonSlug" element={<LessonPage />} />
+            <Route
+              path="/curso/:courseSlug"
+              element={
+                <StudentConsentGate>
+                  <CoursePage />
+                </StudentConsentGate>
+              }
+            />
+            <Route
+              path="/curso/:courseSlug/:lessonSlug"
+              element={
+                <StudentConsentGate>
+                  <LessonPage />
+                </StudentConsentGate>
+              }
+            />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

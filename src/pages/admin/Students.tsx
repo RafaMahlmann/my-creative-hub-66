@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Users } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Users } from 'lucide-react';
 import { toast } from 'sonner';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
 import { CourseShell } from '@/components/course/CourseShell';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
+import { supabase } from '@/integrations/supabase/client';
+import { maskCPF } from '@/lib/consent';
 import {
   Select,
   SelectContent,
@@ -117,7 +120,78 @@ const StudentsInner = () => {
           ))}
         </ul>
       )}
+
+      <ConsentsPanel />
     </div>
+  );
+};
+
+const ConsentsPanel = () => {
+  const { t } = useTranslation();
+  const [rows, setRows] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    supabase
+      .from('student_consents')
+      .select('id, full_name, email, cpf_typed, ip, accepted_at, term_version, term_text_hash')
+      .order('accepted_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (error) console.error('[ConsentsPanel]', error);
+        setRows(data ?? []);
+        setLoading(false);
+      });
+  }, []);
+
+  const filtered = rows.filter((r) => {
+    const q = query.trim().toLowerCase();
+    if (!q) return true;
+    return [r.full_name, r.email, r.cpf_typed].some((v: string | null) =>
+      (v ?? '').toLowerCase().includes(q),
+    );
+  });
+
+  return (
+    <section className="space-y-3">
+      <h2 className="flex items-center gap-2 font-display text-2xl font-semibold">
+        <ShieldCheck className="h-6 w-6 text-course-primary" />
+        {t('security.adminTitle')}
+      </h2>
+      <p className="font-body text-sm text-course-muted-foreground">{t('security.adminSubtitle')}</p>
+      <Input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder={t('security.adminSearch')}
+        className="max-w-sm border-course-border bg-course-card"
+      />
+      {loading ? (
+        <Skeleton className="h-32 w-full bg-course-secondary" />
+      ) : filtered.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-course-border p-8 text-center font-body text-course-muted-foreground">
+          {t('security.adminEmpty')}
+        </div>
+      ) : (
+        <ul className="divide-y divide-course-border/60 overflow-hidden rounded-2xl border border-course-border bg-course-card">
+          {filtered.map((r) => (
+            <li key={r.id} className="px-5 py-4">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <span className="font-body text-sm">{r.full_name}</span>
+                <span className="font-body text-xs text-course-muted-foreground">
+                  {new Date(r.accepted_at).toLocaleString('pt-BR')} · v{r.term_version} · IP {r.ip ?? '—'}
+                </span>
+              </div>
+              <div className="font-body text-xs text-course-muted-foreground">
+                {maskCPF(r.cpf_typed)} · {r.email ?? '—'}
+              </div>
+              <div className="break-all font-mono text-[10px] text-course-muted-foreground">
+                {r.term_text_hash}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 };
 

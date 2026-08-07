@@ -81,6 +81,33 @@ export type Database = {
           },
         ]
       }
+      consent_terms: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          term_kind: string
+          text_content: string
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          term_kind: string
+          text_content: string
+          version: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          term_kind?: string
+          text_content?: string
+          version?: string
+        }
+        Relationships: []
+      }
       courses: {
         Row: {
           cover_url: string | null
@@ -417,10 +444,50 @@ export type Database = {
           },
         ]
       }
+      operator_settings: {
+        Row: {
+          cidade: string
+          documento: string
+          documento_tipo: string
+          dpo_nome: string
+          email_dpo: string
+          id: string
+          nome: string
+          sistema_nome: string
+          sistema_versao: string
+          updated_at: string
+        }
+        Insert: {
+          cidade: string
+          documento: string
+          documento_tipo?: string
+          dpo_nome: string
+          email_dpo: string
+          id?: string
+          nome: string
+          sistema_nome: string
+          sistema_versao: string
+          updated_at?: string
+        }
+        Update: {
+          cidade?: string
+          documento?: string
+          documento_tipo?: string
+          dpo_nome?: string
+          email_dpo?: string
+          id?: string
+          nome?: string
+          sistema_nome?: string
+          sistema_versao?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
           display_name: string | null
+          has_accepted_terms: boolean
           id: string
           updated_at: string
           user_id: string
@@ -428,6 +495,7 @@ export type Database = {
         Insert: {
           created_at?: string
           display_name?: string | null
+          has_accepted_terms?: boolean
           id?: string
           updated_at?: string
           user_id: string
@@ -435,9 +503,52 @@ export type Database = {
         Update: {
           created_at?: string
           display_name?: string | null
+          has_accepted_terms?: boolean
           id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      purchase_consents: {
+        Row: {
+          accepted_at: string
+          buyer_id: string | null
+          cpf_typed: string
+          email: string | null
+          full_name: string
+          id: string
+          ip: string | null
+          order_id: string
+          term_text_hash: string
+          term_version: string
+          user_agent: string | null
+        }
+        Insert: {
+          accepted_at?: string
+          buyer_id?: string | null
+          cpf_typed: string
+          email?: string | null
+          full_name: string
+          id?: string
+          ip?: string | null
+          order_id: string
+          term_text_hash: string
+          term_version: string
+          user_agent?: string | null
+        }
+        Update: {
+          accepted_at?: string
+          buyer_id?: string | null
+          cpf_typed?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          ip?: string | null
+          order_id?: string
+          term_text_hash?: string
+          term_version?: string
+          user_agent?: string | null
         }
         Relationships: []
       }
@@ -459,6 +570,72 @@ export type Database = {
           key?: string
           updated_at?: string
           value?: string
+        }
+        Relationships: []
+      }
+      student_consents: {
+        Row: {
+          accepted_at: string
+          birth_date: string | null
+          cep: string | null
+          city: string | null
+          complement: string | null
+          cpf_typed: string
+          email: string | null
+          full_name: string
+          id: string
+          ip: string | null
+          neighborhood: string | null
+          number: string | null
+          phone: string | null
+          state: string | null
+          street: string | null
+          student_id: string
+          term_text_hash: string
+          term_version: string
+          user_agent: string | null
+        }
+        Insert: {
+          accepted_at?: string
+          birth_date?: string | null
+          cep?: string | null
+          city?: string | null
+          complement?: string | null
+          cpf_typed: string
+          email?: string | null
+          full_name: string
+          id?: string
+          ip?: string | null
+          neighborhood?: string | null
+          number?: string | null
+          phone?: string | null
+          state?: string | null
+          street?: string | null
+          student_id: string
+          term_text_hash: string
+          term_version: string
+          user_agent?: string | null
+        }
+        Update: {
+          accepted_at?: string
+          birth_date?: string | null
+          cep?: string | null
+          city?: string | null
+          complement?: string | null
+          cpf_typed?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          ip?: string | null
+          neighborhood?: string | null
+          number?: string | null
+          phone?: string | null
+          state?: string | null
+          street?: string | null
+          student_id?: string
+          term_text_hash?: string
+          term_version?: string
+          user_agent?: string | null
         }
         Relationships: []
       }
