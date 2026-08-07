@@ -33,7 +33,9 @@
     "moduleCount": "{{count}} módulo",
     "moduleCount_other": "{{count}} módulos",
     "lessonCount": "{{count}} aula",
-    "lessonCount_other": "{{count}} aulas"
+    "lessonCount_other": "{{count}} aulas",
+    "backToCourseHome": "Início dos cursos",
+    "therapistSite": "Site do terapeuta"
   },
   "lesson": {
     "about": "Sobre esta aula",
@@ -506,5 +508,29 @@
     "adminSubtitle": "Prova de aceite eletrônico de cada aluno. Registros não podem ser editados nem apagados.",
     "adminSearch": "Buscar por nome, e-mail ou CPF",
     "adminEmpty": "Nenhum aceite registrado ainda."
+  },
+  "editor": {
+    "editMode": "Modo edição",
+    "viewAsStudent": "Ver como aluno",
+    "openPanel": "Abrir painel",
+    "edit": "Editar",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "editFeatured": "Editar destaque",
+    "featuredTitle": "Bloco em destaque",
+    "featuredHelp": "Escolha qual curso aparece no bloco grande da vitrine, ajuste o texto e escolha o vídeo que vai tocar ali. Se não escolher vídeo, aparece só a imagem de capa.",
+    "featuredEmpty": "Sem vídeo nem capa — clique no lápis para escolher.",
+    "chooseCourse": "Curso em destaque",
+    "chooseVideo": "Vídeo do destaque",
+    "searchVideo": "Buscar na biblioteca de vídeos…",
+    "noVideo": "Sem vídeo (mostrar só a capa)",
+    "fieldTitle": "Título",
+    "fieldSubtitle": "Descrição curta",
+    "fieldCover": "Imagem de capa (URL)",
+    "moveLeft": "Mover para a esquerda",
+    "moveRight": "Mover para a direita",
+    "makeFree": "Tornar gratuita",
+    "makePaid": "Tornar exclusiva",
+    "addCourse": "Novo curso"
   }
 }
