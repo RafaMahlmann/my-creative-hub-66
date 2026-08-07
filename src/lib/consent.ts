@@ -90,13 +90,13 @@ export function normalizeName(value: string): string {
 /** Substitui os marcadores do termo pelos dados do operador (exibição). */
 export function fillTermText(template: string, operator: OperatorSettings): string {
   return template
-    .replaceAll('{{OPERADOR}}', operator.nome)
-    .replaceAll('{{DOC_TIPO}}', operator.documento_tipo)
-    .replaceAll('{{DOC}}', operator.documento)
-    .replaceAll('{{CNPJ}}', operator.documento)
-    .replaceAll('{{DPO_NOME}}', operator.dpo_nome)
-    .replaceAll('{{DPO_EMAIL}}', operator.email_dpo)
-    .replaceAll('{{CIDADE}}', operator.cidade);
+    .replace(/\{\{OPERADOR\}\}/g, operator.nome)
+    .replace(/\{\{DOC_TIPO\}\}/g, operator.documento_tipo)
+    .replace(/\{\{DOC\}\}/g, operator.documento)
+    .replace(/\{\{CNPJ\}\}/g, operator.documento)
+    .replace(/\{\{DPO_NOME\}\}/g, operator.dpo_nome)
+    .replace(/\{\{DPO_EMAIL\}\}/g, operator.email_dpo)
+    .replace(/\{\{CIDADE\}\}/g, operator.cidade);
 }
 
 export async function fetchOperatorSettings(): Promise<OperatorSettings> {
