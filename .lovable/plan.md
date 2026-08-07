@@ -43,7 +43,17 @@ Termo do Aluno versão 1.0 exatamente como redigido no handoff (natureza da form
 ## Verificação antes de entregar
 Aceite de teste ponta a ponta, conferência dos campos gravados, trigger no perfil, hash do PDF igual ao da versão ativa, UPDATE/DELETE negados e `student_id` do corpo ignorado.
 
-## Preciso de você
-Os dados do operador (nome/razão social, CNPJ, e-mail do DPO e cidade do foro) para preencher `operator_settings`. Se ainda não tiver, eu deixo valores provisórios e você edita depois — lembrando que alterar o texto exige **nova versão**, nunca edição da versão já assinada.
+## Dados do operador (confirmados)
+
+Vão para `operator_settings` e substituem os campos `{{...}}` do termo no servidor, antes do cálculo do hash:
+
+- **Operador:** Rafael Reis Malhmann
+- **Documento:** CPF 025.689.409-48 — como o operador é pessoa física, o rótulo do termo passa de "CNPJ" para "CPF". Se depois houver CNPJ, isso exige **nova versão** do termo.
+- **Encarregado (DPO):** Rafael Reis Malhmann — flordeplasmaprojetos@gmail.com. A LGPD permite que o próprio controlador pessoa física acumule a função de encarregado; o termo indica o nome e esse e-mail como canal do titular.
+- **Cidade / Foro:** Comarca de São José dos Pinhais — Paraná (TJPR). É comarca própria, então o foro eleito é o da própria cidade, sem remeter a Curitiba.
+- **Sistema:** My Digital Space — versão 1.0.
+
+Esses valores ficam editáveis em `operator_settings`, mas alterar o **texto** do termo exige nova versão; nunca editar uma versão já assinada.
 
 Aviso: os textos são bem construídos, mas devem passar por conferência de advogado antes de produção.
+
