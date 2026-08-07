@@ -111,15 +111,17 @@ const Inner = () => {
     toast.success(t('admin.saved'));
   };
 
-  const saveVideo = async () => {
+  const saveVideo = async (overrides?: Record<string, string>) => {
+    const v = { ...vForm, ...(overrides ?? {}) };
     const payload = {
       title_pt: form.title_pt || 'Vídeo',
-      provider: vForm.provider as Provider,
-      ref: vForm.ref || null,
-      duration_seconds: vForm.duration_seconds ? Number(vForm.duration_seconds) : null,
-      source_path: vForm.source_path || null,
-      source_note: vForm.source_note || null,
-      status: vForm.status as Status,
+      provider: v.provider as Provider,
+      ref: v.ref || null,
+      duration_seconds: v.duration_seconds ? Number(v.duration_seconds) : null,
+      source_path: v.source_path || null,
+      source_note: v.source_note || null,
+      storage_path: v.storage_path || null,
+      status: v.status as Status,
       is_free: !!lesson?.is_free,
     };
     if (video?.id) {
@@ -134,6 +136,7 @@ const Inner = () => {
     refresh();
     toast.success(t('admin.saved'));
   };
+
 
   if (isLoading) {
     return (
