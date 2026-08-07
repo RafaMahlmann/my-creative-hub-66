@@ -8,6 +8,8 @@ import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { SubtitlesTab } from '@/components/course/SubtitlesTab';
+import { CloudVideoUpload } from '@/components/course/CloudVideoUpload';
+
 import { TutorContextTab } from '@/components/course/TutorContextTab';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -61,6 +63,7 @@ const Inner = () => {
         duration_seconds: number | null;
         source_path: string | null;
         source_note: string | null;
+        storage_path: string | null;
         status: Status;
       }
     | null
@@ -87,9 +90,11 @@ const Inner = () => {
       source_path: video?.source_path ?? '',
       source_note: video?.source_note ?? '',
       status: video?.status ?? 'ideia',
+      storage_path: video?.storage_path ?? '',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson?.id, video?.id]);
+
 
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ['admin'] });
@@ -108,15 +113,17 @@ const Inner = () => {
     toast.success(t('admin.saved'));
   };
 
-  const saveVideo = async () => {
+  const saveVideo = async (overrides?: Record<string, string>) => {
+    const v = { ...vForm, ...(overrides ?? {}) };
     const payload = {
       title_pt: form.title_pt || 'Vídeo',
-      provider: vForm.provider as Provider,
-      ref: vForm.ref || null,
-      duration_seconds: vForm.duration_seconds ? Number(vForm.duration_seconds) : null,
-      source_path: vForm.source_path || null,
-      source_note: vForm.source_note || null,
-      status: vForm.status as Status,
+      provider: v.provider as Provider,
+      ref: v.ref || null,
+      duration_seconds: v.duration_seconds ? Number(v.duration_seconds) : null,
+      source_path: v.source_path || null,
+      source_note: v.source_note || null,
+      storage_path: v.storage_path || null,
+      status: v.status as Status,
       is_free: !!lesson?.is_free,
     };
     if (video?.id) {
@@ -131,6 +138,7 @@ const Inner = () => {
     refresh();
     toast.success(t('admin.saved'));
   };
+
 
   if (isLoading) {
     return (
@@ -288,9 +296,31 @@ const Inner = () => {
               </label>
             </div>
 
-            <Button onClick={saveVideo} className="bg-course-primary text-course-primary-foreground hover:bg-course-primary/90">
+            <Button onClick={() => saveVideo()} className="bg-course-primary text-course-primary-foreground hover:bg-course-primary/90">
               <Save className="mr-2 h-4 w-4" /> {t('admin.save')}
             </Button>
+
+            <CloudVideoUpload
+              storagePath={vForm.storage_path || null}
+              isVimeo={vForm.provider === 'vimeo' && !!vForm.ref}
+              onUploaded={({ storagePath, url, fileName }) => {
+                const patch = {
+                  provider: 'file',
+                  ref: url,
+                  storage_path: storagePath,
+                  source_path: vForm.source_path || fileName,
+                  status: vForm.status === 'ideia' ? 'gravado' : vForm.status,
+                };
+                setVForm((s) => ({ ...s, ...patch }));
+                saveVideo(patch);
+              }}
+              onRemoved={() => {
+                const patch = { storage_path: '', ref: vForm.provider === 'file' ? '' : vForm.ref };
+                setVForm((s) => ({ ...s, ...patch }));
+                saveVideo(patch);
+              }}
+            />
+
 
             <div className="pt-2">
               <p className="mb-2 font-body text-xs uppercase tracking-wide text-course-muted-foreground">

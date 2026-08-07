@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Copy, Plus, Search, Trash2 } from 'lucide-react';
+import { ArrowLeft, CloudUpload, Copy, Plus, Search, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
@@ -58,6 +58,16 @@ const VideoCard = ({ video }: { video: AdminVideo }) => {
             <Badge className={`border-none font-body text-xs ${statusTone[video.status]}`}>
               {t(`admin.status_${video.status}`)}
             </Badge>
+            {video.storage_path && video.provider === 'file' && (
+              <Badge className="border-none bg-amber-500/15 font-body text-xs text-amber-300">
+                {t('upload.badgeCloud')}
+              </Badge>
+            )}
+            {video.provider === 'vimeo' && video.ref && (
+              <Badge className="border-none bg-emerald-500/15 font-body text-xs text-emerald-300">
+                {t('upload.badgeVimeo')}
+              </Badge>
+            )}
             <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
               {video.provider}
             </span>
@@ -67,6 +77,7 @@ const VideoCard = ({ video }: { video: AdminVideo }) => {
               </span>
             )}
           </div>
+
         </div>
 
         <div className="flex items-center gap-3">
@@ -179,6 +190,11 @@ const Inner = () => {
     });
   }, [videos, q, status, provider]);
 
+  const cloudOnly = useMemo(
+    () => (videos ?? []).filter((v) => !!v.storage_path && v.provider === 'file'),
+    [videos],
+  );
+
   return (
     <CourseShell>
       <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
@@ -192,6 +208,33 @@ const Inner = () => {
           <h1 className="font-display text-4xl font-semibold">{t('admin.videoLibrary')}</h1>
           <p className="font-body text-sm text-course-muted-foreground">{t('admin.videoLibraryHint')}</p>
         </header>
+
+        <section className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
+          <div className="flex items-center gap-2">
+            <CloudUpload className="h-5 w-5 text-amber-300" />
+            <h2 className="font-display text-lg font-semibold">{t('upload.cloudOnlyPanel')}</h2>
+            <span className="rounded-full bg-amber-500/15 px-2 py-0.5 font-body text-xs text-amber-200">
+              {cloudOnly.length}
+            </span>
+          </div>
+          <p className="mt-1 font-body text-sm text-course-muted-foreground">
+            {cloudOnly.length ? t('upload.cloudOnlyHint') : t('upload.cloudOnlyNone')}
+          </p>
+          {cloudOnly.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {cloudOnly.map((v) => (
+                <span
+                  key={v.id}
+                  className="rounded-full border border-amber-500/30 px-3 py-1 font-body text-xs text-amber-100"
+                >
+                  {v.title_pt}
+                </span>
+              ))}
+            </div>
+          )}
+        </section>
+
+
 
         <section className="grid gap-3 rounded-xl border border-course-border bg-course-card p-5 md:grid-cols-[1fr_auto_auto]">
           <div className="relative">

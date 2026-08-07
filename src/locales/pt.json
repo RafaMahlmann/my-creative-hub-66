@@ -264,5 +264,29 @@
     "context_en": "Contexto em inglês",
     "save": "Salvar contexto",
     "saved": "Contexto salvo."
+  },
+  "upload": {
+    "title": "Enviar do meu computador",
+    "badgeCloud": "Rascunho no Cloud",
+    "badgeVimeo": "Publicado no Vimeo",
+    "cloudWarning": "Este vídeo está hospedado como rascunho no armazenamento do Cloud. Funciona, mas o ideal é publicá-lo no Vimeo: lá você ganha streaming adaptativo, melhor desempenho e proteção contra download.",
+    "dropzone": "Arraste o vídeo aqui ou clique para escolher",
+    "limits": "MP4, MOV ou WebM · até 500 MB",
+    "tooLarge": "Arquivo muito grande. Limite de 500 MB.",
+    "done": "Vídeo enviado como rascunho no Cloud.",
+    "openFile": "Abrir/baixar arquivo",
+    "migrateCta": "Migrei para o Vimeo",
+    "removeDraft": "Apagar rascunho do Cloud",
+    "confirmRemove": "Apagar o arquivo do Cloud? Esta ação não pode ser desfeita.",
+    "removed": "Rascunho apagado do Cloud.",
+    "guideTitle": "Publicar no Vimeo (passo a passo)",
+    "guideIntro": "Siga os passos abaixo para mover este vídeo do rascunho no Cloud para o Vimeo.",
+    "step1": "Baixe o arquivo do Cloud (ou use o original do seu computador).",
+    "step2": "Abra vimeo.com/upload e envie o vídeo.",
+    "step3": "Copie o ID do vídeo no Vimeo, escolha o provedor \"Vimeo\" acima e cole o ID no campo de referência. Depois clique em Salvar.",
+    "step4": "Volte aqui e apague o rascunho do Cloud para liberar espaço.",
+    "cloudOnlyPanel": "Vídeos ainda só no Cloud",
+    "cloudOnlyHint": "Estes vídeos estão como rascunho no armazenamento. Publique-os no Vimeo quando puder.",
+    "cloudOnlyNone": "Nenhum vídeo pendente. Tudo publicado fora do Cloud."
   }
 }

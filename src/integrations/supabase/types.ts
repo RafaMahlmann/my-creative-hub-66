@@ -529,6 +529,7 @@ export type Database = {
           source_note: string | null
           source_path: string | null
           status: Database["public"]["Enums"]["video_status"]
+          storage_path: string | null
           title_en: string | null
           title_pt: string
           updated_at: string
@@ -543,6 +544,7 @@ export type Database = {
           source_note?: string | null
           source_path?: string | null
           status?: Database["public"]["Enums"]["video_status"]
+          storage_path?: string | null
           title_en?: string | null
           title_pt: string
           updated_at?: string
@@ -557,6 +559,7 @@ export type Database = {
           source_note?: string | null
           source_path?: string | null
           status?: Database["public"]["Enums"]["video_status"]
+          storage_path?: string | null
           title_en?: string | null
           title_pt?: string
           updated_at?: string
