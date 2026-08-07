@@ -288,5 +288,138 @@
     "cloudOnlyPanel": "Videos still Cloud-only",
     "cloudOnlyHint": "These videos are drafts in storage. Publish them to Vimeo when you can.",
     "cloudOnlyNone": "Nothing pending. Everything is hosted outside Cloud."
+  },
+  "help": {
+    "show": "Show help",
+    "hide": "Hide help",
+    "cards": {
+      "dashboard": {
+        "title": "Welcome to your panel — one step at a time",
+        "intro": "Think of it this way: the course is a bookshelf, modules are the shelves and lessons are the books. You build it top-down, calmly.",
+        "steps": [
+          "Create the course below, in \"New course\". A name is enough for now — everything can change later.",
+          "Click \"Edit\" on the course to create modules and, inside them, the lessons.",
+          "Inside each lesson you add the video, the text, the materials and decide if it is free or paid.",
+          "While the switch says \"Draft\", nobody sees it. Flip it to \"Published\" only when you are happy.",
+          "Use \"Preview\" anytime to see exactly what a student sees."
+        ],
+        "tip": "Nothing here is final. Create, test and delete freely — while it is a draft, it is yours alone."
+      },
+      "courseEditor": {
+        "title": "Building the skeleton of the course",
+        "intro": "This is where you organise the order of things. It is like writing the table of contents before the chapters.",
+        "steps": [
+          "Fill in title and description in Portuguese and English (the site switches languages by itself).",
+          "Create modules: the big blocks, like \"Module 1 — Fundamentals\".",
+          "Inside each module, add the lessons in teaching order.",
+          "Hold the little dot on the left and drag to reorder modules and lessons.",
+          "Click the pencil on a lesson to open its editor and add the video."
+        ],
+        "tip": "Course cover: use a horizontal image (16:9). That is the big one shown in the catalog."
+      },
+      "lessonEditor": {
+        "title": "Lesson editor — each tab handles one thing",
+        "intro": "This is where the lesson comes alive. No need to fill everything at once; save what you did and come back later.",
+        "steps": [
+          "Video: choose where the video comes from (Vimeo, YouTube or your own upload) and check the preview.",
+          "Content: title, summary and lesson text, in both languages.",
+          "Materials: PDFs, links and support files for students to download.",
+          "Subtitles: generate or paste the captions for the video.",
+          "AI Tutor: the summary that teaches the AI to answer questions about this lesson.",
+          "Access: sets whether the lesson is free (a taster) or exclusive to paying students."
+        ],
+        "tip": "Each tab has its own \"Save\" button. Once saved, it is stored — you can close without worry."
+      },
+      "lessonVideo": {
+        "title": "How to put the video in the lesson",
+        "intro": "You have two paths, and both look the same to the student.",
+        "steps": [
+          "Fast path (free): upload to YouTube or Vimeo, copy the link or video number and paste it into \"ID or link\". Pick the right source above.",
+          "Direct path: drag the file from your computer into the upload area below. It stays as a draft on our server (up to 500 MB).",
+          "Always fill in \"Original file\" — the folder path on your computer. One day you will need to re-upload and you will thank yourself.",
+          "Move the \"Production status\" along as you go: idea → recorded → edited → subtitled → published.",
+          "Check the preview below to make sure the video plays."
+        ],
+        "tip": "Paid and free videos use the same screen. Access is controlled by the \"Access\" tab, not by where the video is hosted."
+      },
+      "lessonContent": {
+        "title": "The text next to the video",
+        "intro": "Students read this beside the player. Write like you talk: what they will learn and why it matters.",
+        "steps": [
+          "Title: short and direct, like a headline.",
+          "Description: two or three lines summarising the lesson.",
+          "Content: the full text, step by step, list of materials, warnings.",
+          "Fill in the (EN) fields too — if empty, English students see the Portuguese text."
+        ],
+        "tip": "You do not have to write it all today. Save the draft and come back when the idea is riper."
+      },
+      "lessonMaterials": {
+        "title": "Support materials",
+        "intro": "Everything the student downloads or consults: PDF, diagram, parts list, shop link.",
+        "steps": [
+          "Give it a name the student understands, like \"Parts list — Lesson 3\".",
+          "Paste the file link (Drive, manufacturer site, etc.).",
+          "Add as many as you like; they show up as a list on the lesson page."
+        ],
+        "tip": "Shop and component links age fast. Worth reviewing now and then."
+      },
+      "lessonSubtitles": {
+        "title": "Subtitles, made simple",
+        "intro": "Subtitles help people watching without sound and open the course to English speakers.",
+        "steps": [
+          "Generate automatic captions from the lesson audio.",
+          "Read and fix technical terms — machines get proper names wrong.",
+          "Save. The captions then appear in the student player."
+        ],
+        "tip": "Always review the Portuguese captions before translating. A translated mistake becomes two mistakes."
+      },
+      "lessonTutor": {
+        "title": "Teaching the AI tutor",
+        "intro": "The tutor answers student questions about this lesson. It only knows what you tell it here.",
+        "steps": [
+          "Generate the automatic summary from the lesson content.",
+          "Add what the AI could never guess: cautions, values, brands, limits of what may be said.",
+          "Save. From then on the tutor stays on topic instead of making things up."
+        ],
+        "tip": "It is also worth writing what the tutor must NOT say (for example, anything sounding like a medical diagnosis)."
+      },
+      "lessonAccess": {
+        "title": "Free or exclusive? One click decides",
+        "intro": "This switch is the gatekeeper of the lesson. It works the same for YouTube videos and for videos hosted by us.",
+        "steps": [
+          "Free lesson: any visitor can watch. Great for opening lessons that work as an invitation.",
+          "Exclusive lesson: only enrolled students can open the player.",
+          "Change your mind anytime — it takes effect immediately."
+        ],
+        "tip": "A good recipe: first two lessons of each module open, the rest exclusive."
+      },
+      "videoLibrary": {
+        "title": "Your video shelf",
+        "intro": "All videos together, even those not yet used in a lesson. This is your inventory.",
+        "steps": [
+          "Use search and filters to find by title, status or source.",
+          "\"Used in\" shows which lesson uses that video — and warns when it is unused.",
+          "The original-file field stores the path on your computer; click copy and paste it into your file explorer.",
+          "The pending panel lists what still lives only on our server, waiting to move to Vimeo one day."
+        ],
+        "tip": "The same video can be used in more than one lesson. No need to upload twice."
+      },
+      "students": {
+        "title": "Who is studying with you",
+        "intro": "List of enrolled people and how far each one has gone.",
+        "steps": [
+          "See who joined, which course they are in and how much they watched.",
+          "Use it to spot where people get stuck — that is usually where an explanation is missing.",
+          "Paid enrolments will show up here automatically once payments are switched on."
+        ],
+        "tip": "If students always disappear after the same lesson, the problem is probably the lesson, not the students."
+      }
+    },
+    "notes": {
+      "sourcePath": "Paste the folder path on your computer here (e.g. D:\\videos\\lesson01.mp4). It only helps you find the original file later.",
+      "provider": "Vimeo/YouTube = the video lives there and the site just displays it. \"File\" = you uploaded the video to our server.",
+      "publishToggle": "Draft = invisible to the public. Published = already in the catalog.",
+      "freeToggle": "Free = anyone can watch. Exclusive = only enrolled students."
+    }
   }
 }
