@@ -204,6 +204,33 @@ const Inner = () => {
           <p className="font-body text-sm text-course-muted-foreground">{t('admin.videoLibraryHint')}</p>
         </header>
 
+        <section className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
+          <div className="flex items-center gap-2">
+            <CloudUpload className="h-5 w-5 text-amber-300" />
+            <h2 className="font-display text-lg font-semibold">{t('upload.cloudOnlyPanel')}</h2>
+            <span className="rounded-full bg-amber-500/15 px-2 py-0.5 font-body text-xs text-amber-200">
+              {cloudOnly.length}
+            </span>
+          </div>
+          <p className="mt-1 font-body text-sm text-course-muted-foreground">
+            {cloudOnly.length ? t('upload.cloudOnlyHint') : t('upload.cloudOnlyNone')}
+          </p>
+          {cloudOnly.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {cloudOnly.map((v) => (
+                <span
+                  key={v.id}
+                  className="rounded-full border border-amber-500/30 px-3 py-1 font-body text-xs text-amber-100"
+                >
+                  {v.title_pt}
+                </span>
+              ))}
+            </div>
+          )}
+        </section>
+
+
+
         <section className="grid gap-3 rounded-xl border border-course-border bg-course-card p-5 md:grid-cols-[1fr_auto_auto]">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-course-muted-foreground" />
