@@ -61,6 +61,7 @@ const Inner = () => {
         duration_seconds: number | null;
         source_path: string | null;
         source_note: string | null;
+        storage_path: string | null;
         status: Status;
       }
     | null
@@ -87,9 +88,11 @@ const Inner = () => {
       source_path: video?.source_path ?? '',
       source_note: video?.source_note ?? '',
       status: video?.status ?? 'ideia',
+      storage_path: video?.storage_path ?? '',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson?.id, video?.id]);
+
 
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ['admin'] });
