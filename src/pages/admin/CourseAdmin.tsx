@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film, Users } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
+import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -38,6 +39,7 @@ const Inner = () => {
             </p>
             <h1 className="font-display text-4xl font-semibold">{t('admin.title')}</h1>
           </div>
+          <HelpModeToggle />
           <Link to="/curso/admin/alunos">
             <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
               <Users className="mr-2 h-4 w-4" /> {t('admin.openStudents')}
@@ -49,6 +51,8 @@ const Inner = () => {
             </Button>
           </Link>
         </header>
+
+        <HelpCard id="dashboard" />
 
         <div className="grid gap-4 sm:grid-cols-3">
           <Stat icon={<BookOpen size={18} />} label={t('admin.statCourses')} value={courses?.length ?? 0} />

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Users } from 'lucide-react';
 import { toast } from 'sonner';
 import { AdminGuard } from '@/components/course/AdminGuard';
+import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
 import { CourseShell } from '@/components/course/CourseShell';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
