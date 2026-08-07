@@ -421,5 +421,90 @@
       "publishToggle": "Draft = invisible to the public. Published = already in the catalog.",
       "freeToggle": "Free = anyone can watch. Exclusive = only enrolled students."
     }
+  },
+  "consent": {
+    "title": "Before you start: student terms",
+    "subtitle": "We need your details and your acceptance of the training terms. It takes a minute and is done only once.",
+    "formTitle": "Your details",
+    "fullName": "Full name",
+    "cpf": "CPF (Brazilian tax ID)",
+    "cpfInvalid": "Invalid CPF.",
+    "birthDate": "Date of birth",
+    "phone": "Phone / WhatsApp",
+    "email": "Email",
+    "cep": "Postal code",
+    "street": "Street",
+    "number": "Number",
+    "complement": "Complement",
+    "neighborhood": "Neighborhood",
+    "city": "City",
+    "state": "State",
+    "termTitle": "Terms of awareness, responsibility and use",
+    "termVersion": "Version {{version}}",
+    "scrollHint": "scroll to the end to enable acceptance",
+    "mustScroll": "Keep scrolling to the end of the text.",
+    "checkbox": "I have read the full text above and accept it freely, informed and unequivocally.",
+    "typeName": "Type your full name to sign",
+    "nameMismatch": "The typed name must match the name in your details.",
+    "proofNote": "Your acceptance is recorded with server date and time, IP address, term version and the SHA-256 hash of the signed text.",
+    "submit": "Register my acceptance",
+    "saved": "Acceptance registered.",
+    "saveError": "We could not register your acceptance. Please try again.",
+    "loadError": "We could not verify your acceptance right now. For safety, the content stays locked until verification works.",
+    "retry": "Try again"
+  },
+  "security": {
+    "title": "Security and documents",
+    "subtitle": "Where the evidence of your electronic acceptance is kept.",
+    "tabHow": "How it works",
+    "tabDocs": "Your documents",
+    "tabChallenge": "If challenged",
+    "tabFaq": "FAQ",
+    "howIntro": "When you accept the terms, the system stores a set of evidence that allows the exact accepted text to be reconstructed.",
+    "howItems": [
+      "Identification with the tax ID checked on the server.",
+      "Full text shown on screen, with no external link.",
+      "Mandatory scrolling to the end before acceptance is enabled.",
+      "Active acceptance: checkbox you ticked plus your typed full name.",
+      "Date and time recorded by the server, not by your computer.",
+      "Originating IP address of the request.",
+      "SHA-256 hash of the exact text and the term version number."
+    ],
+    "noDocs": "You have not registered any acceptance yet.",
+    "studentTerm": "Student terms",
+    "acceptedAt": "Accepted at",
+    "ip": "IP address",
+    "version": "Term version",
+    "hash": "SHA-256 hash of the text",
+    "download": "Download PDF receipt",
+    "challengeIntro": "If the acceptance is ever challenged, this is the path:",
+    "challengeItems": [
+      "Download the PDF receipt: it carries the acceptance data and the full text.",
+      "Check that the hash printed on the PDF matches the hash of the term version stored in the system.",
+      "The record cannot be edited or deleted by anyone inside the application.",
+      "Any text change creates a new version; the signed version stays untouched."
+    ],
+    "faq": [
+      {
+        "q": "Do I have to accept again on every visit?",
+        "a": "No. Acceptance is registered once per student."
+      },
+      {
+        "q": "What if the terms change?",
+        "a": "A new version is created. What you signed stays stored exactly as it was."
+      },
+      {
+        "q": "Who can see my data?",
+        "a": "You and the platform administration. The data protection officer is named in the terms."
+      },
+      {
+        "q": "How long are the records kept?",
+        "a": "At least five years after the relationship ends, as a legal obligation."
+      }
+    ],
+    "adminTitle": "Registered acceptances",
+    "adminSubtitle": "Electronic acceptance evidence for each student. Records cannot be edited or deleted.",
+    "adminSearch": "Search by name, email or tax ID",
+    "adminEmpty": "No acceptance registered yet."
   }
 }
