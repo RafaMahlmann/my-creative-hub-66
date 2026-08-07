@@ -5,7 +5,7 @@ import { ArrowLeft, CloudUpload, Copy, Plus, Search, Trash2 } from 'lucide-react
 import { toast } from 'sonner';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
-import { HelpCard, HelpModeToggle, HelpNote } from '@/components/course/HelpCard';
+import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';

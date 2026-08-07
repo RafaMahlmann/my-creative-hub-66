@@ -19,7 +19,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { ArrowLeft, GripVertical, Plus, Trash2, Pencil, Eye } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
-import { HelpCard, HelpModeToggle, HelpNote } from '@/components/course/HelpCard';
+import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
