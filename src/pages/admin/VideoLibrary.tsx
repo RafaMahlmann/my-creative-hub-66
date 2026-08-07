@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Copy, Plus, Search, Trash2 } from 'lucide-react';
+import { ArrowLeft, CloudUpload, Copy, Plus, Search, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
@@ -189,6 +189,11 @@ const Inner = () => {
         .some((f) => (f as string).toLowerCase().includes(term));
     });
   }, [videos, q, status, provider]);
+
+  const cloudOnly = useMemo(
+    () => (videos ?? []).filter((v) => !!v.storage_path && v.provider === 'file'),
+    [videos],
+  );
 
   return (
     <CourseShell>
