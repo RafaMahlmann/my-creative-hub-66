@@ -206,12 +206,10 @@ export type Database = {
         Row: {
           created_at: string
           file_type: string | null
-          file_url: string | null
+          file_url: string
           id: string
           lesson_id: string
           position: number
-          size_bytes: number | null
-          storage_path: string | null
           title_en: string | null
           title_pt: string
           updated_at: string
@@ -219,12 +217,10 @@ export type Database = {
         Insert: {
           created_at?: string
           file_type?: string | null
-          file_url?: string | null
+          file_url: string
           id?: string
           lesson_id: string
           position?: number
-          size_bytes?: number | null
-          storage_path?: string | null
           title_en?: string | null
           title_pt: string
           updated_at?: string
@@ -232,12 +228,10 @@ export type Database = {
         Update: {
           created_at?: string
           file_type?: string | null
-          file_url?: string | null
+          file_url?: string
           id?: string
           lesson_id?: string
           position?: number
-          size_bytes?: number | null
-          storage_path?: string | null
           title_en?: string | null
           title_pt?: string
           updated_at?: string
