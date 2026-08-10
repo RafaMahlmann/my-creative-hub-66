@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { columnExists, resetColumnCache } from '@/lib/schemaProbe';
 
 /**
  * Miniaturas moram no bucket público que já existe no projeto (o mesmo das
@@ -33,30 +34,10 @@ export async function uploadThumb(file: File): Promise<string> {
  * checamos uma vez e montamos a lista de colunas de acordo. Assim as telas
  * continuam funcionando antes e depois da migração.
  */
-let cached: boolean | null = null;
-// Guardamos a promessa em voo, não só o resultado: várias telas pedem as
-// colunas ao mesmo tempo no primeiro carregamento e, sem isso, cada uma
-// dispararia a própria checagem antes de a primeira responder.
-let probe: Promise<boolean> | null = null;
-
-export async function thumbColumnExists(): Promise<boolean> {
-  if (cached !== null) return cached;
-  probe ??= (async () => {
-    const { error } = await supabase.from('videos').select('thumb_url').limit(1);
-    // Só tratamos como ausente quando o erro fala da própria coluna; qualquer
-    // outra falha (rede, RLS) não deve mascarar a migração como pendente.
-    cached = !(error && /thumb_url/i.test(error.message));
-    probe = null;
-    return cached;
-  })();
-  return probe;
-}
+export const thumbColumnExists = () => columnExists('videos', 'thumb_url');
 
 /** Esquece a checagem — usado logo após o usuário aplicar o SQL. */
-export function resetThumbColumnCache() {
-  cached = null;
-  probe = null;
-}
+export const resetThumbColumnCache = () => resetColumnCache('videos', 'thumb_url');
 
 /**
  * Acrescenta `thumb_url` à lista de colunas apenas se o banco já a tiver.

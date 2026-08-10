@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { materialCols } from '@/lib/materials';
 
 export type VideoInfo = {
   id: string;
@@ -13,9 +14,11 @@ export type MaterialRow = {
   id: string;
   title_pt: string;
   title_en: string | null;
-  file_url: string;
+  file_url: string | null;
   file_type: string | null;
   position: number;
+  /** ausente enquanto o SQL da Etapa 1 não roda — ver lib/materials.ts */
+  storage_path?: string | null;
 };
 
 export type LessonNavItem = {
@@ -80,7 +83,7 @@ export function useLesson(courseSlug?: string, lessonSlug?: string) {
 
       const { data: materials, error: matErr } = await supabase
         .from('lesson_materials')
-        .select('id, title_pt, title_en, file_url, file_type, position')
+        .select(await materialCols('id, title_pt, title_en, file_url, file_type, position'))
         .eq('lesson_id', current.id)
         .order('position', { ascending: true });
       if (matErr) throw matErr;
@@ -92,7 +95,9 @@ export function useLesson(courseSlug?: string, lessonSlug?: string) {
         modules: modules ?? [],
         ordered,
         lesson: lesson as typeof lesson & { videos: VideoInfo | null },
-        materials: (materials ?? []) as MaterialRow[],
+        // o select é montado em tempo de execução; o formato é garantido
+        // pelas colunas acima, a inferência do supabase-js não alcança aqui
+        materials: (materials ?? []) as unknown as MaterialRow[],
         prev: idx > 0 ? ordered[idx - 1] : null,
         next: idx < ordered.length - 1 ? ordered[idx + 1] : null,
       };

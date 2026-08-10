@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, Copy, Plus, Save, Trash2 } from 'lucide-react';
+import { ArrowLeft, Copy, Save } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
@@ -12,6 +12,7 @@ import { SubtitlesTab } from '@/components/course/SubtitlesTab';
 import { CloudVideoUpload } from '@/components/course/CloudVideoUpload';
 import { ThumbPicker } from '@/components/course/ThumbPicker';
 import { PendingSetupCard } from '@/components/course/PendingSetupCard';
+import { MaterialsTab } from '@/components/course/MaterialsTab';
 import { useThumbSupport } from '@/hooks/useThumbSupport';
 
 import { TutorContextTab } from '@/components/course/TutorContextTab';
@@ -48,13 +49,7 @@ const Inner = () => {
         .eq('id', lessonId!)
         .maybeSingle();
       if (error) throw error;
-      const { data: materials, error: mErr } = await supabase
-        .from('lesson_materials')
-        .select('*')
-        .eq('lesson_id', lessonId!)
-        .order('position', { ascending: true });
-      if (mErr) throw mErr;
-      return { lesson, materials: materials ?? [] };
+      return { lesson };
     },
   });
 
@@ -77,7 +72,6 @@ const Inner = () => {
   const thumbOk = useThumbSupport();
   const [form, setForm] = useState<Record<string, string>>({});
   const [vForm, setVForm] = useState<Record<string, string>>({});
-  const [material, setMaterial] = useState({ title: '', url: '', type: '' });
 
   useEffect(() => {
     if (!lesson) return;
@@ -392,69 +386,7 @@ const Inner = () => {
 
           <TabsContent value="materials" className="space-y-4 pt-4">
             <HelpCard id="lessonMaterials" />
-            <ul className="space-y-2">
-              {data?.materials.map((mt) => (
-                <li
-                  key={mt.id}
-                  className="flex items-center gap-3 rounded-lg border border-course-border bg-course-card px-4 py-3"
-                >
-                  <span className="min-w-0 flex-1 truncate font-body text-sm">{mt.title_pt}</span>
-                  <span className="font-body text-xs text-course-muted-foreground">{mt.file_type}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-course-muted-foreground hover:text-destructive"
-                    onClick={async () => {
-                      await supabase.from('lesson_materials').delete().eq('id', mt.id);
-                      refresh();
-                    }}
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
-                </li>
-              ))}
-              {!data?.materials.length && (
-                <li className="font-body text-sm text-course-muted-foreground">{t('lesson.noMaterials')}</li>
-              )}
-            </ul>
-            <div className="grid gap-3 sm:grid-cols-3">
-              <Input
-                value={material.title}
-                onChange={(e) => setMaterial((s) => ({ ...s, title: e.target.value }))}
-                placeholder={t('admin.materialTitle')}
-                className="border-course-border bg-course-background text-course-foreground"
-              />
-              <Input
-                value={material.url}
-                onChange={(e) => setMaterial((s) => ({ ...s, url: e.target.value }))}
-                placeholder="https://..."
-                className="border-course-border bg-course-background text-course-foreground"
-              />
-              <Input
-                value={material.type}
-                onChange={(e) => setMaterial((s) => ({ ...s, type: e.target.value }))}
-                placeholder="PDF"
-                className="border-course-border bg-course-background text-course-foreground"
-              />
-            </div>
-            <Button
-              className="bg-course-primary text-course-primary-foreground hover:bg-course-primary/90"
-              onClick={async () => {
-                if (!material.title.trim() || !material.url.trim()) return;
-                const { error } = await supabase.from('lesson_materials').insert({
-                  lesson_id: lessonId!,
-                  title_pt: material.title.trim(),
-                  file_url: material.url.trim(),
-                  file_type: material.type || null,
-                  position: (data?.materials.length ?? 0) + 1,
-                });
-                if (error) return toast.error(error.message);
-                setMaterial({ title: '', url: '', type: '' });
-                refresh();
-              }}
-            >
-              <Plus className="mr-2 h-4 w-4" /> {t('admin.addMaterial')}
-            </Button>
+            <MaterialsTab lessonId={lessonId!} />
           </TabsContent>
 
           <TabsContent value="subtitles" className="space-y-4 pt-4">

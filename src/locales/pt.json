@@ -565,7 +565,9 @@
     "recheck": "Conferir de novo",
     "rechecking": "Conferindo…",
     "thumbSafe": "Este comando só acrescenta um campo novo. Não apaga nem altera nada do que já existe.",
-    "thumbBlocked": "As miniaturas de vídeo ficam disponíveis assim que você rodar o comando indicado na Biblioteca de vídeos."
+    "thumbBlocked": "As miniaturas de vídeo ficam disponíveis assim que você rodar o comando indicado na Biblioteca de vídeos.",
+    "materialsTitle": "Falta um passo para o upload de material funcionar",
+    "materialsBody": "O banco ainda não tem os campos onde o arquivo enviado fica guardado. É um comando só: roda uma vez e pronto."
   },
   "servidor": {
     "titulo": "Servidor do HD",
@@ -648,5 +650,16 @@
     "seguro1": "Não grava nada: mexer aqui não altera curso, aula nem vídeo de verdade.",
     "seguro2": "Não mostra dado real de aluno — tudo que aparece é inventado e marcado com selo.",
     "seguro3": "Publicada, só abre para administrador; no computador de desenvolvimento, abre direto."
+  },
+  "materials": {
+    "external": "link externo",
+    "confirmDelete": "Remover este material? Não dá para desfazer.",
+    "loading": "carregando...",
+    "dropzone": "Arraste o arquivo aqui ou clique para escolher",
+    "limits": "PDF, Word, PowerPoint, planilha ou texto — até 50 MB",
+    "tooLarge": "O arquivo precisa ter menos de 50 MB",
+    "pasteLink": "Colar um link externo",
+    "download": "Baixar material",
+    "remove": "Remover material"
   }
 }

@@ -565,7 +565,9 @@
     "recheck": "Check again",
     "rechecking": "Checking…",
     "thumbSafe": "This command only adds a new field. It does not delete or change anything that already exists.",
-    "thumbBlocked": "Video thumbnails become available as soon as you run the command shown in the Video library."
+    "thumbBlocked": "Video thumbnails become available as soon as you run the command shown in the Video library.",
+    "materialsTitle": "One step left before material upload works",
+    "materialsBody": "The database doesn't have the fields that store the uploaded file yet. It's a single command: run it once and you're done."
   },
   "servidor": {
     "titulo": "Drive server",
@@ -648,5 +650,16 @@
     "seguro1": "It saves nothing: nothing here changes a real course, lesson or video.",
     "seguro2": "It shows no real student data — everything is made up and badged.",
     "seguro3": "Once published it opens for administrators only; on the development machine it opens directly."
+  },
+  "materials": {
+    "external": "external link",
+    "confirmDelete": "Remove this material? This cannot be undone.",
+    "loading": "loading...",
+    "dropzone": "Drag the file here or click to choose",
+    "limits": "PDF, Word, PowerPoint, spreadsheet or text — up to 50 MB",
+    "tooLarge": "The file must be under 50 MB",
+    "pasteLink": "Paste an external link",
+    "download": "Download material",
+    "remove": "Remove material"
   }
 }

@@ -1,19 +1,33 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Check, Copy, Database, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { useThumbSupport } from '@/hooks/useThumbSupport';
-import { THUMB_MIGRATION_SQL, resetThumbColumnCache } from '@/lib/thumbs';
+import { useColumnSupport, useRecheckColumn } from '@/hooks/useColumnSupport';
+import { THUMB_MIGRATION_SQL } from '@/lib/thumbs';
+
+type Props = {
+  /** por padrão, cobre a migração da miniatura de vídeo (Etapa A) */
+  table?: string;
+  column?: string;
+  sql?: string;
+  titleKey?: string;
+  bodyKey?: string;
+};
 
 /**
- * Aviso que aparece só enquanto o SQL da Etapa A não foi aplicado. Some
+ * Aviso que aparece só enquanto uma migração pendente não foi aplicada. Some
  * sozinho depois — ninguém precisa lembrar de removê-lo.
  */
-export const PendingSetupCard = () => {
+export const PendingSetupCard = ({
+  table = 'videos',
+  column = 'thumb_url',
+  sql = THUMB_MIGRATION_SQL,
+  titleKey = 'setup.thumbTitle',
+  bodyKey = 'setup.thumbBody',
+}: Props) => {
   const { t } = useTranslation();
-  const qc = useQueryClient();
-  const ok = useThumbSupport();
+  const ok = useColumnSupport(table, column);
+  const recheck = useRecheckColumn(table, column);
 
   if (ok) return null;
 
@@ -21,11 +35,9 @@ export const PendingSetupCard = () => {
     <section className="rounded-xl border border-amber-500/40 bg-amber-500/5 p-5">
       <div className="flex items-center gap-2">
         <Database className="h-5 w-5 text-amber-300" />
-        <h2 className="font-display text-lg font-semibold">{t('setup.thumbTitle')}</h2>
+        <h2 className="font-display text-lg font-semibold">{t(titleKey)}</h2>
       </div>
-      <p className="mt-1 font-body text-sm text-course-muted-foreground">
-        {t('setup.thumbBody')}
-      </p>
+      <p className="mt-1 font-body text-sm text-course-muted-foreground">{t(bodyKey)}</p>
 
       <ol className="mt-3 list-decimal space-y-1 pl-5 font-body text-sm text-course-foreground">
         <li>{t('setup.step1')}</li>
@@ -34,7 +46,7 @@ export const PendingSetupCard = () => {
       </ol>
 
       <pre className="mt-3 overflow-x-auto rounded-lg border border-course-border bg-course-background p-3 font-mono text-xs text-course-foreground">
-        {THUMB_MIGRATION_SQL}
+        {sql}
       </pre>
 
       <div className="mt-3 flex flex-wrap gap-2">
@@ -42,7 +54,7 @@ export const PendingSetupCard = () => {
           size="sm"
           className="bg-course-primary text-course-primary-foreground hover:bg-course-primary/90"
           onClick={() => {
-            void navigator.clipboard.writeText(THUMB_MIGRATION_SQL);
+            void navigator.clipboard.writeText(sql);
             toast.success(t('setup.copied'));
           }}
         >
@@ -53,10 +65,7 @@ export const PendingSetupCard = () => {
           variant="outline"
           className="border-course-border bg-course-card text-course-foreground"
           onClick={() => {
-            resetThumbColumnCache();
-            void qc.invalidateQueries({ queryKey: ['setup', 'thumb-column'] }).then(() =>
-              qc.invalidateQueries(),
-            );
+            void recheck();
             toast.success(t('setup.rechecking'));
           }}
         >

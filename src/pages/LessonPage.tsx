@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, ArrowRight, CheckCircle2, Download, Lock, LockOpen } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Lock, LockOpen } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { TranscriptPanel } from '@/components/course/TranscriptPanel';
 import { TutorPanel } from '@/components/course/TutorPanel';
+import { MaterialLink } from '@/components/course/MaterialLink';
 import { useLesson } from '@/hooks/useLesson';
 import { useStudentAuth } from '@/hooks/useStudentAuth';
 import { useEnrollment, useLessonProgress } from '@/hooks/useEnrollment';
@@ -162,20 +163,7 @@ const LessonPage = () => {
               <ul className="space-y-2">
                 {materials.map((m) => (
                   <li key={m.id}>
-                    <a
-                      href={m.file_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center gap-3 rounded-lg border border-course-border/70 px-4 py-3 font-body text-sm transition-colors hover:bg-course-secondary/60"
-                    >
-                      <Download size={16} className="text-course-primary" />
-                      <span className="flex-1 truncate">{pick(m.title_pt, m.title_en)}</span>
-                      {m.file_type && (
-                        <span className="font-body text-xs uppercase text-course-muted-foreground">
-                          {m.file_type}
-                        </span>
-                      )}
-                    </a>
+                    <MaterialLink material={m} />
                   </li>
                 ))}
               </ul>
