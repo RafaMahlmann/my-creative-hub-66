@@ -115,7 +115,8 @@
     "videoFree": "Free",
     "openLibrary": "Video library",
     "openStudents": "Students",
-    "backToDashboard": "Back to dashboard"
+    "backToDashboard": "Back to dashboard",
+    "devUiBanner": "Local inspection mode — this machine only. It grants no permissions: the database still blocks every write."
   },
   "home": {
     "hero": {
@@ -531,6 +532,31 @@
     "moveRight": "Move right",
     "makeFree": "Make it free",
     "makePaid": "Make it exclusive",
-    "addCourse": "New course"
+    "addCourse": "New course",
+    "thumbTitle": "Thumbnail",
+    "thumbHelp": "Pick an image to represent this video in the catalogue.",
+    "thumbAdd": "Add thumbnail",
+    "thumbChange": "Change thumbnail",
+    "thumbRemove": "Remove",
+    "thumbHint": "16:9 works best. Up to 5 MB.",
+    "thumbPasteLink": "Paste a link",
+    "thumbSaved": "Thumbnail updated",
+    "thumbFailed": "Could not upload the image",
+    "thumbTooLarge": "The image must be under 5 MB",
+    "thumbInvalid": "Choose an image file",
+    "coverTitle": "Course cover"
+  },
+  "setup": {
+    "thumbTitle": "One step left before thumbnails work",
+    "thumbBody": "The database doesn't have the field that stores the thumbnail address yet. It's a single command: run it once and you're done.",
+    "step1": "Open the database SQL editor — in the Supabase panel, or ask Lovable to run it.",
+    "step2": "Paste the command below and run it.",
+    "step3": "Come back here and click \"Check again\".",
+    "copySql": "Copy command",
+    "copied": "Command copied",
+    "recheck": "Check again",
+    "rechecking": "Checking…",
+    "thumbSafe": "This command only adds a new field. It does not delete or change anything that already exists.",
+    "thumbBlocked": "Video thumbnails become available as soon as you run the command shown in the Video library."
   }
 }

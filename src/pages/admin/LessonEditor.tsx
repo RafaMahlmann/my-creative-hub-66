@@ -10,6 +10,9 @@ import { HelpCard, HelpModeToggle, HelpNote } from '@/components/course/HelpCard
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { SubtitlesTab } from '@/components/course/SubtitlesTab';
 import { CloudVideoUpload } from '@/components/course/CloudVideoUpload';
+import { ThumbPicker } from '@/components/course/ThumbPicker';
+import { PendingSetupCard } from '@/components/course/PendingSetupCard';
+import { useThumbSupport } from '@/hooks/useThumbSupport';
 
 import { TutorContextTab } from '@/components/course/TutorContextTab';
 import { Button } from '@/components/ui/button';
@@ -65,11 +68,13 @@ const Inner = () => {
         source_path: string | null;
         source_note: string | null;
         storage_path: string | null;
+        thumb_url: string | null;
         status: Status;
       }
     | null
     | undefined;
 
+  const thumbOk = useThumbSupport();
   const [form, setForm] = useState<Record<string, string>>({});
   const [vForm, setVForm] = useState<Record<string, string>>({});
   const [material, setMaterial] = useState({ title: '', url: '', type: '' });
@@ -92,6 +97,7 @@ const Inner = () => {
       source_note: video?.source_note ?? '',
       status: video?.status ?? 'ideia',
       storage_path: video?.storage_path ?? '',
+      thumb_url: video?.thumb_url ?? '',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson?.id, video?.id]);
@@ -126,6 +132,8 @@ const Inner = () => {
       storage_path: v.storage_path || null,
       status: v.status as Status,
       is_free: !!lesson?.is_free,
+      // só enviamos a miniatura depois que o SQL da Etapa A rodou
+      ...(thumbOk ? { thumb_url: v.thumb_url || null } : {}),
     };
     if (video?.id) {
       const { error } = await supabase.from('videos').update(payload).eq('id', video.id);
@@ -211,6 +219,23 @@ const Inner = () => {
 
           <TabsContent value="video" className="space-y-4 pt-4">
             <HelpCard id="lessonVideo" />
+
+            <PendingSetupCard />
+
+            <div className="max-w-sm space-y-1">
+              <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
+                {t('editor.thumbTitle')}
+              </span>
+              <ThumbPicker
+                url={vForm.thumb_url || null}
+                disabled={!thumbOk}
+                onChange={(u) => {
+                  setVForm((s) => ({ ...s, thumb_url: u ?? '' }));
+                  void saveVideo({ thumb_url: u ?? '' });
+                }}
+              />
+            </div>
+
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="space-y-1">
                 <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">

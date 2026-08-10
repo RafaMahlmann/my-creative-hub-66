@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Lock, LockOpen, PlayCircle, Pencil, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Lock, LockOpen, PlayCircle, Pencil, ArrowLeft, ArrowRight, ImagePlus } from 'lucide-react';
 import { pick } from '@/lib/course';
 
 type Props = {
@@ -16,6 +16,7 @@ type Props = {
   onToggleFree?: () => void;
   onMoveLeft?: () => void;
   onMoveRight?: () => void;
+  onEditThumb?: () => void;
 };
 
 export const CourseCard = ({
@@ -30,6 +31,7 @@ export const CourseCard = ({
   onToggleFree,
   onMoveLeft,
   onMoveRight,
+  onEditThumb,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -109,6 +111,17 @@ export const CourseCard = ({
               className="rounded-full bg-course-background/90 p-1.5 text-course-foreground shadow hover:bg-course-primary hover:text-course-primary-foreground"
             >
               {isFree ? <LockOpen size={13} /> : <Lock size={13} />}
+            </button>
+          )}
+          {onEditThumb && (
+            <button
+              type="button"
+              onClick={onEditThumb}
+              title={coverUrl ? t('editor.thumbChange') : t('editor.thumbAdd')}
+              aria-label={coverUrl ? t('editor.thumbChange') : t('editor.thumbAdd')}
+              className="rounded-full bg-course-background/90 p-1.5 text-course-foreground shadow hover:bg-course-primary hover:text-course-primary-foreground"
+            >
+              <ImagePlus size={13} />
             </button>
           )}
           {editHref && (

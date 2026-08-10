@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { ThumbPicker } from '@/components/course/ThumbPicker';
 import { useAdminVideos } from '@/hooks/useAdminVideos';
 import { useAdminCourses, useAdminMutations } from '@/hooks/useAdminCourses';
 import { useHomeEditing } from '@/hooks/useHomeEditing';
@@ -110,15 +111,14 @@ export const FeaturedEditorDialog = ({ open, onOpenChange, courseId }: Props) =>
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label className="font-body text-sm">{t('editor.fieldTitle')}</Label>
-              <Input value={title} onChange={(e) => setTitle(e.target.value)} className="border-course-border bg-course-background" />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="font-body text-sm">{t('editor.fieldCover')}</Label>
-              <Input value={cover} onChange={(e) => setCover(e.target.value)} placeholder="https://…" className="border-course-border bg-course-background" />
-            </div>
+          <div className="space-y-1.5">
+            <Label className="font-body text-sm">{t('editor.fieldTitle')}</Label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} className="border-course-border bg-course-background" />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label className="font-body text-sm">{t('editor.fieldCover')}</Label>
+            <ThumbPicker url={cover || null} onChange={(u) => setCover(u ?? '')} />
           </div>
 
           <div className="space-y-1.5">

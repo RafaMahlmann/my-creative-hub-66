@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { videoCols } from '@/lib/thumbs';
 
 export type CourseRow = {
   id: string;
@@ -39,7 +40,7 @@ export type LessonRow = {
   position: number;
   is_free: boolean;
   module_id: string;
-  videos: { duration_seconds: number | null } | null;
+  videos: { duration_seconds: number | null; thumb_url?: string | null } | null;
 };
 
 export type ModuleWithLessons = {
@@ -81,7 +82,7 @@ export function useCourseDetail(courseSlug?: string) {
         const { data: lessonData, error: lErr } = await supabase
           .from('lessons')
           .select(
-            'id, slug, title_pt, title_en, description_pt, description_en, position, is_free, module_id, videos(duration_seconds)'
+            `id, slug, title_pt, title_en, description_pt, description_en, position, is_free, module_id, videos(${await videoCols('duration_seconds')})`
           )
           .in('module_id', moduleIds)
           .eq('is_published', true)
@@ -109,7 +110,7 @@ export type FreeLesson = {
   description_en: string | null;
   is_free: boolean;
   modules: { id: string; slug: string; courses: { id: string; slug: string; title_pt: string; title_en: string | null } | null } | null;
-  videos: { duration_seconds: number | null } | null;
+  videos: { id: string; duration_seconds: number | null; thumb_url?: string | null } | null;
 };
 
 export function useFreeLessons() {
@@ -119,7 +120,7 @@ export function useFreeLessons() {
       const { data, error } = await supabase
         .from('lessons')
         .select(
-          'id, slug, title_pt, title_en, description_pt, description_en, is_free, modules(id, slug, courses(id, slug, title_pt, title_en)), videos(duration_seconds)'
+          `id, slug, title_pt, title_en, description_pt, description_en, is_free, modules(id, slug, courses(id, slug, title_pt, title_en)), videos(${await videoCols('id, duration_seconds')})`
         )
         .eq('is_free', true)
         .eq('is_published', true)

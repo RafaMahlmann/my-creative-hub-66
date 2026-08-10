@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { isDevAdminUI } from '@/lib/devAdmin';
 
 export function useAdminAuth() {
+  // Só destrava a interface no desenvolvimento local; o banco segue mandando.
+  const devAdmin = isDevAdminUI();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState<string | null>(null);
@@ -41,5 +44,5 @@ export function useAdminAuth() {
     };
   }, []);
 
-  return { isAdmin, loading, email };
+  return { isAdmin: isAdmin || devAdmin, loading: loading && !devAdmin, email, devAdmin };
 }

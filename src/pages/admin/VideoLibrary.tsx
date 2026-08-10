@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, CloudUpload, Copy, Plus, Search, Trash2 } from 'lucide-react';
+import { ArrowLeft, CloudUpload, Copy, ImagePlus, Plus, Search, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
+import { PendingSetupCard } from '@/components/course/PendingSetupCard';
+import { ThumbEditorDialog } from '@/components/course/ThumbEditorDialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -38,70 +40,80 @@ const statusTone: Record<VideoStatus, string> = {
   publicado: 'bg-emerald-500/15 text-emerald-300',
 };
 
-const VideoCard = ({ video }: { video: AdminVideo }) => {
+const VideoCard = ({ video, onEditThumb }: { video: AdminVideo; onEditThumb: () => void }) => {
   const { t } = useTranslation();
   const { updateVideo, deleteVideo } = useAdminVideoMutations();
   const [path, setPath] = useState(video.source_path ?? '');
   const [note, setNote] = useState(video.source_note ?? '');
 
   const save = (patch: Partial<AdminVideo>) => updateVideo.mutate({ id: video.id, ...patch });
+  const duration = formatDuration(video.duration_seconds);
 
   return (
-    <li className="rounded-xl border border-course-border bg-course-card p-5">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-[14rem] flex-1">
-          <Input
-            defaultValue={video.title_pt}
-            onBlur={(e) => e.target.value !== video.title_pt && save({ title_pt: e.target.value })}
-            className="border-transparent bg-transparent px-0 font-display text-lg font-semibold text-course-foreground focus-visible:border-course-border focus-visible:px-3"
-          />
-          <div className="mt-1 flex flex-wrap items-center gap-2">
-            <Badge className={`border-none font-body text-xs ${statusTone[video.status]}`}>
-              {t(`admin.status_${video.status}`)}
-            </Badge>
-            {video.storage_path && video.provider === 'file' && (
-              <Badge className="border-none bg-amber-500/15 font-body text-xs text-amber-300">
-                {t('upload.badgeCloud')}
-              </Badge>
-            )}
-            {video.provider === 'vimeo' && video.ref && (
-              <Badge className="border-none bg-emerald-500/15 font-body text-xs text-emerald-300">
-                {t('upload.badgeVimeo')}
-              </Badge>
-            )}
-            <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
-              {video.provider}
-            </span>
-            {formatDuration(video.duration_seconds) && (
-              <span className="font-body text-xs text-course-muted-foreground">
-                {formatDuration(video.duration_seconds)}
-              </span>
-            )}
+    <li className="flex flex-col overflow-hidden rounded-xl border border-course-border bg-course-card">
+      <button
+        type="button"
+        onClick={onEditThumb}
+        title={video.thumb_url ? t('editor.thumbChange') : t('editor.thumbAdd')}
+        className="group relative flex aspect-video w-full items-center justify-center overflow-hidden bg-course-secondary"
+      >
+        {video.thumb_url ? (
+          <img src={video.thumb_url} alt="" loading="lazy" className="h-full w-full object-cover" />
+        ) : (
+          <div className="flex flex-col items-center gap-1 text-course-muted-foreground">
+            <ImagePlus size={24} strokeWidth={1.3} />
+            <span className="font-body text-xs">{t('editor.thumbAdd')}</span>
           </div>
+        )}
 
+        <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all group-hover:bg-black/45 group-hover:opacity-100">
+          <span className="flex items-center gap-1.5 font-body text-sm text-white">
+            <ImagePlus size={15} /> {t('editor.thumbChange')}
+          </span>
         </div>
 
-        <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 font-body text-xs text-course-muted-foreground">
+        <span className="pointer-events-none absolute left-2 top-2 flex flex-wrap gap-1">
+          <Badge className={`border-none font-body text-[11px] ${statusTone[video.status]}`}>
+            {t(`admin.status_${video.status}`)}
+          </Badge>
+          {video.storage_path && video.provider === 'file' && (
+            <Badge className="border-none bg-amber-500/15 font-body text-[11px] text-amber-300">
+              {t('upload.badgeCloud')}
+            </Badge>
+          )}
+          {video.provider === 'vimeo' && video.ref && (
+            <Badge className="border-none bg-emerald-500/15 font-body text-[11px] text-emerald-300">
+              {t('upload.badgeVimeo')}
+            </Badge>
+          )}
+        </span>
+
+        {duration && (
+          <span className="pointer-events-none absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 font-body text-[11px] text-white">
+            {duration}
+          </span>
+        )}
+      </button>
+
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        <Input
+          defaultValue={video.title_pt}
+          onBlur={(e) => e.target.value !== video.title_pt && save({ title_pt: e.target.value })}
+          className="border-transparent bg-transparent px-0 font-display text-base font-semibold text-course-foreground focus-visible:border-course-border focus-visible:px-3"
+        />
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
+            {video.provider}
+          </span>
+          <label className="ml-auto flex items-center gap-2 font-body text-xs text-course-muted-foreground">
             {t('admin.videoFree')}
             <Switch checked={video.is_free} onCheckedChange={(v) => save({ is_free: v })} />
           </label>
-          <Select value={video.status} onValueChange={(v) => save({ status: v as VideoStatus })}>
-            <SelectTrigger className="w-36 border-course-border bg-course-background text-course-foreground">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {STATUSES.map((s) => (
-                <SelectItem key={s} value={s}>
-                  {t(`admin.status_${s}`)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
           <Button
             variant="ghost"
             size="icon"
-            className="text-course-muted-foreground hover:text-red-400"
+            className="h-8 w-8 text-course-muted-foreground hover:text-red-400"
             onClick={() => {
               if (confirm(t('admin.confirmDelete'))) deleteVideo.mutate(video.id);
             }}
@@ -109,9 +121,20 @@ const VideoCard = ({ video }: { video: AdminVideo }) => {
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>
-      </div>
 
-      <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <Select value={video.status} onValueChange={(v) => save({ status: v as VideoStatus })}>
+          <SelectTrigger className="border-course-border bg-course-background text-course-foreground">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {STATUSES.map((s) => (
+              <SelectItem key={s} value={s}>
+                {t(`admin.status_${s}`)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
         <div>
           <label className="font-body text-xs text-course-muted-foreground">{t('admin.sourcePath')}</label>
           <div className="mt-1 flex gap-2">
@@ -120,11 +143,12 @@ const VideoCard = ({ video }: { video: AdminVideo }) => {
               onChange={(e) => setPath(e.target.value)}
               onBlur={() => path !== (video.source_path ?? '') && save({ source_path: path || null })}
               placeholder="D:\\videos\\aula01.mp4"
-              className="border-course-border bg-course-background text-course-foreground"
+              className="border-course-border bg-course-background font-body text-xs text-course-foreground"
             />
             <Button
               variant="outline"
-              className="border-course-border bg-course-card text-course-foreground"
+              size="icon"
+              className="shrink-0 border-course-border bg-course-card text-course-foreground"
               onClick={() => {
                 navigator.clipboard.writeText(path);
                 toast.success(t('admin.copied'));
@@ -134,37 +158,38 @@ const VideoCard = ({ video }: { video: AdminVideo }) => {
             </Button>
           </div>
         </div>
+
         <div>
           <label className="font-body text-xs text-course-muted-foreground">{t('admin.sourceNote')}</label>
           <Input
             value={note}
             onChange={(e) => setNote(e.target.value)}
             onBlur={() => note !== (video.source_note ?? '') && save({ source_note: note || null })}
-            className="mt-1 border-course-border bg-course-background text-course-foreground"
+            className="mt-1 border-course-border bg-course-background font-body text-xs text-course-foreground"
           />
         </div>
-      </div>
 
-      <div className="mt-4">
-        <p className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
-          {t('admin.usedIn')}
-        </p>
-        {video.usage.length === 0 ? (
-          <p className="font-body text-sm text-course-muted-foreground">{t('admin.notUsed')}</p>
-        ) : (
-          <div className="mt-1 flex flex-wrap gap-2">
-            {video.usage.map((u, i) => (
-              <Link
-                key={i}
-                to={u.href}
-                className="rounded-full border border-course-border px-3 py-1 font-body text-xs text-course-foreground transition-colors hover:border-course-primary hover:text-course-primary"
-              >
-                {u.kind === 'trailer' ? `${t('admin.trailer')}: ` : ''}
-                {u.label}
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className="mt-auto">
+          <p className="font-body text-xs uppercase tracking-wide text-course-muted-foreground">
+            {t('admin.usedIn')}
+          </p>
+          {video.usage.length === 0 ? (
+            <p className="font-body text-sm text-course-muted-foreground">{t('admin.notUsed')}</p>
+          ) : (
+            <div className="mt-1 flex flex-wrap gap-2">
+              {video.usage.map((u, i) => (
+                <Link
+                  key={i}
+                  to={u.href}
+                  className="rounded-full border border-course-border px-3 py-1 font-body text-xs text-course-foreground transition-colors hover:border-course-primary hover:text-course-primary"
+                >
+                  {u.kind === 'trailer' ? `${t('admin.trailer')}: ` : ''}
+                  {u.label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </li>
   );
@@ -173,11 +198,12 @@ const VideoCard = ({ video }: { video: AdminVideo }) => {
 const Inner = () => {
   const { t } = useTranslation();
   const { data: videos, isLoading } = useAdminVideos();
-  const { createVideo } = useAdminVideoMutations();
+  const { createVideo, updateVideo } = useAdminVideoMutations();
   const [title, setTitle] = useState('');
   const [q, setQ] = useState('');
   const [status, setStatus] = useState<string>('all');
   const [provider, setProvider] = useState<string>('all');
+  const [thumbFor, setThumbFor] = useState<AdminVideo | null>(null);
 
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase();
@@ -212,6 +238,8 @@ const Inner = () => {
         </header>
 
         <HelpCard id="videoLibrary" />
+
+        <PendingSetupCard />
 
         <section className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
           <div className="flex items-center gap-2">
@@ -311,13 +339,20 @@ const Inner = () => {
             {t('admin.noVideos')}
           </p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((v) => (
-              <VideoCard key={v.id} video={v} />
+              <VideoCard key={v.id} video={v} onEditThumb={() => setThumbFor(v)} />
             ))}
           </ul>
         )}
       </div>
+
+      <ThumbEditorDialog
+        open={!!thumbFor}
+        onOpenChange={(v) => !v && setThumbFor(null)}
+        url={thumbFor?.thumb_url}
+        onSave={(url) => thumbFor && updateVideo.mutate({ id: thumbFor.id, thumb_url: url })}
+      />
     </CourseShell>
   );
 };

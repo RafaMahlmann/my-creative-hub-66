@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import type { Database } from '@/integrations/supabase/types';
+import { videoCols } from '@/lib/thumbs';
 
 export type VideoProvider = Database['public']['Enums']['video_provider'];
 export type VideoStatus = Database['public']['Enums']['video_status'];
@@ -24,6 +25,8 @@ export type AdminVideo = {
   source_note: string | null;
   storage_path: string | null;
   status: VideoStatus;
+  /** ausente enquanto o SQL da Etapa A não roda — ver lib/thumbs.ts */
+  thumb_url?: string | null;
   usage: VideoUsage[];
 };
 
@@ -31,9 +34,12 @@ export function useAdminVideos() {
   return useQuery({
     queryKey: ['admin', 'videos'],
     queryFn: async (): Promise<AdminVideo[]> => {
+      const cols = await videoCols(
+        'id, title_pt, title_en, provider, ref, duration_seconds, is_free, source_path, source_note, storage_path, status',
+      );
       const { data: videos, error } = await supabase
         .from('videos')
-        .select('id, title_pt, title_en, provider, ref, duration_seconds, is_free, source_path, source_note, storage_path, status')
+        .select(cols)
         .order('created_at', { ascending: false });
       if (error) throw error;
 
@@ -71,7 +77,10 @@ export function useAdminVideos() {
         });
       }
 
-      return (videos ?? []).map((v) => ({ ...v, usage: usageByVideo.get(v.id) ?? [] }));
+      // o select é montado em tempo de execução, então a inferência do
+      // supabase-js não alcança — o formato é garantido pelas colunas acima
+      const rows = (videos ?? []) as unknown as Omit<AdminVideo, 'usage'>[];
+      return rows.map((v) => ({ ...v, usage: usageByVideo.get(v.id) ?? [] }));
     },
   });
 }

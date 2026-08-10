@@ -115,7 +115,8 @@
     "videoFree": "Gratuito",
     "openLibrary": "Biblioteca de vídeos",
     "openStudents": "Alunos",
-    "backToDashboard": "Voltar ao painel"
+    "backToDashboard": "Voltar ao painel",
+    "devUiBanner": "Modo de inspeção local — só na sua máquina. Não dá permissão nenhuma: o banco continua bloqueando as gravações."
   },
   "home": {
     "hero": {
@@ -531,6 +532,31 @@
     "moveRight": "Mover para a direita",
     "makeFree": "Tornar gratuita",
     "makePaid": "Tornar exclusiva",
-    "addCourse": "Novo curso"
+    "addCourse": "Novo curso",
+    "thumbTitle": "Miniatura",
+    "thumbHelp": "Escolha uma imagem para representar este vídeo no catálogo.",
+    "thumbAdd": "Adicionar miniatura",
+    "thumbChange": "Trocar miniatura",
+    "thumbRemove": "Remover",
+    "thumbHint": "Proporção 16:9 fica melhor. Até 5 MB.",
+    "thumbPasteLink": "Colar link",
+    "thumbSaved": "Miniatura atualizada",
+    "thumbFailed": "Não foi possível enviar a imagem",
+    "thumbTooLarge": "A imagem precisa ter menos de 5 MB",
+    "thumbInvalid": "Escolha um arquivo de imagem",
+    "coverTitle": "Capa do curso"
+  },
+  "setup": {
+    "thumbTitle": "Falta um passo para as miniaturas funcionarem",
+    "thumbBody": "O banco ainda não tem o campo onde o endereço da miniatura fica guardado. É um comando só: roda uma vez e pronto.",
+    "step1": "Abra o editor de SQL do banco — no painel do Supabase, ou peça ao Lovable para rodar.",
+    "step2": "Cole o comando abaixo e execute.",
+    "step3": "Volte aqui e clique em \"Conferir de novo\".",
+    "copySql": "Copiar comando",
+    "copied": "Comando copiado",
+    "recheck": "Conferir de novo",
+    "rechecking": "Conferindo…",
+    "thumbSafe": "Este comando só acrescenta um campo novo. Não apaga nem altera nada do que já existe.",
+    "thumbBlocked": "As miniaturas de vídeo ficam disponíveis assim que você rodar o comando indicado na Biblioteca de vídeos."
   }
 }

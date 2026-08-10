@@ -10,10 +10,18 @@ import { CourseCard } from '@/components/course/CourseCard';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { EditModeBar } from '@/components/course/EditModeBar';
 import { FeaturedEditorDialog } from '@/components/course/FeaturedEditorDialog';
+import { ThumbEditorDialog } from '@/components/course/ThumbEditorDialog';
 import { useCourses, useFreeLessons } from '@/hooks/useCourses';
 import { useCourseEditMode } from '@/hooks/useCourseEditMode';
 import { useHomeEditing } from '@/hooks/useHomeEditing';
+import { useAdminMutations } from '@/hooks/useAdminCourses';
+import { useAdminVideoMutations } from '@/hooks/useAdminVideos';
 import { pick, formatDuration } from '@/lib/course';
+
+/** Alvo da troca de miniatura: capa de curso ou miniatura de vídeo. */
+type ThumbTarget =
+  | { kind: 'course'; id: string; url: string | null }
+  | { kind: 'video'; id: string; url: string | null };
 
 const CardSkeletons = () => (
   <>
@@ -33,7 +41,19 @@ const CourseIndex = () => {
   const { data: freeLessons, isLoading: loadingFree } = useFreeLessons();
   const { editing } = useCourseEditMode();
   const { swapCoursePositions, toggleLessonFree } = useHomeEditing();
+  const { updateCourse } = useAdminMutations();
+  const { updateVideo } = useAdminVideoMutations();
   const [featuredOpen, setFeaturedOpen] = useState(false);
+  const [thumbTarget, setThumbTarget] = useState<ThumbTarget | null>(null);
+
+  const saveThumb = (url: string | null) => {
+    if (!thumbTarget) return;
+    if (thumbTarget.kind === 'course') {
+      updateCourse.mutate({ id: thumbTarget.id, cover_url: url } as never);
+    } else {
+      updateVideo.mutate({ id: thumbTarget.id, thumb_url: url });
+    }
+  };
 
   const featured = courses?.find((c) => c.is_featured) ?? courses?.[0];
   const lang = i18n.language;
@@ -182,6 +202,11 @@ const CourseIndex = () => {
                 editHref={`/curso/admin/${c.id}`}
                 onMoveLeft={i > 0 ? () => move(i, -1) : undefined}
                 onMoveRight={i < courses.length - 1 ? () => move(i, 1) : undefined}
+                onEditThumb={
+                  editing
+                    ? () => setThumbTarget({ kind: 'course', id: c.id, url: c.cover_url })
+                    : undefined
+                }
               />
             ))
           ) : (
@@ -195,17 +220,29 @@ const CourseIndex = () => {
           ) : freeLessons?.length ? (
             freeLessons.map((l) => {
               const courseId = l.modules?.courses?.id;
+              const video = l.videos;
               return (
                 <CourseCard
                   key={`${l.id}-${lang}`}
                   to={`/curso/${l.modules?.courses?.slug ?? ''}/${l.slug}`}
                   title={pick(l.title_pt, l.title_en)}
                   subtitle={pick(l.description_pt, l.description_en)}
+                  coverUrl={video?.thumb_url}
                   isFree={l.is_free}
-                  meta={formatDuration(l.videos?.duration_seconds)}
+                  meta={formatDuration(video?.duration_seconds)}
                   editing={editing}
                   editHref={courseId ? `/curso/admin/${courseId}/aula/${l.id}` : undefined}
                   onToggleFree={() => toggleLessonFree.mutate({ id: l.id, isFree: !l.is_free })}
+                  onEditThumb={
+                    editing && video?.id
+                      ? () =>
+                          setThumbTarget({
+                            kind: 'video',
+                            id: video.id,
+                            url: video.thumb_url ?? null,
+                          })
+                      : undefined
+                  }
                 />
               );
             })
@@ -217,6 +254,14 @@ const CourseIndex = () => {
 
       <EditModeBar />
       <FeaturedEditorDialog open={featuredOpen} onOpenChange={setFeaturedOpen} courseId={featured?.id} />
+      <ThumbEditorDialog
+        open={!!thumbTarget}
+        onOpenChange={(v) => !v && setThumbTarget(null)}
+        url={thumbTarget?.url}
+        onSave={saveThumb}
+        ignoreSetup={thumbTarget?.kind === 'course'}
+        title={thumbTarget?.kind === 'course' ? t('editor.coverTitle') : undefined}
+      />
     </CourseShell>
   );
 };

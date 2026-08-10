@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const AdminGuard = ({ children }: { children: ReactNode }) => {
-  const { isAdmin, loading } = useAdminAuth();
+  const { isAdmin, loading, devAdmin } = useAdminAuth();
   const { t } = useTranslation();
 
   if (loading) {
@@ -37,5 +37,14 @@ export const AdminGuard = ({ children }: { children: ReactNode }) => {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {devAdmin && (
+        <p className="bg-amber-500 px-4 py-1.5 text-center font-body text-xs font-semibold text-black">
+          {t('admin.devUiBanner')}
+        </p>
+      )}
+      {children}
+    </>
+  );
 };
