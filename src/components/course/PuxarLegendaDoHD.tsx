@@ -15,12 +15,15 @@ import {
   mesmoArquivo,
   useBibliotecaLocal,
   useServidorLocal,
+  type VideoLocal,
 } from '@/hooks/useServidorLocal';
 
 type Props = {
   /** caminho do arquivo original no computador, usado para casar sozinho */
   sourcePath?: string | null;
   onChegou: (vtt: string) => void;
+  /** lista fixa para a página de Simulação; sem isto, consulta o servidor */
+  simular?: VideoLocal[];
 };
 
 /**
@@ -28,16 +31,19 @@ type Props = {
  * ou OpenAI, conforme configurado lá). É de graça e vem com tempo por palavra
  * — bem mais preciso do que transcrever aqui pela IA do site.
  */
-export const PuxarLegendaDoHD = ({ sourcePath, onChegou }: Props) => {
+export const PuxarLegendaDoHD = ({ sourcePath, onChegou, simular }: Props) => {
   const { t } = useTranslation();
-  const { ligado } = useServidorLocal();
-  const { data: biblioteca, isLoading } = useBibliotecaLocal(ligado);
+  const simulando = simular !== undefined;
+  const real = useServidorLocal();
+  const ligado = simulando || real.ligado;
+  const { data: biblioteca, isLoading: carregando } = useBibliotecaLocal(!simulando && real.ligado);
+  const isLoading = simulando ? false : carregando;
   const [baixando, setBaixando] = useState(false);
   const [escolhido, setEscolhido] = useState<string>('');
 
   const comLegenda = useMemo(
-    () => (biblioteca?.itens ?? []).filter((v) => !!v.legenda),
-    [biblioteca],
+    () => (simular ?? biblioteca?.itens ?? []).filter((v) => !!v.legenda),
+    [simular, biblioteca],
   );
 
   // Se o caminho do arquivo original bate com algum vídeo do HD, já sugere.

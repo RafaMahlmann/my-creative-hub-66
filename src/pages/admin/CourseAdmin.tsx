@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film, Users } from 'lucide-react';
+import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film, Users, FlaskConical } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
@@ -49,6 +49,11 @@ const Inner = () => {
           <Link to="/curso/admin/videos">
             <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
               <Film className="mr-2 h-4 w-4" /> {t('admin.openLibrary')}
+            </Button>
+          </Link>
+          <Link to="/curso/admin/simulacao">
+            <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
+              <FlaskConical className="mr-2 h-4 w-4" /> {t('simulacao.titulo')}
             </Button>
           </Link>
         </header>

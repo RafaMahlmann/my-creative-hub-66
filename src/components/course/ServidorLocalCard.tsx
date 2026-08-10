@@ -3,19 +3,33 @@ import { useTranslation } from 'react-i18next';
 import { HardDrive, RefreshCw, ExternalLink, Film, Copy, ChevronDown, Subtitles } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { SERVIDOR_LOCAL, useServidorLocal } from '@/hooks/useServidorLocal';
+import { SERVIDOR_LOCAL, useServidorLocal, type SaudeServidor } from '@/hooks/useServidorLocal';
 
 const ARQUIVO_INICIAR = 'INICIAR-SERVIDOR.bat';
+
+type Props = {
+  /**
+   * Dados fixos para a página de Simulação: `null` mostra o estado desligado.
+   * Quando ausente (o caso normal), o cartão consulta o servidor de verdade.
+   */
+  simular?: SaudeServidor | null;
+};
 
 /**
  * Estado do servidor que roda no HD externo — e, quando ele está desligado,
  * o passo a passo de como ligar. Desligado é situação normal (o HD pode estar
  * na gaveta), então o cartão ensina em vez de alarmar.
  */
-export const ServidorLocalCard = () => {
+export const ServidorLocalCard = ({ simular }: Props = {}) => {
   const { t } = useTranslation();
-  const { ligado, saude, verificando, reverificar } = useServidorLocal();
+  const real = useServidorLocal();
   const [abertoAjuda, setAbertoAjuda] = useState(false);
+
+  const simulando = simular !== undefined;
+  const ligado = simulando ? !!simular : real.ligado;
+  const saude = simulando ? simular : real.saude;
+  const verificando = simulando ? false : real.verificando;
+  const reverificar = simulando ? () => {} : real.reverificar;
 
   const legendando = saude?.legendando;
 

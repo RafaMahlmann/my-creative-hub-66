@@ -17,6 +17,7 @@ import LessonEditor from "./pages/admin/LessonEditor";
 import StudentAuth from "./pages/StudentAuth";
 import MyLessons from "./pages/MyLessons";
 import Students from "./pages/admin/Students";
+import Simulacao from "./pages/admin/Simulacao";
 import SegurancaPage from "./pages/SegurancaPage";
 import { StudentConsentGate } from "./components/course/StudentConsentGate";
 import NotFound from "./pages/NotFound";
@@ -47,6 +48,7 @@ const App = () => (
             <Route path="/curso/admin" element={<CourseAdmin />} />
             <Route path="/curso/admin/alunos" element={<Students />} />
             <Route path="/curso/admin/videos" element={<VideoLibrary />} />
+            <Route path="/curso/admin/simulacao" element={<Simulacao />} />
             <Route path="/curso/admin/:courseId" element={<CourseEditor />} />
 
             <Route path="/curso/admin/:courseId/aula/:lessonId" element={<LessonEditor />} />
