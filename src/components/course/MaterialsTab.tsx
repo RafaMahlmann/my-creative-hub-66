@@ -9,7 +9,11 @@ import { useColumnSupport } from '@/hooks/useColumnSupport';
 import { useLessonMaterials, useLessonMaterialMutations, type LessonMaterial } from '@/hooks/useLessonMaterials';
 import { MATERIALS_ACCEPT, MATERIALS_MAX_BYTES, MATERIALS_MIGRATION_SQL, formatBytes, signedMaterialUrl } from '@/lib/materials';
 
-type Props = { lessonId: string };
+type Props = {
+  lessonId: string;
+  /** lista fixa para a página de Simulação; sem isto, usa os hooks reais */
+  simular?: LessonMaterial[];
+};
 
 /** Uma linha da lista — recebe as ações já ligadas ao lessonId do pai. */
 const MaterialRowInner = ({
@@ -94,11 +98,18 @@ const MaterialRowInner = ({
  * (colar link continua existindo para um recurso externo legítimo, mas em
  * segundo plano — não é mais o único jeito de anexar algo).
  */
-export const MaterialsTab = ({ lessonId }: Props) => {
+export const MaterialsTab = ({ lessonId, simular }: Props) => {
   const { t } = useTranslation();
+  const simulando = simular !== undefined;
   const ok = useColumnSupport('lesson_materials', 'storage_path');
-  const { data: materials, isLoading } = useLessonMaterials(lessonId);
-  const { uploadFile, addLink, rename, remove } = useLessonMaterialMutations(lessonId);
+  const real = useLessonMaterials(simulando ? undefined : lessonId);
+  const materials = simulando ? simular : real.data;
+  const isLoading = simulando ? false : real.isLoading;
+  const semOp = { mutate: () => toast.info(t('simulacao.selo')), isPending: false };
+  const realMut = useLessonMaterialMutations(simulando ? undefined : lessonId);
+  const { uploadFile, addLink, rename, remove } = simulando
+    ? { uploadFile: semOp, addLink: semOp, rename: semOp, remove: semOp }
+    : realMut;
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [drag, setDrag] = useState(false);

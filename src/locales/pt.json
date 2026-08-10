@@ -639,6 +639,8 @@
     "exServidorOffDesc": "Estado normal quando o HD está na gaveta. A tela ensina como ligar.",
     "exLegenda": "Trazer a legenda do HD",
     "exLegendaDesc": "Aparece no editor da aula, na aba Legendas, quando o servidor está no ar.",
+    "exMateriais": "Materiais de apoio da aula",
+    "exMateriaisDesc": "Arrastar arquivo, ou colar um link externo. Aqui a lista é fixa — nada é enviado de verdade.",
     "exMiniatura": "Escolher a miniatura",
     "exMiniaturaDesc": "Clique na área para escolher a imagem. Aqui funciona de verdade, mas nada é salvo.",
     "exVitrine": "Cartões da vitrine",

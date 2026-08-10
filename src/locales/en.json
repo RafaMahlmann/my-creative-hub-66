@@ -639,6 +639,8 @@
     "exServidorOffDesc": "Normal when the drive is unplugged. The screen explains how to start it.",
     "exLegenda": "Pull the subtitle from the drive",
     "exLegendaDesc": "Appears in the lesson editor, Subtitles tab, when the server is online.",
+    "exMateriais": "Lesson support materials",
+    "exMateriaisDesc": "Drag a file, or paste an external link. The list is fixed here — nothing is really uploaded.",
     "exMiniatura": "Pick the thumbnail",
     "exMiniaturaDesc": "Click the area to choose an image. It really works here, but nothing is saved.",
     "exVitrine": "Catalogue cards",

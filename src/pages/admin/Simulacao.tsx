@@ -8,10 +8,11 @@ import { ServidorLocalCard } from '@/components/course/ServidorLocalCard';
 import { PuxarLegendaDoHD } from '@/components/course/PuxarLegendaDoHD';
 import { ThumbPicker } from '@/components/course/ThumbPicker';
 import { CourseCard } from '@/components/course/CourseCard';
+import { MaterialsTab } from '@/components/course/MaterialsTab';
 import { MolduraSimulacao, SeloSimulacao } from '@/components/course/SeloSimulacao';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { useSimulacao, SIM_SAUDE, SIM_SAUDE_LEGENDANDO, SIM_VIDEOS } from '@/lib/simulacao';
+import { useSimulacao, SIM_SAUDE, SIM_SAUDE_LEGENDANDO, SIM_VIDEOS, SIM_MATERIAIS } from '@/lib/simulacao';
 
 /**
  * Vitrine das telas de administração com dados de exemplo.
@@ -157,6 +158,10 @@ const Inner = () => {
                   onChegou={() => {}}
                   simular={SIM_VIDEOS}
                 />
+              </MolduraSimulacao>
+
+              <MolduraSimulacao titulo={t('simulacao.exMateriais')} descricao={t('simulacao.exMateriaisDesc')}>
+                <MaterialsTab lessonId="exemplo" simular={SIM_MATERIAIS} />
               </MolduraSimulacao>
 
               <MolduraSimulacao titulo={t('simulacao.exMiniatura')} descricao={t('simulacao.exMiniaturaDesc')}>

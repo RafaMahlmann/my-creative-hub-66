@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import type { LessonMaterial } from '@/hooks/useLessonMaterials';
 
 /**
  * Modo Simulação: mostra as telas com dados de exemplo, para conferir como
@@ -98,3 +99,26 @@ export const SIM_VTT = `WEBVTT
 00:00:00.000 --> 00:00:04.360
 <00:00:00.040>Este <00:00:00.500>é <00:00:00.700>um <00:00:00.900>exemplo <00:00:01.500>de <00:00:01.700>legenda.
 `;
+
+export const SIM_MATERIAIS: LessonMaterial[] = [
+  {
+    id: 'exemplo-material-1',
+    title_pt: 'Apostila da aula (exemplo)',
+    title_en: 'Lesson workbook (sample)',
+    file_url: null,
+    file_type: 'pdf',
+    position: 1,
+    storage_path: 'curso-exemplo/01-fundamentos/apostila.pdf',
+    size_bytes: 2_400_000,
+  },
+  {
+    id: 'exemplo-material-2',
+    title_pt: 'Artigo de referência (exemplo)',
+    title_en: 'Reference article (sample)',
+    file_url: 'https://exemplo.org/artigo',
+    file_type: 'link',
+    position: 2,
+    storage_path: null,
+    size_bytes: null,
+  },
+];
