@@ -27,6 +27,8 @@ export type VideoLocal = {
   modulo: string | null;
   arquivo: string;
   miniatura: string | null;
+  /** caminho do .vtt já gerado pelo servidor, quando existe */
+  legenda?: string | null;
   duracao: number | null;
   publicado: boolean;
   gratuito: boolean;
@@ -88,5 +90,22 @@ export function useBibliotecaLocal(ligado: boolean) {
 }
 
 /** URL para tocar/exibir um arquivo servido pelo HD. */
-export const urlLocal = (tipo: 'midia' | 'capa', caminho: string) =>
+export const urlLocal = (tipo: 'midia' | 'capa' | 'legenda', caminho: string) =>
   `${SERVIDOR_LOCAL}/${tipo}/${caminho.split('/').map(encodeURIComponent).join('/')}`;
+
+/** Baixa o conteúdo de um .vtt que o servidor do HD já gerou. */
+export async function baixarLegendaLocal(caminho: string): Promise<string> {
+  const r = await fetch(urlLocal('legenda', caminho));
+  if (!r.ok) throw new Error(`servidor respondeu ${r.status}`);
+  const texto = await r.text();
+  if (!/^WEBVTT/i.test(texto.trim())) throw new Error('o arquivo não parece uma legenda WebVTT');
+  return texto;
+}
+
+/** Compara ignorando pasta, maiúsculas e a extensão — só o nome do arquivo. */
+export function mesmoArquivo(caminhoA?: string | null, caminhoB?: string | null) {
+  const nome = (c?: string | null) =>
+    (c || '').replace(/\\/g, '/').split('/').pop()?.replace(/\.[^.]+$/, '').toLowerCase() ?? '';
+  const a = nome(caminhoA);
+  return !!a && a === nome(caminhoB);
+}

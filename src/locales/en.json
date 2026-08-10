@@ -245,7 +245,14 @@
     "needVideo": "Save this lesson's video before adding subtitles.",
     "needPt": "Add the Portuguese subtitles first.",
     "auto": "Auto-generated",
-    "cues": "cues"
+    "cues": "cues",
+    "hdTitulo": "Subtitle ready on the drive server",
+    "hdCarregando": "checking the server...",
+    "hdNenhuma": "No video on the drive has a subtitle yet. Generate one in the server library — it is free and comes with word-level timing.",
+    "hdCasou": "Matched by file: {{arquivo}}",
+    "hdEscolha": "Choose which video to pull from",
+    "hdPuxar": "Pull subtitle",
+    "hdChegou": "Subtitle pulled from the drive. Review and save."
   },
   "tutor": {
     "title": "Module AI tutor",

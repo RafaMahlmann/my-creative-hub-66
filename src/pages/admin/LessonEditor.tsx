@@ -459,7 +459,10 @@ const Inner = () => {
 
           <TabsContent value="subtitles" className="space-y-4 pt-4">
             <HelpCard id="lessonSubtitles" />
-            <SubtitlesTab videoId={video?.id ?? null} />
+            <SubtitlesTab
+              videoId={video?.id ?? null}
+              sourcePath={vForm.source_path || video?.source_path}
+            />
           </TabsContent>
 
           <TabsContent value="tutor" className="space-y-4 pt-4">

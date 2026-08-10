@@ -5,11 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { useSubtitles, useSaveSubtitle, useTranslateSubtitle } from '@/hooks/useSubtitles';
+import { PuxarLegendaDoHD } from '@/components/course/PuxarLegendaDoHD';
 import { parseVtt } from '@/lib/vtt';
 
-type Props = { videoId: string | null };
+type Props = { videoId: string | null; sourcePath?: string | null };
 
-export const SubtitlesTab = ({ videoId }: Props) => {
+export const SubtitlesTab = ({ videoId, sourcePath }: Props) => {
   const { t } = useTranslation();
   const { data } = useSubtitles(videoId);
   const save = useSaveSubtitle(videoId);
@@ -93,6 +94,11 @@ export const SubtitlesTab = ({ videoId }: Props) => {
           setText((s) => ({ ...s, [target]: content }));
           e.target.value = '';
         }}
+      />
+
+      <PuxarLegendaDoHD
+        sourcePath={sourcePath}
+        onChegou={(vtt) => setText((s) => ({ ...s, pt: vtt }))}
       />
 
       {block('pt')}

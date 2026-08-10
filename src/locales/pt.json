@@ -245,7 +245,14 @@
     "needVideo": "Salve o vídeo desta aula antes de adicionar legendas.",
     "needPt": "Adicione primeiro a legenda em português.",
     "auto": "Gerada automaticamente",
-    "cues": "trechos"
+    "cues": "trechos",
+    "hdTitulo": "Legenda pronta no servidor do HD",
+    "hdCarregando": "consultando o servidor...",
+    "hdNenhuma": "Nenhum vídeo do HD tem legenda ainda. Gere lá na biblioteca do servidor — sai de graça e com tempo por palavra.",
+    "hdCasou": "Achei pelo arquivo: {{arquivo}}",
+    "hdEscolha": "Escolha de qual vídeo puxar",
+    "hdPuxar": "Puxar legenda",
+    "hdChegou": "Legenda trazida do HD. Confira e salve."
   },
   "tutor": {
     "title": "Tutor de IA do módulo",
