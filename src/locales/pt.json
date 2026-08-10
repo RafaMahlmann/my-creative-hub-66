@@ -252,7 +252,8 @@
     "hdCasou": "Achei pelo arquivo: {{arquivo}}",
     "hdEscolha": "Escolha de qual vídeo puxar",
     "hdPuxar": "Puxar legenda",
-    "hdChegou": "Legenda trazida do HD. Confira e salve."
+    "hdChegou": "Legenda trazida do HD. Confira e salve.",
+    "hdNaoCasou": "Nenhum vídeo do HD tem o mesmo nome deste arquivo. Escolha na lista abaixo."
   },
   "tutor": {
     "title": "Tutor de IA do módulo",

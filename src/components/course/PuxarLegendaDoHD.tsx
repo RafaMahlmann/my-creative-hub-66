@@ -81,7 +81,9 @@ export const PuxarLegendaDoHD = ({ sourcePath, onChegou }: Props) => {
       ) : (
         <>
           <p className="mt-1 font-body text-xs text-course-muted-foreground">
-            {sugerido ? t('subtitles.hdCasou', { arquivo: sugerido.arquivo }) : t('subtitles.hdEscolha')}
+            {sugerido
+              ? t('subtitles.hdCasou', { arquivo: sugerido.arquivo })
+              : t('subtitles.hdNaoCasou')}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <Select value={alvo?.id ?? ''} onValueChange={setEscolhido}>

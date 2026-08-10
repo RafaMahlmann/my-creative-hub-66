@@ -252,7 +252,8 @@
     "hdCasou": "Matched by file: {{arquivo}}",
     "hdEscolha": "Choose which video to pull from",
     "hdPuxar": "Pull subtitle",
-    "hdChegou": "Subtitle pulled from the drive. Review and save."
+    "hdChegou": "Subtitle pulled from the drive. Review and save.",
+    "hdNaoCasou": "No video on the drive matches this file name. Pick one from the list below."
   },
   "tutor": {
     "title": "Module AI tutor",
