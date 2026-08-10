@@ -7,6 +7,7 @@ import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
 import { PendingSetupCard } from '@/components/course/PendingSetupCard';
+import { ServidorLocalCard } from '@/components/course/ServidorLocalCard';
 import { ThumbEditorDialog } from '@/components/course/ThumbEditorDialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -240,6 +241,8 @@ const Inner = () => {
         <HelpCard id="videoLibrary" />
 
         <PendingSetupCard />
+
+        <ServidorLocalCard />
 
         <section className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
           <div className="flex items-center gap-2">

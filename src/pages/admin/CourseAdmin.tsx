@@ -5,6 +5,7 @@ import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film, Users 
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
+import { ServidorLocalCard } from '@/components/course/ServidorLocalCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -53,6 +54,8 @@ const Inner = () => {
         </header>
 
         <HelpCard id="dashboard" />
+
+        <ServidorLocalCard />
 
         <div className="grid gap-4 sm:grid-cols-3">
           <Stat icon={<BookOpen size={18} />} label={t('admin.statCourses')} value={courses?.length ?? 0} />
