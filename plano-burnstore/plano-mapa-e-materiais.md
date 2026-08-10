@@ -1,230 +1,220 @@
-# Brief: mapa do curso, progresso e material de apoio
+# Brief v2: mapa do curso, leitura e a apostila que se escreve sozinha
 
-> Pesquisa e proposta — **nada será codado sem "PODE CODAR"**.
-> Pedido do Rafa (10/08/2026): mapa de onde a pessoa está, porcentagem do curso,
-> "dinâmica meio juicy", material complementar tipo Hotmart, e um modo de
-> apresentação de documento que funcione bem no celular, no iPad e no Windows.
-
----
-
-## 1. Onde estamos hoje — o diagnóstico sem maquiagem
-
-Fui olhar o código antes de opinar. O resumo:
-
-| | Situação |
-|---|---|
-| Banco de progresso (`lesson_progress`) | ✅ existe, guarda concluída e segundos assistidos |
-| Marcar aula como concluída | ✅ existe, **mas só no clique manual** |
-| Porcentagem do curso | ❌ **não existe em lugar nenhum** |
-| Página do curso mostra progresso | ❌ **zero** — nem uma barra |
-| Mapa / trilha / "onde estou" | ❌ não existe |
-| "Continuar de onde parei" | 🟡 só na página "Minhas aulas" |
-| Adicionar material de apoio | 🟡 **três campos de texto: título, URL colada à mão e tipo** |
-| Aluno abrir o material | 🟡 vira link de download — **ele sai do site** |
-| Visualizar PDF/slide dentro da aula | ❌ não existe |
-
-**O buraco maior não é o mapa — é o material.** Hoje, para anexar uma apostila,
-você precisa hospedar o arquivo em algum lugar por conta própria e **colar a
-URL na mão**. E o aluno que clica é jogado para fora da aula. Isso é o oposto
-do que você descreveu.
+> Revisão de 10/08/2026 depois das suas observações. A v1 está no histórico do
+> git — mudei de posição em dois pontos e vou dizer exatamente onde e por quê.
+> **Nada será codado sem "PODE CODAR".**
 
 ---
 
-## 2. Sobre o Miro — a resposta pé no chão que você pediu
+## 1. Respondendo direto o que você perguntou
 
-Entendo a atração, e ela é legítima: o Miro tem uma qualidade rara, que é
-**você bater o olho e ver o conjunto inteiro**.
+### "O PDF está fora de época?"
 
-Mas preciso ser honesto sobre a parte que não se transporta: **o Miro resolve
-um problema que não é o seu.** Ele existe para pensar junto num espaço livre,
-onde não há ordem certa. Curso tem ordem. E aí o canvas trabalha contra:
+**Não é velho — é formato de impressão.** Nasceu para garantir que uma folha
+saísse igual em qualquer impressora, e nisso continua imbatível. O problema é
+usá-lo para ler em tela: ele congela o texto numa folha A4, e num celular isso
+vira zoom e arrasto.
 
-- A pergunta do aluno não é *"como tudo se conecta?"* — é **"o que eu faço agora?"**. Canvas responde mal a essa pergunta, porque toda direção parece igualmente válida.
-- Pan e zoom em celular é briga com o gesto de rolagem da página. Você pediu justamente que funcionasse bem no celular.
-- Canvas livre não tem "próximo" óbvio. Sem próximo óbvio, a pessoa fecha a aba.
+O contraste que importa não é antigo × moderno, é **layout fixo × texto fluido**:
 
-Repare quem resolveu isso e como: **Netflix não tem mapa. Duolingo é uma
-trilha vertical. Coursera é lista com barra.** Nenhum dos três é canvas — e
-todos são referências em manter gente engajada.
-
-**O que eu levo do Miro e o que deixo:**
-
-- ✅ **Levo:** a visão de conjunto que cabe numa tela só, sem precisar rolar para entender o tamanho da coisa.
-- ❌ **Deixo:** o canvas infinito, o pan/zoom e a liberdade de direção.
-
-> Minha recomendação: **trilha vertical compacta**, não mapa navegável. Você
-> ganha 90% da sensação que te atrai, com 10% do trabalho, e funciona no
-> celular.
-
-Se depois de pronto você sentir falta do canvas, dá para acrescentar uma
-"visão de conjunto" opcional. Mas começar por ela seria construir o difícil
-antes do útil.
-
----
-
-## 3. Duas coisas sobre aprendizado que costumam passar batido
-
-Você pediu para eu trazer o que os humanos não veem. Aqui vão as duas que mais
-importam neste caso:
-
-**a) Mostrar "12% concluído" no começo do curso desmotiva.**
-É contraintuitivo, mas número baixo logo na largada comunica "falta muito".
-O jeito conhecido de contornar é medir progresso **por módulo, não pelo curso
-inteiro** — módulos são curtos, então a barra anda visivelmente e a pessoa
-coleciona conclusões pequenas em vez de encarar uma barra parada em 12%.
-A porcentagem do curso continua existindo, mas discreta, não como manchete.
-
-**b) "Marcar como concluída" no clique é frágil, e o dado para resolver já está no banco.**
-A tabela já guarda `seconds_watched`. Dá para marcar sozinho ao passar de ~90%
-do vídeo — que é o que YouTube e Netflix fazem — mantendo o botão manual para
-quem quer marcar por conta. Hoje, quem assiste a aula inteira e esquece de
-clicar simplesmente não tem progresso registrado.
-
----
-
-## 4. O "juicy" — e onde ele NÃO deve entrar
-
-Existe uma confusão comum aqui que vale desfazer, porque ela decide o projeto:
-
-> **Game feel ≠ gamificação.**
-> Game feel é como um botão responde ao toque. Gamificação é XP, nível, medalha,
-> ofensiva. Um botão do iPhone é gostoso de apertar e não tem ponto nenhum.
-
-Você pediu game feel. **Não vou propor gamificação** — pontos e medalhas num
-curso de terapeuta soariam infantis e, pior, criariam a expectativa de um
-sistema de recompensa que não existe por trás.
-
-A régua que vou usar para dosar é a **frequência de uso**: quanto mais vezes a
-pessoa faz algo, menos aquilo deve chamar atenção.
-
-| Ação | Frequência | Quanto de efeito |
+| | Layout fixo (PDF) | Texto fluido (HTML/EPUB) |
 |---|---|---|
-| Passar o olho pela lista de aulas | dezenas de vezes | quase nada — só um realce barato |
-| Abrir uma aula | várias vezes ao dia | transição curta e discreta |
-| **Concluir uma aula** | **poucas vezes por curso** | **aqui vale caprichar** |
-| Terminar um módulo | raríssimo | o único momento de celebração |
+| Celular | precisa de zoom | se adapta à tela |
+| Tamanho da letra | fixo | **o leitor escolhe** |
+| Busca | limitada | busca tudo |
+| Leitor de tela | sofrível | funciona |
+| Slide, gráfico, diagrama | **imbatível** | perde o desenho |
 
-**Os momentos de movimento, e só estes quatro:**
+Texto fluido é o que Kindle, Medium, Notion e a documentação de qualquer
+produto sério usam. Não por moda — porque **quem lê escolhe o tamanho da letra**,
+e isso mais que qualquer outra coisa define conforto de leitura.
 
-1. **Concluir uma aula** — o ponto da trilha preenche de vazio para cheio (~300 ms), e a linha até o próximo ponto "acende" no mesmo gesto. Uma vez só, sem repetir.
-2. **Barra do módulo** — cresce com desaceleração suave quando o número muda, em vez de pular.
-3. **Hover/toque no ponto da trilha** — leve elevação, para dizer "dá para clicar".
-4. **Fechar um módulo inteiro** — o único momento com um respiro maior: o bloco do módulo se assenta e marca. Sem confete, sem som.
+> **Então o certo não é escolher um. É usar cada um onde ele ganha.** Ver o item 3.
 
-**Fronteiras — o que fica de fora de propósito:** sem XP, sem nível, sem
-ofensiva/streak, sem medalha, sem partícula, sem som, sem cadeado dramatizado.
-Nada disso tem mecânica real por trás, e sem mecânica vira enfeite que envelhece mal.
+### "Dá para guardar o material no Lovable, e ter cópia no servidor?"
 
-**Referência de calibragem:** o gráfico de contribuições do GitHub. Zero
-animação, zero brilho — e é o exemplo mais citado de "satisfatório numa
-ferramenta séria". A satisfação vem do padrão visual, não do efeito.
+Dá, e é o desenho certo — o mesmo dos vídeos:
+
+- **Supabase Storage** (o "banco" do Lovable) guarda o arquivo que o aluno acessa.
+- **O HD** continua sendo o mestre, com os originais em qualidade cheia.
+- O servidor do HD **prepara** o material (converte, extrai texto) e você publica.
+
+### "Tem que ser à prova de invasão, não pode virar via de duas mãos"
+
+Preocupação certa, e é o ponto que mais me importa aqui. Três regras, sendo
+que **as duas primeiras já estão valendo**:
+
+1. **O servidor do HD é somente leitura.** Nenhuma rota aceita arquivo vindo de fora — não existe upload. Ele lê de uma pasta e envia; nada entra.
+2. **Nenhum caminho escapa da pasta de mídia.** Testei cinco jeitos diferentes de pedir arquivo fora dela (`../`, `%2f`, barra invertida, caminho absoluto) — todos recusados.
+3. **Regra permanente daqui pra frente:** quando abrirmos o túnel para os alunos, o servidor continua sem aceitar escrita. Publicar é sempre você empurrando do HD para a nuvem — **nunca a nuvem alcançando o seu computador**. É isso que impede a via de duas mãos.
+
+E no lado da nuvem: **bucket privado com link que expira**, nunca arquivo
+público. Material pago com URL eterna vaza no primeiro WhatsApp.
 
 ---
 
-## 5. Material de apoio — onde está o verdadeiro salto
+## 2. O mapa — onde você me convenceu
 
-Aqui está o problema real, e aqui está a solução que ninguém precisa inventar.
+Na v1 eu recomendei não fazer mapa. **Você esclareceu o pedido e isso muda a
+resposta.** O que você descreveu não é canvas livre para passear:
 
-### O problema do PDF no celular
+> *"isso aqui eu já concluí; essa eu não concluí, posso ir por aqui; não
+> precisa exatamente nessa ordem, mas tem que cumprir essas etapas antes"*
 
-PDF foi desenhado para papel A4. No celular ele obriga a dar zoom e arrastar
-para os lados — a pior experiência de leitura que existe. E a biblioteca padrão
-da web para isso (**PDF.js**, da Mozilla) é excelente no computador mas
-**reconhecidamente pesada no celular**, porque desenha tudo em canvas: o toque
-engasga, o pinça-para-ampliar trava.
+Isso é **mapa de pré-requisitos** — e responde uma pergunta que lista nenhuma
+responde: *"o que eu posso fazer agora, e o que depende de quê?"*. Isso tem
+valor real de aprendizado, diferente do canvas decorativo que critiquei.
 
-Ou seja: só embutir um leitor de PDF **não** resolve o que você pediu.
+**Mantenho uma ressalva, e ela é importante:** o mapa precisa **nascer da
+estrutura do curso**, não ser desenhado à mão. Mapa desenhado manualmente
+desatualiza na segunda aula que você mover, e aí atrapalha mais do que ajuda.
+Você marca "esta aula depende daquela" e o desenho se organiza sozinho.
 
-### A saída — e você já tem a peça principal montada
+**Ferramenta, sem inventar a roda:** **React Flow** (`@xyflow/react`) — licença
+MIT, 38 mil estrelas, mantido ativamente, é o padrão de mercado para telas de
+nós e conexões. Nós personalizados, conectores com rótulo e toque no celular
+já vêm prontos. Combinado com layout automático, você nunca posiciona nada à mão.
 
-O caminho que as ferramentas boas usam é **converter antes, servir simples
-depois**. E isso é trabalho para o servidor do HD, que já existe e já faz
-exatamente esse tipo de tarefa (miniatura, duração, legenda):
+### E o "vídeo com a mãozinha desenhando"
+
+O nome que você procurava é **RSA Animate** — ou *whiteboard animation*,
+*video scribing*. A série do Royal Society of Arts (2010) popularizou o estilo:
+um ilustrador desenha enquanto a pessoa fala.
+
+**Pé no chão: produzir isso é trabalho de ilustrador.** Caro, lento, e não
+automatiza bem. Não recomendo produzir vídeos assim.
+
+**Mas há uma parte que se transporta e custa quase nada** — e é justamente a
+que provoca a sensação que você gostou:
+
+- **O traço, não o vídeo.** Ícones e conectores com cara de desenho à mão, em vez de linha reta perfeita de software.
+- **A linha que se desenha.** Em SVG, dá para fazer o traço aparecer como se estivesse sendo desenhado agora (é um truque conhecido, `stroke-dasharray` animado). Quando o mapa abre, as ligações **se desenham** em vez de simplesmente estarem lá.
+
+Isso é o RSA Animate aplicado onde cabe: **na abertura do mapa**, que é um
+momento ocasional — exatamente onde vale gastar animação. E resolve o que você
+chamou de "quebrar a monotonia da seriedade quadradinha" sem custo de produção.
+
+---
+
+## 3. A ideia mais forte que você teve: a apostila que se escreve sozinha
+
+> *"a gente vai criar um banco de dados cérebro que o próprio sistema, conforme
+> a gente vai montando o curso, vai alimentando"*
+
+**Isso reorganiza o projeto inteiro, e a maior parte já está de pé.**
+
+Repare no que já existe: toda aula gera legenda automática. Legenda é
+transcrição. Transcrição é **texto**. Ou seja — **o curso já está produzindo a
+matéria-prima da apostila sem ninguém digitar nada.**
 
 ```
-você joga um PDF ou PPTX na pasta da aula
-              │
-     LibreOffice (--headless)  →  vira PDF
-              │
-     pdftoppm                  →  vira uma imagem por página
-              │
-     o site mostra uma galeria de páginas
+      aula gravada
+           │
+   legenda automática  ← já funciona
+           │
+   texto limpo por IA  ← passo que falta
+           │
+    ┌──────┼──────┬─────────────┐
+  apostila  busca  tutor de IA  "continuar lendo"
+  do curso  no      (já existe,   em vez de
+            curso   fica melhor)   reassistir
 ```
 
-Por que isso ganha de tudo o mais:
+**Um trabalho, quatro resultados.** E o texto é fluido, então lê bem em
+qualquer aparelho — é a resposta para "existe algo melhor que imagem e PDF?".
+Existe, e você vai ganhar de graça.
 
-- **Imagem funciona igualmente bem em qualquer aparelho.** Sem canvas, sem lag, sem plugin. Rolagem nativa, pinça nativa.
-- **Serve para PDF e PowerPoint pelo mesmo caminho** — você joga o arquivo que tiver.
-- **Carrega só a página que aparece na tela**, então material pesado não trava o celular.
-- **Continua oferecendo o arquivo original para baixar**, para quem quiser imprimir.
-- São duas ferramentas maduras, gratuitas, instaladas do mesmo jeito que o FFmpeg.
+### A ressalva honesta, para você não esperar mágica
 
-> Uma ressalva honesta: virando imagem, o texto deixa de ser selecionável e o
-> buscador não lê. Como o material é apoio de aula (não artigo público), o
-> ganho de leitura compensa. E dá para guardar o texto extraído junto, se um dia
-> quisermos busca dentro da apostila.
+**Transcrição crua não é apostila.** Fala transcrita tem "né", "então",
+repetição, frase que recomeça no meio. Ninguém lê isso com prazer.
 
-### Sobre "já sair bonito sem eu formatar"
+Falta uma passada de IA que transforma fala em texto de leitura: tira vício de
+linguagem, junta parágrafo, põe subtítulo. Isso é barato e você já tem tudo
+para fazer (o Groq configurado e o gateway do Lovable) — mas **é um passo, não
+é automático**. E vale você revisar: a IA vai errar termo técnico igual erra
+na legenda ("bioresonância" com um *s* só, como vimos).
 
-Você descreveu jogar o conteúdo e ele já sair apresentável. A solução
-consolidada para isso **não** é um editor tipo Word — é **texto simples com
-tema pronto**. Você escreve com marcações mínimas (título, negrito, lista) e o
-site aplica a tipografia do curso. É como funcionam Notion, Obsidian e a
-documentação de praticamente todo produto sério. Fica bonito porque você não
-escolhe fonte nem cor — o tema escolhe.
+### As três camadas de leitura
 
-Para quem já tem slide pronto em PowerPoint, o caminho é o de cima: joga o
-arquivo, vira galeria.
+Fechando a resposta do PDF:
 
----
-
-## 6. Editar na própria tela
-
-Você já tem o começo disso e funciona bem — o modo de edição da vitrine, onde
-se troca miniatura e alterna gratuito/pago sem abrir formulário. A proposta é
-**estender o mesmo padrão**, não criar outro:
-
-- Arrastar um arquivo **direto para dentro da aula** para virar material (hoje é URL colada à mão).
-- Renomear e reordenar material na própria lista.
-- Reordenar aulas arrastando na trilha.
-- Tudo salvando na hora, com aquele "Salvo às 14:32" discreto.
+| O material | Como fica | Por quê |
+|---|---|---|
+| **Apostila gerada** (das aulas) | **texto fluido** | melhor leitura possível; letra ajustável, busca, funciona em tudo |
+| **Slide / PowerPoint** | **galeria de imagens** | slide é desenho; virar texto destruiria |
+| **PDF que você já tem** | **galeria + texto extraído junto** | você lê como imagem, e a busca ainda acha |
 
 ---
 
-## 7. Ordem que eu proponho
+## 4. Imersão — o que segura a pessoa, na prática
 
-Cada etapa entrega algo utilizável sozinho.
+Você me pediu para olhar como especialista em imersão. O que vale dizer:
 
-| # | O quê | Ganho | Tamanho |
+**A maior parte da imersão não vem de efeito visual — vem de nunca deixar a
+pessoa sem saber o que fazer a seguir.** Toda vez que alguém termina uma aula e
+cai numa tela morta, você perde um pouco. É por isso que a Netflix já emenda o
+próximo episódio: não é enfeite, é remover o instante de decisão.
+
+Três coisas que valem mais que qualquer animação:
+
+1. **Sempre haver um próximo passo óbvio** — ao terminar a aula, o próximo já está ali, com nome e duração. Hoje existe "próxima", mas discreta.
+2. **Retomar exatamente onde parou** — inclusive no minuto do vídeo. O banco já guarda os segundos assistidos e ninguém usa.
+3. **Nunca fazer a pessoa esperar sem saber o que está acontecendo** — carregando sem aviso é a forma mais silenciosa de perder alguém.
+
+### Sobre a porcentagem — sua ideia estava certa, e dá para melhorar
+
+Você propôs mostrar a porcentagem só depois da metade. O princípio por trás é
+esse mesmo, e generaliza bem:
+
+> **Número que só sobe motiva. Número que mostra o quanto falta desmotiva no começo.**
+
+Então, em vez de esconder e depois revelar (o que fica estranho quando aparece
+do nada):
+
+- **Sempre visível:** "3 aulas concluídas" · "2h40 de estudo" — só sobem, nunca acusam.
+- **Barra por módulo:** módulo é curto, a barra anda de verdade.
+- **Porcentagem do curso:** discreta desde o início, e ganha destaque depois da metade — quando vira incentivo em vez de cobrança.
+
+E o **contador de horas que você sugeriu é a melhor métrica das três**: é
+acumulativa, é real, e nunca vira cobrança. "Você estudou 12h neste curso" só
+dá orgulho.
+
+---
+
+## 5. Ordem revisada
+
+| # | O quê | Por que nesta posição | Tamanho |
 |---|---|---|---|
-| **1** | **Upload de material de verdade** (arrastar o arquivo, sem colar URL) | tira a maior dor de hoje | pequeno |
-| **2** | **Progresso visível**: barra por módulo, porcentagem discreta do curso, conclusão automática aos 90% | o aluno passa a ver que anda | pequeno |
-| **3** | **Trilha do curso** com os quatro momentos de movimento do item 4 | o "mapa" que você pediu | médio |
-| **4** | **Galeria de páginas** no servidor do HD (LibreOffice + pdftoppm) e visualizador embutido | lê bem em qualquer aparelho | médio |
-| **5** | **Apostila em texto com tema** | escrever direto, sem formatar | médio |
-| **6** | Visão de conjunto opcional, estilo mapa | só se fizer falta depois | grande |
+| **1** | **Upload de material** (arrastar arquivo; hoje é URL colada à mão) | maior dor atual, menor esforço | pequeno |
+| **2** | **Progresso**: aulas concluídas, horas estudadas, barra por módulo, conclusão automática aos 90% | alimenta o mapa; sem isso o mapa é enfeite | pequeno |
+| **3** | **Próximo passo e retomar no minuto** | onde a imersão mais se ganha | pequeno |
+| **4** | **Texto limpo por IA** a partir da legenda | destrava a apostila, a busca e o tutor melhor | médio |
+| **5** | **Leitor de texto fluido** (letra ajustável, tema claro/escuro) | a experiência de leitura que você quer | médio |
+| **6** | **Mapa de pré-requisitos** (React Flow, linhas que se desenham) | precisa de 2 e 4 para ter o que mostrar | médio |
+| **7** | **Galeria de páginas** (PDF/PPTX via servidor do HD) | complementa o que não vira texto | médio |
 
-**Começar pela 1 e pela 2.** São as menores e resolvem as dores mais concretas.
-A 3 é a que você mais quer ver, e fica muito melhor depois que a 2 existir —
-sem dado de progresso, a trilha é um enfeite bonito e vazio.
+**Continuo recomendando começar por 1, 2 e 3** — são as três menores somadas e
+já mudam a sensação do produto. A **6** é a que você mais quer ver, e fica
+muito melhor depois da 2 e da 4: sem progresso e sem conteúdo ligado, o mapa é
+um desenho bonito sem informação dentro.
 
 ---
 
-## 8. O que eu recomendo NÃO fazer
+## 6. O que continuo recomendando não fazer
 
-Registrando para a gente não gastar fôlego à toa:
-
-- **Canvas navegável estilo Miro como navegação principal** — item 2.
-- **Gamificação** (XP, medalha, ofensiva) — cria expectativa de sistema que não existe e destoa do tom do seu trabalho.
-- **Editor de texto tipo Word** — muito trabalho para um resultado pior que tema pronto.
-- **PDF.js puro como visualizador principal** — falha exatamente no celular, que é onde você quer que funcione bem.
-- **Converter PowerPoint no navegador** — existe biblioteca para isso e o resultado é sofrível; conversão é trabalho de servidor, e você já tem um.
+- **Canvas livre para navegar** (pan/zoom infinito) — mapa de pré-requisitos sim; passeio livre não.
+- **Mapa desenhado à mão** — desatualiza e vira mentira. Ele nasce da estrutura.
+- **Produzir vídeo estilo RSA Animate** — trabalho de ilustrador. Levamos o traço, não a produção.
+- **Gamificação** (XP, medalha, ofensiva) — você já disse que não quer, e concordo.
+- **PDF.js como leitor principal** — falha justamente no celular.
 
 ---
 
 ## Fontes
 
-- Limitações do PDF.js em dispositivos móveis: <https://www.nutrient.io/blog/top-5-javascript-pdf-viewers/> · <https://apryse.com/blog/pdfjs-alternatives>
-- Conversão de PPTX/PDF em imagens (LibreOffice headless + pdftoppm): <https://blog.fileformat.com/en/image/top-open-source-office-document-to-image-converter-apis-complete-guide/> · <https://www.systutorials.com/how-to-convert-pptx-slides-to-jpg-or-png-images-on-linux-in-command-line/>
-- Trilhas de aprendizagem e progresso visível: <https://www.paradisosolutions.com/blog/learning-paths-for-lms/>
-- Game feel × gamificação, e calibragem por frequência: "Juice it or Lose it" (Jonasson & Purho); *Game Feel* (Steve Swink)
+- Texto fluido × layout fixo para leitura e acessibilidade: <https://changethisfile.com/blog/epub-vs-pdf-reading> · <https://kitaboo.com/reflowable-or-fixed-layout-epub-which-is-better/>
+- PDF.js em dispositivos móveis: <https://www.nutrient.io/blog/top-5-javascript-pdf-viewers/>
+- React Flow / xyflow (MIT, 38k estrelas): <https://github.com/xyflow/xyflow>
+- RSA Animate e whiteboard animation: <https://en.wikipedia.org/wiki/Andrew_Park_(animator)> · <https://www.b2w.tv/blog/types-of-whiteboard-animation>
+- Conversão PPTX/PDF em imagens: <https://www.systutorials.com/how-to-convert-pptx-slides-to-jpg-or-png-images-on-linux-in-command-line/>
