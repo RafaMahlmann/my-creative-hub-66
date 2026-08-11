@@ -22,6 +22,8 @@ export type SaudeServidor = {
 
 export type VideoLocal = {
   id: string;
+  /** ausente nos índices antigos = vídeo, por compatibilidade */
+  tipo?: 'video' | 'documento';
   titulo: string;
   curso: string | null;
   modulo: string | null;
@@ -30,6 +32,9 @@ export type VideoLocal = {
   /** caminho do .vtt já gerado pelo servidor, quando existe */
   legenda?: string | null;
   duracao: number | null;
+  /** só em documentos: pasta com as páginas rasterizadas e quantas existem */
+  paginaPasta?: string | null;
+  paginas?: number;
   publicado: boolean;
   gratuito: boolean;
   destino: 'hd' | 'casa' | 'vimeo' | 'youtube';
@@ -100,6 +105,13 @@ export async function baixarLegendaLocal(caminho: string): Promise<string> {
   const texto = await r.text();
   if (!/^WEBVTT/i.test(texto.trim())) throw new Error('o arquivo não parece uma legenda WebVTT');
   return texto;
+}
+
+/** Baixa uma página já rasterizada (PNG) que o servidor do HD gerou do PDF. */
+export async function baixarPaginaLocal(caminho: string): Promise<Blob> {
+  const r = await fetch(urlLocal('midia', caminho));
+  if (!r.ok) throw new Error(`servidor respondeu ${r.status}`);
+  return r.blob();
 }
 
 /** Compara ignorando pasta, maiúsculas e a extensão — só o nome do arquivo. */

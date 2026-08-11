@@ -666,6 +666,8 @@
     "exLegendaDesc": "Aparece no editor da aula, na aba Legendas, quando o servidor está no ar.",
     "exMateriais": "Materiais de apoio da aula",
     "exMateriaisDesc": "Arrastar arquivo, ou colar um link externo. Aqui a lista é fixa — nada é enviado de verdade.",
+    "exPaginas": "Puxar páginas de PDF do HD",
+    "exPaginasDesc": "Aparece no editor da aula quando o servidor do HD tem um PDF já rasterizado em página. Aqui o clique não sobe nada de verdade.",
     "exMiniatura": "Escolher a miniatura",
     "exMiniaturaDesc": "Clique na área para escolher a imagem. Aqui funciona de verdade, mas nada é salvo.",
     "exVitrine": "Cartões da vitrine",
@@ -687,6 +689,13 @@
     "tooLarge": "O arquivo precisa ter menos de 50 MB",
     "pasteLink": "Colar um link externo",
     "download": "Baixar material",
-    "remove": "Remover material"
+    "remove": "Remover material",
+    "hdTitulo": "Páginas prontas no servidor do HD",
+    "hdNenhum": "Nenhum PDF do HD tem página rasterizada ainda. Coloque o arquivo na pasta e varra a biblioteca lá no servidor.",
+    "hdEscolha": "Escolha de qual documento puxar",
+    "hdNaoCasou": "Nenhum PDF do HD tem o mesmo nome deste arquivo. Escolha na lista abaixo.",
+    "hdPuxar": "Puxar páginas",
+    "hdPaginas": "páginas",
+    "hdChegou": "Páginas trazidas do HD como materiais desta aula."
   }
 }

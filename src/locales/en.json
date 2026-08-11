@@ -666,6 +666,8 @@
     "exLegendaDesc": "Appears in the lesson editor, Subtitles tab, when the server is online.",
     "exMateriais": "Lesson support materials",
     "exMateriaisDesc": "Drag a file, or paste an external link. The list is fixed here — nothing is really uploaded.",
+    "exPaginas": "Pull PDF pages from the drive",
+    "exPaginasDesc": "Appears in the lesson editor when the drive server has a PDF already rasterized into pages. Clicking here doesn't really upload anything.",
     "exMiniatura": "Pick the thumbnail",
     "exMiniaturaDesc": "Click the area to choose an image. It really works here, but nothing is saved.",
     "exVitrine": "Catalogue cards",
@@ -687,6 +689,13 @@
     "tooLarge": "The file must be under 50 MB",
     "pasteLink": "Paste an external link",
     "download": "Download material",
-    "remove": "Remove material"
+    "remove": "Remove material",
+    "hdTitulo": "Pages ready on the drive server",
+    "hdNenhum": "No PDF on the drive has rasterized pages yet. Drop the file in the folder and scan the library on the server.",
+    "hdEscolha": "Choose which document to pull",
+    "hdNaoCasou": "No PDF on the drive has the same name as this file. Choose from the list below.",
+    "hdPuxar": "Pull pages",
+    "hdPaginas": "pages",
+    "hdChegou": "Pages pulled from the drive as materials for this lesson."
   }
 }

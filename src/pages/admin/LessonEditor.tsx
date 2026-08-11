@@ -13,6 +13,7 @@ import { CloudVideoUpload } from '@/components/course/CloudVideoUpload';
 import { ThumbPicker } from '@/components/course/ThumbPicker';
 import { PendingSetupCard } from '@/components/course/PendingSetupCard';
 import { MaterialsTab } from '@/components/course/MaterialsTab';
+import { PuxarPaginasDoHD } from '@/components/course/PuxarPaginasDoHD';
 import { useThumbSupport } from '@/hooks/useThumbSupport';
 import { useSubtitles, useCleanTranscript } from '@/hooks/useSubtitles';
 import { vttToPlainText } from '@/lib/vtt';
@@ -429,6 +430,7 @@ const Inner = () => {
 
           <TabsContent value="materials" className="space-y-4 pt-4">
             <HelpCard id="lessonMaterials" />
+            <PuxarPaginasDoHD lessonId={lessonId!} sourcePath={vForm.source_path || video?.source_path} />
             <MaterialsTab lessonId={lessonId!} />
           </TabsContent>
 

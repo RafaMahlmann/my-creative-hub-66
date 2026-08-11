@@ -93,6 +93,25 @@ export const SIM_VIDEOS = [
   },
 ];
 
+export const SIM_DOCUMENTOS = [
+  {
+    id: 'exemplo-doc-1',
+    tipo: 'documento' as const,
+    titulo: 'Apostila 01 — Fundamentos (exemplo)',
+    curso: 'Curso de exemplo',
+    modulo: 'Fundamentos',
+    arquivo: 'curso-exemplo/01-fundamentos/apostila-01.pdf',
+    miniatura: null,
+    duracao: null,
+    paginaPasta: 'curso-exemplo/01-fundamentos/apostila-01.paginas',
+    paginas: 4,
+    publicado: true,
+    gratuito: true,
+    destino: 'hd' as const,
+    refExterna: '',
+  },
+];
+
 export const SIM_VTT = `WEBVTT
 
 1
