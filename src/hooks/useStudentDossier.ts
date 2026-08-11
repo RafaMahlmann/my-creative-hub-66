@@ -105,6 +105,98 @@ export function useStudentDossier(userId?: string) {
   });
 }
 
+export type AlunoResumo = {
+  userId: string;
+  nome: string;
+  email: string | null;
+  contaCriadaEm: string | null;
+  /** null = ainda não registrou aceite */
+  aceiteEm: string | null;
+  versaoAceita: string | null;
+  concluidas: number;
+  totalAulas: number;
+  segundosEstudados: number;
+  temAcesso: boolean;
+  matriculadoEm: string | null;
+};
+
+/**
+ * Visão geral de TODOS os alunos num curso, com aceite e progresso.
+ *
+ * Quatro consultas fixas, independentemente de haver 3 ou 300 alunos: buscar
+ * o progresso de cada um separadamente faria a tela degradar justamente
+ * quando o negócio desse certo.
+ */
+export function useAdminStudentsOverview(courseId?: string) {
+  return useQuery({
+    queryKey: ['admin', 'alunos-resumo', courseId],
+    enabled: !!courseId,
+    queryFn: async (): Promise<AlunoResumo[]> => {
+      const [perfis, aceites, matriculas, curso] = await Promise.all([
+        supabase.from('profiles').select('user_id, display_name, created_at').order('created_at', { ascending: false }),
+        supabase.from('student_consents').select('student_id, full_name, email, accepted_at, term_version'),
+        supabase.from('enrollments').select('user_id, source, is_active, created_at').eq('course_id', courseId!),
+        supabase
+          .from('courses')
+          .select('id, modules(id, is_published, lessons(id, is_published))')
+          .eq('id', courseId!)
+          .maybeSingle(),
+      ]);
+
+      if (perfis.error) throw perfis.error;
+      if (aceites.error) throw aceites.error;
+      if (matriculas.error) throw matriculas.error;
+      if (curso.error) throw curso.error;
+
+      const idsDasAulas = ((curso.data as { modules?: { is_published: boolean; lessons?: { id: string; is_published: boolean }[] }[] } | null)?.modules ?? [])
+        .filter((m) => m.is_published)
+        .flatMap((m) => (m.lessons ?? []).filter((l) => l.is_published).map((l) => l.id));
+
+      // Uma consulta só de progresso, restrita às aulas deste curso.
+      let progresso: { user_id: string; lesson_id: string; is_completed: boolean; seconds_watched: number }[] = [];
+      if (idsDasAulas.length) {
+        const { data, error } = await supabase
+          .from('lesson_progress')
+          .select('user_id, lesson_id, is_completed, seconds_watched')
+          .in('lesson_id', idsDasAulas);
+        if (error) throw error;
+        progresso = (data ?? []) as typeof progresso;
+      }
+
+      const porAluno = new Map<string, { concluidas: number; segundos: number }>();
+      progresso.forEach((p) => {
+        const atual = porAluno.get(p.user_id) ?? { concluidas: 0, segundos: 0 };
+        if (p.is_completed) atual.concluidas += 1;
+        atual.segundos += p.seconds_watched ?? 0;
+        porAluno.set(p.user_id, atual);
+      });
+
+      const aceitePor = new Map((aceites.data ?? []).map((a) => [a.student_id as string, a]));
+      const matriculaPor = new Map((matriculas.data ?? []).map((m) => [m.user_id as string, m]));
+
+      return (perfis.data ?? []).map((p) => {
+        const aceite = aceitePor.get(p.user_id);
+        const matricula = matriculaPor.get(p.user_id);
+        const prog = porAluno.get(p.user_id);
+        return {
+          userId: p.user_id,
+          // o nome do aceite é o oficial; display_name é o apelido do cadastro
+          nome: aceite?.full_name || p.display_name || '',
+          email: aceite?.email ?? null,
+          contaCriadaEm: p.created_at ?? null,
+          aceiteEm: aceite?.accepted_at ?? null,
+          versaoAceita: aceite?.term_version ?? null,
+          concluidas: prog?.concluidas ?? 0,
+          totalAulas: idsDasAulas.length,
+          segundosEstudados: prog?.segundos ?? 0,
+          temAcesso: !!matricula?.is_active && matricula.source !== 'free',
+          matriculadoEm: matricula?.created_at ?? null,
+        };
+      });
+    },
+  });
+}
+
 /**
  * Confere um hash de comprovante sem expor nenhum dado pessoal.
  *

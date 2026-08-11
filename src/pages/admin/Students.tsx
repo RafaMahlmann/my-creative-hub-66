@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, ShieldCheck, Users } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, ShieldAlert, Users, Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
@@ -9,8 +9,6 @@ import { CourseShell } from '@/components/course/CourseShell';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { supabase } from '@/integrations/supabase/client';
-import { maskCPF } from '@/lib/consent';
 import {
   Select,
   SelectContent,
@@ -19,41 +17,137 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useAdminCourses } from '@/hooks/useAdminCourses';
-import {
-  useAdminStudents,
-  useAdminEnrollments,
-  useGrantEnrollment,
-} from '@/hooks/useAdminStudents';
-import { pick } from '@/lib/course';
+import { useGrantEnrollment } from '@/hooks/useAdminStudents';
+import { useAdminStudentsOverview, type AlunoResumo } from '@/hooks/useStudentDossier';
+import { pick, formatDuration } from '@/lib/course';
+import { normalizeName } from '@/lib/consent';
+
+/** Barra fina de progresso — o mesmo desenho da página do curso. */
+const Barra = ({ ratio }: { ratio: number }) => (
+  <div className="h-1 w-full overflow-hidden rounded-full bg-course-secondary">
+    <div
+      className="h-full rounded-full bg-course-primary transition-[width]"
+      style={{ width: `${Math.round(ratio * 100)}%` }}
+    />
+  </div>
+);
+
+const LinhaAluno = ({
+  aluno,
+  courseId,
+  ocupado,
+  aoAlternar,
+}: {
+  aluno: AlunoResumo;
+  courseId: string;
+  ocupado: boolean;
+  aoAlternar: (userId: string, próximo: boolean) => void;
+}) => {
+  const { t } = useTranslation();
+  const ratio = aluno.totalAulas ? aluno.concluidas / aluno.totalAulas : 0;
+
+  return (
+    <li className="px-5 py-4">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <Link
+          to={`/curso/admin/alunos/${aluno.userId}`}
+          className="min-w-[12rem] flex-1 transition-colors hover:text-course-primary"
+        >
+          <span className="block truncate font-body text-sm text-course-foreground">
+            {aluno.nome || t('students.unnamed')}
+          </span>
+          <span className="block truncate font-body text-xs text-course-muted-foreground">
+            {aluno.email ?? t('students.abrirFicha')}
+          </span>
+        </Link>
+
+        {/* O estado do aceite é o que decide se existe documento a apresentar —
+            por isso vem antes do progresso, e não escondido numa segunda lista. */}
+        {aluno.aceiteEm ? (
+          <span
+            className="inline-flex shrink-0 items-center gap-1.5 font-body text-xs text-course-primary"
+            title={`${new Date(aluno.aceiteEm).toLocaleString('pt-BR')} · v${aluno.versaoAceita}`}
+          >
+            <ShieldCheck size={13} />
+            {t('students.aceiteEm', { data: new Date(aluno.aceiteEm).toLocaleDateString('pt-BR') })}
+          </span>
+        ) : (
+          <span className="inline-flex shrink-0 items-center gap-1.5 font-body text-xs text-course-muted-foreground">
+            <ShieldAlert size={13} /> {t('students.semAceite')}
+          </span>
+        )}
+
+        <span className="w-28 shrink-0 text-right font-body text-xs text-course-muted-foreground">
+          {aluno.totalAulas > 0
+            ? `${Math.round(ratio * 100)}% · ${aluno.concluidas}/${aluno.totalAulas}`
+            : '—'}
+        </span>
+
+        <Switch
+          checked={aluno.temAcesso}
+          disabled={!courseId || ocupado}
+          onCheckedChange={(v) => aoAlternar(aluno.userId, v)}
+          aria-label={t('students.hasAccess')}
+        />
+      </div>
+
+      {aluno.totalAulas > 0 && (
+        <div className="mt-2 flex items-center gap-3">
+          <div className="max-w-md flex-1">
+            <Barra ratio={ratio} />
+          </div>
+          {aluno.segundosEstudados > 0 && (
+            <span className="font-body text-[11px] text-course-muted-foreground">
+              {formatDuration(aluno.segundosEstudados)}
+            </span>
+          )}
+          {aluno.matriculadoEm && (
+            <span className="font-body text-[11px] text-course-muted-foreground">
+              {t('students.entrouEm', {
+                data: new Date(aluno.matriculadoEm).toLocaleDateString('pt-BR'),
+              })}
+            </span>
+          )}
+        </div>
+      )}
+    </li>
+  );
+};
 
 const StudentsInner = () => {
   const { t } = useTranslation();
   const { data: courses, isLoading: loadingCourses } = useAdminCourses();
   const [courseId, setCourseId] = useState<string>('');
-  const { data: students, isLoading: loadingStudents } = useAdminStudents();
-  const { data: enrollments } = useAdminEnrollments(courseId || undefined);
+  const [busca, setBusca] = useState('');
+  const { data: alunos, isLoading } = useAdminStudentsOverview(courseId || undefined);
   const grant = useGrantEnrollment();
 
   useEffect(() => {
     if (!courseId && courses?.length) setCourseId(courses[0].id);
   }, [courses, courseId]);
 
-  const isGranted = (userId: string) =>
-    (enrollments ?? []).some(
-      (e: any) => e.user_id === userId && e.is_active && e.source !== 'free'
+  // Busca sem acento e sem caixa: quem procura "Joao" tem que achar "João".
+  const filtrados = useMemo(() => {
+    const q = normalizeName(busca);
+    if (!q) return alunos ?? [];
+    return (alunos ?? []).filter((a) =>
+      [a.nome, a.email ?? ''].some((campo) => normalizeName(campo).includes(q)),
     );
+  }, [alunos, busca]);
 
-  const toggle = async (userId: string, next: boolean) => {
+  const alternar = async (userId: string, próximo: boolean) => {
     try {
-      await grant.mutateAsync({ userId, courseId, grant: next });
-      toast.success(next ? t('students.granted') : t('students.revoked'));
+      await grant.mutateAsync({ userId, courseId, grant: próximo });
+      toast.success(próximo ? t('students.granted') : t('students.revoked'));
     } catch {
       toast.error(t('students.error'));
     }
   };
 
+  const comAceite = (alunos ?? []).filter((a) => a.aceiteEm).length;
+
   return (
-    <div className="mx-auto max-w-5xl space-y-8 px-6 py-12">
+    <div className="mx-auto max-w-5xl space-y-6 px-6 py-12">
       <div className="space-y-3">
         <Link
           to="/curso/admin"
@@ -61,7 +155,7 @@ const StudentsInner = () => {
         >
           <ArrowLeft className="h-4 w-4" /> {t('admin.backToDashboard')}
         </Link>
-        <h1 className="flex items-center gap-3 font-display text-4xl font-semibold">
+        <h1 className="flex items-center gap-3 font-display text-4xl font-semibold text-course-foreground">
           <Users className="h-8 w-8 text-course-primary" />
           {t('students.title')}
         </h1>
@@ -71,135 +165,66 @@ const StudentsInner = () => {
 
       <HelpCard id="students" />
 
-      <div className="max-w-sm">
-        {loadingCourses ? (
-          <Skeleton className="h-10 w-full bg-course-secondary" />
-        ) : (
-          <Select value={courseId} onValueChange={setCourseId}>
-            <SelectTrigger className="border-course-border bg-course-card">
-              <SelectValue placeholder={t('students.selectCourse')} />
-            </SelectTrigger>
-            <SelectContent>
-              {(courses ?? []).map((c: any) => (
-                <SelectItem key={c.id} value={c.id}>
-                  {pick(c.title_pt, c.title_en)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        )}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="min-w-[14rem] flex-1">
+          {loadingCourses ? (
+            <Skeleton className="h-10 w-full bg-course-secondary" />
+          ) : (
+            <Select value={courseId} onValueChange={setCourseId}>
+              <SelectTrigger className="border-course-border bg-course-card text-course-foreground">
+                <SelectValue placeholder={t('students.selectCourse')} />
+              </SelectTrigger>
+              <SelectContent>
+                {(courses ?? []).map((c) => (
+                  <SelectItem key={c.id} value={c.id}>
+                    {pick(c.title_pt, c.title_en)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        </div>
+        <div className="relative min-w-[14rem] flex-1">
+          <Search
+            size={14}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-course-muted-foreground"
+          />
+          <Input
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            placeholder={t('students.buscar')}
+            autoComplete="off"
+            className="border-course-border bg-course-background pl-8 text-course-foreground"
+          />
+        </div>
       </div>
 
-      {loadingStudents ? (
+      {!isLoading && (alunos ?? []).length > 0 && (
+        <p className="font-body text-sm text-course-muted-foreground">
+          {t('students.resumo', { count: (alunos ?? []).length, comAceite })}
+        </p>
+      )}
+
+      {isLoading ? (
         <Skeleton className="h-48 w-full bg-course-secondary" />
-      ) : (students ?? []).length === 0 ? (
+      ) : filtrados.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-course-border p-10 text-center font-body text-course-muted-foreground">
-          {t('students.empty')}
+          {busca ? t('students.semResultado') : t('students.empty')}
         </div>
       ) : (
         <ul className="divide-y divide-course-border/60 overflow-hidden rounded-2xl border border-course-border bg-course-card">
-          {(students ?? []).map((s) => (
-            <li key={s.user_id} className="flex items-center gap-4 px-5 py-4">
-              <Link
-                to={`/curso/admin/alunos/${s.user_id}`}
-                className="min-w-0 flex-1 transition-colors hover:text-course-primary"
-              >
-                <span className="block truncate font-body text-sm">
-                  {s.display_name || t('students.unnamed')}
-                </span>
-                <span className="block truncate font-body text-xs text-course-muted-foreground">
-                  {t('students.abrirFicha')}
-                </span>
-              </Link>
-              <span className="font-body text-xs text-course-muted-foreground">
-                {isGranted(s.user_id) ? t('students.hasAccess') : t('students.freeOnly')}
-              </span>
-              <Switch
-                checked={isGranted(s.user_id)}
-                disabled={!courseId || grant.isPending}
-                onCheckedChange={(v) => toggle(s.user_id, v)}
-              />
-            </li>
+          {filtrados.map((a) => (
+            <LinhaAluno
+              key={a.userId}
+              aluno={a}
+              courseId={courseId}
+              ocupado={grant.isPending}
+              aoAlternar={alternar}
+            />
           ))}
         </ul>
       )}
-
-      <ConsentsPanel />
     </div>
-  );
-};
-
-const ConsentsPanel = () => {
-  const { t } = useTranslation();
-  const [rows, setRows] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    supabase
-      .from('student_consents')
-      .select('id, student_id, full_name, email, cpf_typed, ip, accepted_at, term_version, term_text_hash')
-      .order('accepted_at', { ascending: false })
-      .then(({ data, error }) => {
-        if (error) console.error('[ConsentsPanel]', error);
-        setRows(data ?? []);
-        setLoading(false);
-      });
-  }, []);
-
-  const filtered = rows.filter((r) => {
-    const q = query.trim().toLowerCase();
-    if (!q) return true;
-    return [r.full_name, r.email, r.cpf_typed].some((v: string | null) =>
-      (v ?? '').toLowerCase().includes(q),
-    );
-  });
-
-  return (
-    <section className="space-y-3">
-      <h2 className="flex items-center gap-2 font-display text-2xl font-semibold">
-        <ShieldCheck className="h-6 w-6 text-course-primary" />
-        {t('security.adminTitle')}
-      </h2>
-      <p className="font-body text-sm text-course-muted-foreground">{t('security.adminSubtitle')}</p>
-      <Input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder={t('security.adminSearch')}
-        className="max-w-sm border-course-border bg-course-card"
-      />
-      {loading ? (
-        <Skeleton className="h-32 w-full bg-course-secondary" />
-      ) : filtered.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-course-border p-8 text-center font-body text-course-muted-foreground">
-          {t('security.adminEmpty')}
-        </div>
-      ) : (
-        <ul className="divide-y divide-course-border/60 overflow-hidden rounded-2xl border border-course-border bg-course-card">
-          {filtered.map((r) => (
-            <li key={r.id} className="px-5 py-4">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <Link
-                  to={`/curso/admin/alunos/${r.student_id}`}
-                  className="font-body text-sm transition-colors hover:text-course-primary hover:underline"
-                >
-                  {r.full_name}
-                </Link>
-                <span className="font-body text-xs text-course-muted-foreground">
-                  {new Date(r.accepted_at).toLocaleString('pt-BR')} · v{r.term_version} · IP {r.ip ?? '—'}
-                </span>
-              </div>
-              <div className="font-body text-xs text-course-muted-foreground">
-                {maskCPF(r.cpf_typed)} · {r.email ?? '—'}
-              </div>
-              <div className="break-all font-mono text-[10px] text-course-muted-foreground">
-                {r.term_text_hash}
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
   );
 };
 
