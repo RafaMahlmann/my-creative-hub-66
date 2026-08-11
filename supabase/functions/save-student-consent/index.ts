@@ -7,51 +7,19 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// ── Texto canônico do TERMO DO ALUNO — versão 1.0 ───────────────────────────
-// Duplicado aqui de propósito: o hash é sempre calculado a partir desta cópia
-// server-side, para que o frontend não possa assinar um texto diferente do
-// exibido. NÃO importar este texto do frontend.
-const STUDENT_TERM_VERSION = "1.0";
-const STUDENT_TERM_TEMPLATE =
-  `TERMO DE CIÊNCIA, RESPONSABILIDADE E USO — FORMAÇÃO EM PRÁTICAS INTEGRATIVAS E COMPLEMENTARES EM SAÚDE
-Versão 1.0
-
-1. NATUREZA DA FORMAÇÃO
-O conteúdo oferecido por {{OPERADOR}} ({{DOC_TIPO}} {{DOC}}) tem natureza estritamente educacional e informativa, no campo das Práticas Integrativas e Complementares em Saúde (PICS), conforme a Política Nacional de Práticas Integrativas e Complementares (Portaria MS nº 971/2006 e atualizações).
-
-Esta formação NÃO confere registro profissional em conselho de saúde, NÃO habilita ao exercício de profissão regulamentada e NÃO substitui formação acadêmica em qualquer área da saúde.
-
-2. LIMITES DA PRÁTICA — DECLARAÇÃO DO ALUNO
-O aluno declara compreender e se compromete a observar que as práticas ensinadas:
-• não curam, não tratam e não previnem doenças;
-• não constituem diagnóstico de qualquer natureza;
-• não constituem prescrição terapêutica ou medicamentosa;
-• não substituem avaliação, exames ou tratamentos conduzidos por profissionais de saúde legalmente habilitados.
-
-O aluno compromete-se a NÃO divulgar, anunciar ou apresentar as práticas aprendidas como cura, tratamento, diagnóstico ou prescrição, em qualquer meio, incluindo redes sociais e material publicitário.
-
-3. ENCAMINHAMENTO
-O aluno compromete-se a orientar toda pessoa que apresente sintomas, agravos ou condições de saúde a buscar avaliação de profissional de saúde habilitado, sem desencorajar, adiar ou substituir tratamento médico em curso.
-
-4. SUBSTÂNCIAS NATURAIS E PLANTAS MEDICINAIS
-Referências a plantas medicinais, nutrientes ou suplementos apresentadas no conteúdo têm finalidade informativa e educacional e não constituem prescrição. Tais substâncias podem apresentar contraindicações e interações. O aluno declara ciência de que a orientação sobre uso é atribuição de profissional qualificado e dentro dos limites legais de sua própria formação.
-
-5. PROTEÇÃO DE DADOS (LGPD — Lei nº 13.709/2018)
-{{OPERADOR}} atua como Controlador dos dados cadastrais do aluno, tratando-os para matrícula, emissão de certificados, comunicação e cumprimento de obrigação legal.
-
-Quando o aluno passar a atender pessoas, ELE será o Controlador dos dados desses atendidos, respondendo isoladamente pela base legal do tratamento, pela coleta de consentimento, pela segurança e pelo atendimento aos direitos dos titulares.
-
-Encarregado (DPO): {{DPO_NOME}} — {{DPO_EMAIL}}.
-Retenção: os registros de aceite são mantidos por, no mínimo, 5 (cinco) anos após o encerramento da relação, para cumprimento de obrigação legal e exercício regular de direitos.
-
-6. USO DO MATERIAL
-O material é licenciado para uso pessoal e intransferível do aluno. É vedada a reprodução, revenda, redistribuição, compartilhamento de acesso ou uso do conteúdo para ministrar formação própria sem autorização escrita de {{OPERADOR}}.
-
-7. ACEITE ELETRÔNICO
-O aluno declara ter lido integralmente este termo e manifesta aceite livre, informado e inequívoco. O aceite é registrado com data e hora do servidor, endereço IP de origem, versão do termo e hash criptográfico SHA-256 do texto assinado, garantindo a integridade e a reconstituição do conteúdo aceito.
-
-8. FORO
-Fica eleito o foro da comarca de {{CIDADE}} para dirimir controvérsias oriundas deste termo.`;
+// O texto do termo é lido do banco (consent_terms, versão ativa) no momento do
+// aceite — nunca vem do corpo da requisição.
+//
+// Já esteve fixo aqui, com a intenção correta de impedir que o frontend
+// assinasse um texto diferente do exibido. O efeito, porém, era o oposto:
+// ativar uma versão nova no banco mudava o que o aluno LIA na tela, mas não o
+// que ele ASSINAVA — o hash e a versão continuavam presos ao texto congelado
+// no código. Registro e tela divergiam, que é exatamente a falha que aquele
+// desenho queria evitar.
+//
+// Ler do banco server-side preserva a proteção (o cliente segue sem
+// influenciar o texto assinado) e elimina a divergência: a mesma linha que
+// alimenta a tela alimenta o hash.
 
 /** Calcula SHA-256 de uma string e retorna hex lowercase. */
 async function sha256(text: string): Promise<string> {
@@ -173,7 +141,26 @@ Deno.serve(async (req) => {
       });
     }
 
-    const canonicalText = STUDENT_TERM_TEMPLATE
+    const { data: term, error: termError } = await service
+      .from("consent_terms")
+      .select("version, text_content")
+      .eq("term_kind", "student")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    // Falha fechado: sem termo ativo não existe o que assinar. Gravar um aceite
+    // apontando para uma versão indeterminada seria pior que recusar.
+    if (termError || !term) {
+      console.error("Active term error:", termError);
+      return new Response(JSON.stringify({ error: "Nenhuma versão ativa do termo" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const canonicalText = term.text_content
       .replaceAll("{{OPERADOR}}", operator.nome)
       .replaceAll("{{DOC_TIPO}}", operator.documento_tipo)
       .replaceAll("{{DOC}}", operator.documento)
@@ -206,7 +193,7 @@ Deno.serve(async (req) => {
         state: body.state || null,
         ip: clientIp,
         user_agent: req.headers.get("user-agent")?.slice(0, 500) ?? null,
-        term_version: STUDENT_TERM_VERSION,
+        term_version: term.version,
         term_text_hash: termTextHash,
       })
       .select("id, accepted_at, term_version, term_text_hash, ip")
