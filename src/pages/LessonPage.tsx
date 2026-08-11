@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, ArrowRight, CheckCircle2, Lock, LockOpen } from 'lucide-react';
@@ -11,8 +11,13 @@ import { TutorPanel } from '@/components/course/TutorPanel';
 import { MaterialLink } from '@/components/course/MaterialLink';
 import { useLesson } from '@/hooks/useLesson';
 import { useStudentAuth } from '@/hooks/useStudentAuth';
-import { useEnrollment, useLessonProgress } from '@/hooks/useEnrollment';
+import { useEnrollment, useLessonProgress, useLessonsProgress } from '@/hooks/useEnrollment';
 import { pick, formatDuration } from '@/lib/course';
+
+/** Fração assistida a partir da qual a aula conta como concluída sozinha. */
+const AUTO_COMPLETE_RATIO = 0.9;
+/** Intervalo mínimo, em segundos assistidos, entre gravações do tempo. */
+const SAVE_EVERY_SECONDS = 15;
 
 const LessonPage = () => {
   const { courseSlug, lessonSlug } = useParams();
@@ -21,14 +26,28 @@ const LessonPage = () => {
   const { isAuthenticated } = useStudentAuth();
   const { hasPremiumAccess } = useEnrollment(data?.course?.id);
   const { progress, save } = useLessonProgress(data?.lesson?.id);
+  const { data: sidebarProgress } = useLessonsProgress((data?.ordered ?? []).map((l) => l.id));
 
   const lessonId = data?.lesson?.id;
   const canWatch = !!data?.lesson?.is_free || hasPremiumAccess;
+  const lastSavedSecondRef = useRef(0);
 
   useEffect(() => {
     if (lessonId && isAuthenticated && canWatch) save.mutate({});
+    lastSavedSecondRef.current = 0;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lessonId, isAuthenticated, canWatch]);
+
+  const handleProgressSeconds = (seconds: number) => {
+    if (!lessonId || !isAuthenticated) return;
+    const rounded = Math.floor(seconds);
+    if (rounded <= lastSavedSecondRef.current) return;
+    const duration = data?.lesson?.videos?.duration_seconds ?? 0;
+    const crossedAutoComplete = duration > 0 && seconds >= duration * AUTO_COMPLETE_RATIO && !progress?.is_completed;
+    if (!crossedAutoComplete && rounded - lastSavedSecondRef.current < SAVE_EVERY_SECONDS) return;
+    lastSavedSecondRef.current = rounded;
+    save.mutate({ seconds_watched: rounded, ...(crossedAutoComplete ? { is_completed: true } : {}) });
+  };
 
 
   if (isLoading) {
@@ -76,7 +95,7 @@ const LessonPage = () => {
             <ArrowLeft className="h-4 w-4" /> {pick(course.title_pt, course.title_en)}
           </Link>
 
-          <VideoPlayer video={lesson.videos} locked={locked} />
+          <VideoPlayer video={lesson.videos} locked={locked} onProgressSeconds={handleProgressSeconds} />
 
           {locked && (
             <div className="rounded-xl border border-course-border bg-course-card p-5">
@@ -207,6 +226,7 @@ const LessonPage = () => {
           <ul className="max-h-[60vh] divide-y divide-course-border/60 overflow-y-auto">
             {ordered.map((l, i) => {
               const active = l.slug === lesson.slug;
+              const done = !!sidebarProgress?.[l.id]?.is_completed;
               return (
                 <li key={l.id}>
                   <Link
@@ -215,9 +235,13 @@ const LessonPage = () => {
                       active ? 'bg-course-secondary' : 'hover:bg-course-secondary/60'
                     }`}
                   >
-                    <span className="font-body text-xs tabular-nums text-course-muted-foreground">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
+                    {done ? (
+                      <CheckCircle2 size={14} className="shrink-0 text-course-primary" />
+                    ) : (
+                      <span className="font-body text-xs tabular-nums text-course-muted-foreground">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                    )}
                     <span className="min-w-0 flex-1 truncate font-body text-sm">
                       {pick(l.title_pt, l.title_en)}
                     </span>

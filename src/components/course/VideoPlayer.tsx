@@ -20,9 +20,11 @@ export function buildVideoSrc(video?: VideoInfo | null): string | null {
 type Props = {
   video?: VideoInfo | null;
   locked?: boolean;
+  /** chamado a cada avanço real do tempo assistido, em segundos */
+  onProgressSeconds?: (seconds: number) => void;
 };
 
-export const VideoPlayer = ({ video, locked }: Props) => {
+export const VideoPlayer = ({ video, locked, onProgressSeconds }: Props) => {
   const { t } = useTranslation();
   const src = buildVideoSrc(video);
 
@@ -52,6 +54,7 @@ export const VideoPlayer = ({ video, locked }: Props) => {
         width="100%"
         height="100%"
         config={{ vimeo: { cc: true } }}
+        onTimeUpdate={(e) => onProgressSeconds?.(e.currentTarget.currentTime)}
       />
     </div>
   );

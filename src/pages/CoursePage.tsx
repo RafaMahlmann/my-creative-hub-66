@@ -1,16 +1,31 @@
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Lock, LockOpen, PlayCircle, ArrowLeft } from 'lucide-react';
+import { Lock, LockOpen, PlayCircle, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
 import { useCourseDetail } from '@/hooks/useCourses';
+import { useStudentAuth } from '@/hooks/useStudentAuth';
+import { useLessonsProgress } from '@/hooks/useEnrollment';
 import { pick, formatDuration } from '@/lib/course';
+
+/** Barra fininha de progresso — sem instalar componente novo para um retângulo colorido. */
+const ProgressBar = ({ ratio, emphasize }: { ratio: number; emphasize?: boolean }) => (
+  <div className={`h-1.5 w-full overflow-hidden rounded-full ${emphasize ? 'bg-course-primary/20' : 'bg-course-secondary'}`}>
+    <div
+      className={`h-full rounded-full transition-[width] ${emphasize ? 'bg-course-primary' : 'bg-course-muted-foreground/50'}`}
+      style={{ width: `${Math.round(ratio * 100)}%` }}
+    />
+  </div>
+);
 
 const CoursePage = () => {
   const { courseSlug } = useParams();
   const { t } = useTranslation();
   const { data, isLoading } = useCourseDetail(courseSlug);
+  const { isAuthenticated } = useStudentAuth();
+  const allLessonIds = (data?.modules ?? []).flatMap((m) => m.lessons.map((l) => l.id));
+  const { data: progressMap } = useLessonsProgress(allLessonIds);
 
   if (isLoading) {
     return (
@@ -42,6 +57,10 @@ const CoursePage = () => {
 
   const { course, modules } = data;
   const totalLessons = modules.reduce((acc, m) => acc + m.lessons.length, 0);
+  const completedCount = allLessonIds.filter((id) => progressMap?.[id]?.is_completed).length;
+  const secondsStudied = Object.values(progressMap ?? {}).reduce((acc, r) => acc + r.seconds_watched, 0);
+  const courseRatio = totalLessons > 0 ? completedCount / totalLessons : 0;
+  const showProgress = isAuthenticated && totalLessons > 0;
 
   return (
     <CourseShell>
@@ -77,21 +96,58 @@ const CoursePage = () => {
         </div>
       </section>
 
+      {showProgress && (
+        <div className="mx-auto max-w-4xl px-6 pt-8">
+          <div className="rounded-xl border border-course-border bg-course-card p-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="font-body text-sm text-course-foreground">
+                {t('course.lessonsCompleted', { count: completedCount })}
+                {secondsStudied > 0 && ` · ${t('course.studyTime', { time: formatDuration(secondsStudied) })}`}
+              </p>
+              <p
+                className={`font-body text-sm font-semibold ${
+                  courseRatio >= 0.5 ? 'text-course-primary' : 'text-course-muted-foreground'
+                }`}
+              >
+                {Math.round(courseRatio * 100)}%
+              </p>
+            </div>
+            <div className="mt-3">
+              <ProgressBar ratio={courseRatio} emphasize={courseRatio >= 0.5} />
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto max-w-4xl space-y-8 px-6 py-12">
         {modules.length === 0 && (
           <p className="font-body text-course-muted-foreground">{t('course.emptyModules')}</p>
         )}
-        {modules.map((m, idx) => (
+        {modules.map((m, idx) => {
+          const moduleCompleted = m.lessons.filter((l) => progressMap?.[l.id]?.is_completed).length;
+          return (
           <section key={m.id} className="overflow-hidden rounded-xl border border-course-border bg-course-card">
             <header className="border-b border-course-border/70 px-5 py-4">
-              <p className="font-body text-xs uppercase tracking-widest text-course-muted-foreground">
-                {t('course.moduleLabel', { number: idx + 1 })}
-              </p>
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-body text-xs uppercase tracking-widest text-course-muted-foreground">
+                  {t('course.moduleLabel', { number: idx + 1 })}
+                </p>
+                {showProgress && m.lessons.length > 0 && (
+                  <p className="font-body text-xs text-course-muted-foreground">
+                    {t('course.moduleProgress', { done: moduleCompleted, total: m.lessons.length })}
+                  </p>
+                )}
+              </div>
               <h2 className="font-display text-2xl font-semibold">{pick(m.title_pt, m.title_en)}</h2>
               {pick(m.description_pt, m.description_en) && (
                 <p className="mt-1 font-body text-sm text-course-muted-foreground">
                   {pick(m.description_pt, m.description_en)}
                 </p>
+              )}
+              {showProgress && m.lessons.length > 0 && (
+                <div className="mt-3">
+                  <ProgressBar ratio={moduleCompleted / m.lessons.length} />
+                </div>
               )}
             </header>
             <ul className="divide-y divide-course-border/60">
@@ -100,15 +156,21 @@ const CoursePage = () => {
                   {t('course.emptyLessons')}
                 </li>
               )}
-              {m.lessons.map((l, li) => (
+              {m.lessons.map((l, li) => {
+                const lessonDone = !!progressMap?.[l.id]?.is_completed;
+                return (
                 <li key={l.id}>
                   <Link
                     to={`/curso/${course.slug}/${l.slug}`}
                     className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-course-secondary/60"
                   >
-                  <span className="font-body text-sm tabular-nums text-course-muted-foreground">
-                    {String(li + 1).padStart(2, '0')}
-                  </span>
+                  {lessonDone ? (
+                    <CheckCircle2 size={16} className="shrink-0 text-course-primary" />
+                  ) : (
+                    <span className="font-body text-sm tabular-nums text-course-muted-foreground">
+                      {String(li + 1).padStart(2, '0')}
+                    </span>
+                  )}
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-body font-medium text-course-foreground">
                       {pick(l.title_pt, l.title_en)}
@@ -136,10 +198,12 @@ const CoursePage = () => {
                   </span>
                   </Link>
                 </li>
-              ))}
+                );
+              })}
             </ul>
           </section>
-        ))}
+          );
+        })}
       </div>
     </CourseShell>
   );

@@ -113,6 +113,30 @@ export function useLessonProgress(lessonId?: string) {
   return { progress: query.data ?? null, isLoading: query.isLoading, save };
 }
 
+/** Progresso do aluno logado num conjunto de aulas (curso ou playlist), indexado por lesson_id. */
+export function useLessonsProgress(lessonIds: string[]) {
+  const { user } = useStudentAuth();
+  const key = lessonIds.slice().sort().join(',');
+
+  return useQuery({
+    queryKey: ['lessons-progress', key, user?.id],
+    enabled: !!user?.id && lessonIds.length > 0,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('lesson_progress')
+        .select('lesson_id, seconds_watched, is_completed, last_seen_at')
+        .eq('user_id', user!.id)
+        .in('lesson_id', lessonIds);
+      if (error) throw error;
+      const map: Record<string, ProgressRow> = {};
+      (data ?? []).forEach((r) => {
+        map[r.lesson_id] = r as ProgressRow;
+      });
+      return map;
+    },
+  });
+}
+
 /** Aulas já vistas pelo aluno, com curso e status, para "Minhas aulas". */
 export function useMyLessons() {
   const { user } = useStudentAuth();

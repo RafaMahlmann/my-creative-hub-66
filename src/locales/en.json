@@ -35,7 +35,11 @@
     "lessonCount": "{{count}} lesson",
     "lessonCount_other": "{{count}} lessons",
     "backToCourseHome": "Course home",
-    "therapistSite": "Therapist site"
+    "therapistSite": "Therapist site",
+    "lessonsCompleted": "{{count}} lesson completed",
+    "lessonsCompleted_other": "{{count}} lessons completed",
+    "studyTime": "{{time}} studied",
+    "moduleProgress": "{{done}}/{{total}} lessons"
   },
   "lesson": {
     "about": "About this lesson",
