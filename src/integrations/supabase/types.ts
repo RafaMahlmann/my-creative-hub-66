@@ -764,6 +764,13 @@ export type Database = {
         }
         Returns: boolean
       }
+      verificar_comprovante: {
+        Args: { p_hash: string }
+        Returns: {
+          accepted_at: string
+          term_version: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "editor"
