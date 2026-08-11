@@ -77,7 +77,7 @@ const StudentAuth = () => {
     <CourseShell>
       <div className="mx-auto max-w-md px-6 py-16">
         <div className="rounded-2xl border border-course-border bg-course-card p-8">
-          <h1 className="font-display text-3xl font-semibold">
+          <h1 className="font-display text-3xl font-semibold text-course-foreground">
             {mode === 'signin' ? t('auth.signInTitle') : t('auth.signUpTitle')}
           </h1>
           <p className="mt-2 font-body text-sm text-course-muted-foreground">
@@ -91,7 +91,7 @@ const StudentAuth = () => {
               <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 {mode === 'signup' && (
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="font-body text-xs uppercase tracking-widest">
+                    <Label htmlFor="name" className="font-body text-xs uppercase tracking-widest text-course-foreground">
                       {t('auth.name')}
                     </Label>
                     <Input
@@ -103,7 +103,7 @@ const StudentAuth = () => {
                   </div>
                 )}
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="font-body text-xs uppercase tracking-widest">
+                  <Label htmlFor="email" className="font-body text-xs uppercase tracking-widest text-course-foreground">
                     {t('auth.email')}
                   </Label>
                   <Input
@@ -116,7 +116,7 @@ const StudentAuth = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="font-body text-xs uppercase tracking-widest">
+                  <Label htmlFor="password" className="font-body text-xs uppercase tracking-widest text-course-foreground">
                     {t('auth.password')}
                   </Label>
                   <Input

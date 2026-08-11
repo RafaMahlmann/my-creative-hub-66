@@ -2,6 +2,7 @@ import { FormEvent, ReactNode, useMemo, useRef, useState } from 'react';
 import { AlertTriangle, Loader2, ShieldCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase/client';
+import { CourseShell } from '@/components/course/CourseShell';
 import { useStudentConsent } from '@/hooks/useStudentConsent';
 import { formatCEP, formatCPF, normalizeName, validateCPF } from '@/lib/consent';
 import { Button } from '@/components/ui/button';
@@ -127,9 +128,11 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
 
   if (authLoading || loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-course-muted-foreground" />
-      </div>
+      <CourseShell>
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <Loader2 className="h-6 w-6 animate-spin text-course-muted-foreground" />
+        </div>
+      </CourseShell>
     );
   }
 
@@ -138,36 +141,39 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
 
   if (error) {
     return (
-      <div className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center gap-4 px-6 text-center">
-        <AlertTriangle className="h-8 w-8 text-destructive" />
-        <p className="font-body text-sm text-course-muted-foreground">{t('consent.loadError')}</p>
-        <Button variant="outline" onClick={reload}>
-          {t('consent.retry')}
-        </Button>
-      </div>
+      <CourseShell>
+        <div className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center gap-4 px-6 text-center">
+          <AlertTriangle className="h-8 w-8 text-destructive" />
+          <p className="font-body text-sm text-course-muted-foreground">{t('consent.loadError')}</p>
+          <Button variant="outline" onClick={reload}>
+            {t('consent.retry')}
+          </Button>
+        </div>
+      </CourseShell>
     );
   }
 
   if (consent) return <>{children}</>;
 
   return (
+    <CourseShell>
     <div className="mx-auto max-w-3xl px-6 py-10">
       <div className="mb-6 flex items-start gap-3">
         <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-course-primary/15 text-course-primary">
           <ShieldCheck size={18} />
         </span>
         <div>
-          <h1 className="font-display text-2xl font-semibold">{t('consent.title')}</h1>
+          <h1 className="font-display text-2xl font-semibold text-course-foreground">{t('consent.title')}</h1>
           <p className="font-body text-sm text-course-muted-foreground">{t('consent.subtitle')}</p>
         </div>
       </div>
 
       <form onSubmit={submit} className="space-y-8">
         <section className="rounded-2xl border border-course-border/60 bg-course-card p-5">
-          <h2 className="mb-4 font-display text-lg font-semibold">{t('consent.formTitle')}</h2>
+          <h2 className="mb-4 font-display text-lg font-semibold text-course-foreground">{t('consent.formTitle')}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <Label htmlFor="fullName">{t('consent.fullName')}</Label>
+              <Label htmlFor="fullName" className="text-course-foreground">{t('consent.fullName')}</Label>
               <Input
                 id="fullName"
                 value={form.fullName}
@@ -177,7 +183,7 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
               />
             </div>
             <div>
-              <Label htmlFor="cpf">{t('consent.cpf')}</Label>
+              <Label htmlFor="cpf" className="text-course-foreground">{t('consent.cpf')}</Label>
               <Input
                 id="cpf"
                 value={form.cpf}
@@ -190,7 +196,7 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
               )}
             </div>
             <div>
-              <Label htmlFor="birthDate">{t('consent.birthDate')}</Label>
+              <Label htmlFor="birthDate" className="text-course-foreground">{t('consent.birthDate')}</Label>
               <Input
                 id="birthDate"
                 type="date"
@@ -199,11 +205,11 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
               />
             </div>
             <div>
-              <Label htmlFor="phone">{t('consent.phone')}</Label>
+              <Label htmlFor="phone" className="text-course-foreground">{t('consent.phone')}</Label>
               <Input id="phone" value={form.phone} onChange={(e) => set('phone', e.target.value)} maxLength={30} />
             </div>
             <div>
-              <Label htmlFor="email">{t('consent.email')}</Label>
+              <Label htmlFor="email" className="text-course-foreground">{t('consent.email')}</Label>
               <Input
                 id="email"
                 type="email"
@@ -213,7 +219,7 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
               />
             </div>
             <div>
-              <Label htmlFor="cep">{t('consent.cep')}</Label>
+              <Label htmlFor="cep" className="text-course-foreground">{t('consent.cep')}</Label>
               <Input
                 id="cep"
                 value={form.cep}
@@ -226,15 +232,15 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
               />
             </div>
             <div>
-              <Label htmlFor="street">{t('consent.street')}</Label>
+              <Label htmlFor="street" className="text-course-foreground">{t('consent.street')}</Label>
               <Input id="street" value={form.street} onChange={(e) => set('street', e.target.value)} maxLength={200} />
             </div>
             <div>
-              <Label htmlFor="number">{t('consent.number')}</Label>
+              <Label htmlFor="number" className="text-course-foreground">{t('consent.number')}</Label>
               <Input id="number" value={form.number} onChange={(e) => set('number', e.target.value)} maxLength={20} />
             </div>
             <div>
-              <Label htmlFor="complement">{t('consent.complement')}</Label>
+              <Label htmlFor="complement" className="text-course-foreground">{t('consent.complement')}</Label>
               <Input
                 id="complement"
                 value={form.complement}
@@ -243,7 +249,7 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
               />
             </div>
             <div>
-              <Label htmlFor="neighborhood">{t('consent.neighborhood')}</Label>
+              <Label htmlFor="neighborhood" className="text-course-foreground">{t('consent.neighborhood')}</Label>
               <Input
                 id="neighborhood"
                 value={form.neighborhood}
@@ -252,11 +258,11 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
               />
             </div>
             <div>
-              <Label htmlFor="city">{t('consent.city')}</Label>
+              <Label htmlFor="city" className="text-course-foreground">{t('consent.city')}</Label>
               <Input id="city" value={form.city} onChange={(e) => set('city', e.target.value)} maxLength={120} />
             </div>
             <div>
-              <Label htmlFor="state">{t('consent.state')}</Label>
+              <Label htmlFor="state" className="text-course-foreground">{t('consent.state')}</Label>
               <Input
                 id="state"
                 value={form.state}
@@ -268,14 +274,14 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
         </section>
 
         <section className="rounded-2xl border border-course-border/60 bg-course-card p-5">
-          <h2 className="mb-1 font-display text-lg font-semibold">{t('consent.termTitle')}</h2>
+          <h2 className="mb-1 font-display text-lg font-semibold text-course-foreground">{t('consent.termTitle')}</h2>
           <p className="mb-3 font-body text-xs text-course-muted-foreground">
             {t('consent.termVersion', { version: term?.version ?? '1.0' })} · {t('consent.scrollHint')}
           </p>
           <div
             ref={scrollRef}
             onScroll={handleScroll}
-            className="h-80 overflow-y-auto whitespace-pre-wrap rounded-xl border border-course-border/60 bg-course-background p-4 font-body text-sm leading-relaxed"
+            className="h-80 overflow-y-auto whitespace-pre-wrap rounded-xl border border-course-border/60 bg-course-background p-4 font-body text-sm leading-relaxed text-course-foreground"
           >
             {termText}
           </div>
@@ -290,13 +296,13 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
               onCheckedChange={(v) => setAccepted(v === true)}
               disabled={!scrolledToEnd}
             />
-            <Label htmlFor="accept" className="font-body text-sm leading-snug">
+            <Label htmlFor="accept" className="font-body text-sm leading-snug text-course-foreground">
               {t('consent.checkbox')}
             </Label>
           </div>
 
           <div className="mt-4">
-            <Label htmlFor="nameTyped">{t('consent.typeName')}</Label>
+            <Label htmlFor="nameTyped" className="text-course-foreground">{t('consent.typeName')}</Label>
             <Input
               id="nameTyped"
               value={nameTyped}
@@ -318,5 +324,6 @@ export const StudentConsentGate = ({ children }: { children: ReactNode }) => {
         </section>
       </form>
     </div>
+    </CourseShell>
   );
 };
