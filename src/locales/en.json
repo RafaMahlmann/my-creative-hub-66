@@ -53,6 +53,20 @@
     "notFound": "Lesson not found.",
     "upNext": "Up next"
   },
+  "demandas": {
+    "titulo": "Future work",
+    "intro": "Things you decided about but couldn't do yet — for lack of money, time or a decision. Each item keeps its reasoning, so you can rebuild the context when you come back.",
+    "resumo": "{{total}} items logged · {{pagas}} need investment.",
+    "cat_juridico": "Legal",
+    "cat_marca": "Brand and authorship",
+    "cat_produto": "Product",
+    "cat_tecnico": "Technical",
+    "custo_pago": "needs investment",
+    "custo_tempo": "only needs time",
+    "porque": "Why it matters",
+    "proximoPasso": "Next step",
+    "comoAdicionar": "This list lives in src/lib/demandas.ts, versioned in Git — every change is dated. To add an item, ask Claude or edit the file. If one day you want to add items from this screen, that's when a database table is worth it."
+  },
   "map": {
     "open": "View course map",
     "title": "Course map",

@@ -53,6 +53,20 @@
     "notFound": "Aula não encontrada.",
     "upNext": "A seguir"
   },
+  "demandas": {
+    "titulo": "Demandas futuras",
+    "intro": "O que ficou consciente mas não cabia agora — por falta de dinheiro, de tempo ou de decisão. Cada item guarda o porquê junto, para você reconstruir o contexto quando voltar aqui.",
+    "resumo": "{{total}} demandas registradas · {{pagas}} dependem de investimento.",
+    "cat_juridico": "Jurídico",
+    "cat_marca": "Marca e autoria",
+    "cat_produto": "Produto",
+    "cat_tecnico": "Técnico",
+    "custo_pago": "precisa de investimento",
+    "custo_tempo": "só precisa de tempo",
+    "porque": "Por que importa",
+    "proximoPasso": "Próximo passo",
+    "comoAdicionar": "Esta lista vive no arquivo src/lib/demandas.ts, versionado no Git — cada mudança fica registrada com data. Para incluir um item novo, peça ao Claude ou edite o arquivo. Se um dia quiser adicionar direto por esta tela, aí sim vale criar uma tabela no banco."
+  },
   "map": {
     "open": "Ver mapa do curso",
     "title": "Mapa do curso",
