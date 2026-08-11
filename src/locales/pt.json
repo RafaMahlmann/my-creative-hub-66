@@ -435,7 +435,8 @@
       "sourcePath": "Cole aqui o caminho da pasta no seu computador (ex.: D:\\videos\\aula01.mp4). Serve só para você reencontrar o arquivo original depois.",
       "provider": "Vimeo/YouTube = o vídeo mora lá e o site só mostra. \"Arquivo\" = o vídeo foi enviado por você para o nosso servidor.",
       "publishToggle": "Rascunho = invisível para o público. Publicado = já aparece no catálogo.",
-      "freeToggle": "Gratuita = qualquer pessoa assiste. Exclusiva = só quem está matriculado."
+      "freeToggle": "Gratuita = qualquer pessoa assiste. Exclusiva = só quem está matriculado.",
+      "draftFromTranscript": "A IA lê a legenda e devolve um rascunho de texto de leitura — sem \"né\", sem repetição, em parágrafos. É rascunho: revise antes de salvar, ela pode errar termo técnico."
     }
   },
   "consent": {
@@ -548,6 +549,8 @@
     "addCourse": "Novo curso",
     "thumbTitle": "Miniatura",
     "thumbHelp": "Escolha uma imagem para representar este vídeo no catálogo.",
+    "draftFromTranscript": "Gerar rascunho a partir da legenda",
+    "noTranscriptYet": "Ainda não tem legenda salva nesta aula para gerar o rascunho.",
     "thumbAdd": "Adicionar miniatura",
     "thumbChange": "Trocar miniatura",
     "thumbRemove": "Remover",

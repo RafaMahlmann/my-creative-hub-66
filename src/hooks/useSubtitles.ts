@@ -49,6 +49,21 @@ export function useSaveSubtitle(videoId?: string | null) {
   });
 }
 
+/** Rascunho de texto de leitura a partir da legenda — a IA limpa, a pessoa revisa e salva. */
+export function useCleanTranscript() {
+  return useMutation({
+    mutationFn: async (input: { text: string; lang: 'pt' | 'en' }) => {
+      const { data, error } = await supabase.functions.invoke('clean-transcript', {
+        body: input,
+      });
+      if (error) throw error;
+      const cleaned = (data as { text?: string; error?: string })?.text;
+      if (!cleaned) throw new Error((data as { error?: string })?.error || 'falha ao limpar a transcrição');
+      return cleaned;
+    },
+  });
+}
+
 export function useTranslateSubtitle(videoId?: string | null) {
   const qc = useQueryClient();
   return useMutation({

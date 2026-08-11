@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, Copy, Save } from 'lucide-react';
+import { ArrowLeft, Copy, Save, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
@@ -14,6 +14,8 @@ import { ThumbPicker } from '@/components/course/ThumbPicker';
 import { PendingSetupCard } from '@/components/course/PendingSetupCard';
 import { MaterialsTab } from '@/components/course/MaterialsTab';
 import { useThumbSupport } from '@/hooks/useThumbSupport';
+import { useSubtitles, useCleanTranscript } from '@/hooks/useSubtitles';
+import { vttToPlainText } from '@/lib/vtt';
 
 import { TutorContextTab } from '@/components/course/TutorContextTab';
 import { Button } from '@/components/ui/button';
@@ -72,6 +74,20 @@ const Inner = () => {
   const thumbOk = useThumbSupport();
   const [form, setForm] = useState<Record<string, string>>({});
   const [vForm, setVForm] = useState<Record<string, string>>({});
+  const { data: subtitles } = useSubtitles(video?.id);
+  const cleanTranscript = useCleanTranscript();
+
+  const generateDraft = (lang: 'pt' | 'en') => {
+    const raw = vttToPlainText(subtitles?.[lang]?.content);
+    if (!raw.trim()) return toast.error(t('editor.noTranscriptYet'));
+    cleanTranscript.mutate(
+      { text: raw, lang },
+      {
+        onSuccess: (text) => setForm((s) => ({ ...s, [`content_${lang}`]: text })),
+        onError: (e) => toast.error(e instanceof Error ? e.message : 'erro'),
+      },
+    );
+  };
 
   useEffect(() => {
     if (!lesson) return;
@@ -373,9 +389,36 @@ const Inner = () => {
               {field('title_en', t('admin.titleEn'))}
               {field('description_pt', t('admin.descPt'), true)}
               {field('description_en', t('admin.descEn'), true)}
-              {field('content_pt', t('admin.contentPt'), true)}
-              {field('content_en', t('admin.contentEn'), true)}
+              <div className="space-y-1">
+                {field('content_pt', t('admin.contentPt'), true)}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={cleanTranscript.isPending || !subtitles?.pt?.content}
+                  onClick={() => generateDraft('pt')}
+                  className="border-course-border bg-course-card text-course-foreground hover:bg-course-secondary"
+                >
+                  <Sparkles className="mr-2 h-3.5 w-3.5" />
+                  {t('editor.draftFromTranscript')}
+                </Button>
+              </div>
+              <div className="space-y-1">
+                {field('content_en', t('admin.contentEn'), true)}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={cleanTranscript.isPending || !subtitles?.en?.content}
+                  onClick={() => generateDraft('en')}
+                  className="border-course-border bg-course-card text-course-foreground hover:bg-course-secondary"
+                >
+                  <Sparkles className="mr-2 h-3.5 w-3.5" />
+                  {t('editor.draftFromTranscript')}
+                </Button>
+              </div>
             </div>
+            <HelpNote id="draftFromTranscript" />
             <Button
               onClick={() => saveLesson(form)}
               className="bg-course-primary text-course-primary-foreground hover:bg-course-primary/90"

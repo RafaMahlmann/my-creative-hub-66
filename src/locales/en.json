@@ -435,7 +435,8 @@
       "sourcePath": "Paste the folder path on your computer here (e.g. D:\\videos\\lesson01.mp4). It only helps you find the original file later.",
       "provider": "Vimeo/YouTube = the video lives there and the site just displays it. \"File\" = you uploaded the video to our server.",
       "publishToggle": "Draft = invisible to the public. Published = already in the catalog.",
-      "freeToggle": "Free = anyone can watch. Exclusive = only enrolled students."
+      "freeToggle": "Free = anyone can watch. Exclusive = only enrolled students.",
+      "draftFromTranscript": "The AI reads the subtitle and returns a reading-text draft — no filler words, no repeats, in paragraphs. It's a draft: review before saving, it can get technical terms wrong."
     }
   },
   "consent": {
@@ -548,6 +549,8 @@
     "addCourse": "New course",
     "thumbTitle": "Thumbnail",
     "thumbHelp": "Pick an image to represent this video in the catalogue.",
+    "draftFromTranscript": "Generate draft from subtitle",
+    "noTranscriptYet": "No subtitle saved for this lesson yet to generate the draft from.",
     "thumbAdd": "Add thumbnail",
     "thumbChange": "Change thumbnail",
     "thumbRemove": "Remove",
