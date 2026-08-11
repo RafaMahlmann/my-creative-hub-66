@@ -100,14 +100,17 @@ const StudentsInner = () => {
         <ul className="divide-y divide-course-border/60 overflow-hidden rounded-2xl border border-course-border bg-course-card">
           {(students ?? []).map((s) => (
             <li key={s.user_id} className="flex items-center gap-4 px-5 py-4">
-              <span className="min-w-0 flex-1">
+              <Link
+                to={`/curso/admin/alunos/${s.user_id}`}
+                className="min-w-0 flex-1 transition-colors hover:text-course-primary"
+              >
                 <span className="block truncate font-body text-sm">
                   {s.display_name || t('students.unnamed')}
                 </span>
                 <span className="block truncate font-body text-xs text-course-muted-foreground">
-                  {s.user_id.slice(0, 8)}
+                  {t('students.abrirFicha')}
                 </span>
-              </span>
+              </Link>
               <span className="font-body text-xs text-course-muted-foreground">
                 {isGranted(s.user_id) ? t('students.hasAccess') : t('students.freeOnly')}
               </span>
@@ -135,7 +138,7 @@ const ConsentsPanel = () => {
   useEffect(() => {
     supabase
       .from('student_consents')
-      .select('id, full_name, email, cpf_typed, ip, accepted_at, term_version, term_text_hash')
+      .select('id, student_id, full_name, email, cpf_typed, ip, accepted_at, term_version, term_text_hash')
       .order('accepted_at', { ascending: false })
       .then(({ data, error }) => {
         if (error) console.error('[ConsentsPanel]', error);
@@ -176,7 +179,12 @@ const ConsentsPanel = () => {
           {filtered.map((r) => (
             <li key={r.id} className="px-5 py-4">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <span className="font-body text-sm">{r.full_name}</span>
+                <Link
+                  to={`/curso/admin/alunos/${r.student_id}`}
+                  className="font-body text-sm transition-colors hover:text-course-primary hover:underline"
+                >
+                  {r.full_name}
+                </Link>
                 <span className="font-body text-xs text-course-muted-foreground">
                   {new Date(r.accepted_at).toLocaleString('pt-BR')} · v{r.term_version} · IP {r.ip ?? '—'}
                 </span>
