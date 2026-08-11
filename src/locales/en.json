@@ -53,6 +53,15 @@
     "notFound": "Lesson not found.",
     "upNext": "Up next"
   },
+  "reader": {
+    "fontSize": "Font size",
+    "size_sm": "Small text",
+    "size_md": "Medium text",
+    "size_lg": "Large text",
+    "theme": "Reading theme",
+    "themeDark": "Dark theme",
+    "themeLight": "Light theme"
+  },
   "admin": {
     "panel": "Creator panel",
     "title": "Course Hub",

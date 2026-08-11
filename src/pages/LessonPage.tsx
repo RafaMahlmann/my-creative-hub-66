@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
+import { LessonReader } from '@/components/course/LessonReader';
 import { TranscriptPanel } from '@/components/course/TranscriptPanel';
 import { TutorPanel } from '@/components/course/TutorPanel';
 import { MaterialLink } from '@/components/course/MaterialLink';
@@ -185,14 +186,7 @@ const LessonPage = () => {
             )}
           </div>
 
-          {content && (
-            <section className="rounded-xl border border-course-border bg-course-card p-5">
-              <h2 className="mb-2 font-display text-xl font-semibold">{t('lesson.about')}</h2>
-              <p className="whitespace-pre-line font-body text-sm leading-relaxed text-course-muted-foreground">
-                {content}
-              </p>
-            </section>
-          )}
+          {content && <LessonReader title={t('lesson.about')} content={content} />}
 
           {!locked && <TranscriptPanel videoId={lesson.videos?.id} />}
 

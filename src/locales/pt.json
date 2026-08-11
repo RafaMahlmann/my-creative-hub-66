@@ -53,6 +53,15 @@
     "notFound": "Aula não encontrada.",
     "upNext": "A seguir"
   },
+  "reader": {
+    "fontSize": "Tamanho da letra",
+    "size_sm": "Letra pequena",
+    "size_md": "Letra média",
+    "size_lg": "Letra grande",
+    "theme": "Tema de leitura",
+    "themeDark": "Tema escuro",
+    "themeLight": "Tema claro"
+  },
   "admin": {
     "panel": "Painel do criador",
     "title": "Central do Curso",
