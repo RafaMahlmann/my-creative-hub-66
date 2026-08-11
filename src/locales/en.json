@@ -50,7 +50,8 @@
     "playlist": "Course content",
     "locked": "This lesson is exclusive to students.",
     "noVideo": "Video not available yet.",
-    "notFound": "Lesson not found."
+    "notFound": "Lesson not found.",
+    "upNext": "Up next"
   },
   "admin": {
     "panel": "Creator panel",

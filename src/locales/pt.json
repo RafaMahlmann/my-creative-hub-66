@@ -50,7 +50,8 @@
     "playlist": "Conteúdo do curso",
     "locked": "Esta aula é exclusiva para alunos.",
     "noVideo": "Vídeo ainda não disponível.",
-    "notFound": "Aula não encontrada."
+    "notFound": "Aula não encontrada.",
+    "upNext": "A seguir"
   },
   "admin": {
     "panel": "Painel do criador",

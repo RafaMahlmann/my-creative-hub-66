@@ -29,6 +29,7 @@ export type LessonNavItem = {
   is_free: boolean;
   position: number;
   module_id: string;
+  videos: { duration_seconds: number | null } | null;
 };
 
 export function useLesson(courseSlug?: string, lessonSlug?: string) {
@@ -58,7 +59,7 @@ export function useLesson(courseSlug?: string, lessonSlug?: string) {
 
       const { data: lessons, error: lErr } = await supabase
         .from('lessons')
-        .select('id, slug, title_pt, title_en, is_free, position, module_id')
+        .select('id, slug, title_pt, title_en, is_free, position, module_id, videos(duration_seconds)')
         .in('module_id', moduleIds)
         .eq('is_published', true)
         .order('position', { ascending: true });

@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, ArrowRight, CheckCircle2, Lock, LockOpen } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Lock, LockOpen, PlayCircle } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
@@ -31,10 +31,12 @@ const LessonPage = () => {
   const lessonId = data?.lesson?.id;
   const canWatch = !!data?.lesson?.is_free || hasPremiumAccess;
   const lastSavedSecondRef = useRef(0);
+  const [ended, setEnded] = useState(false);
 
   useEffect(() => {
     if (lessonId && isAuthenticated && canWatch) save.mutate({});
     lastSavedSecondRef.current = 0;
+    setEnded(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lessonId, isAuthenticated, canWatch]);
 
@@ -95,7 +97,14 @@ const LessonPage = () => {
             <ArrowLeft className="h-4 w-4" /> {pick(course.title_pt, course.title_en)}
           </Link>
 
-          <VideoPlayer video={lesson.videos} locked={locked} onProgressSeconds={handleProgressSeconds} />
+          <VideoPlayer
+            key={lessonId}
+            video={lesson.videos}
+            locked={locked}
+            onProgressSeconds={handleProgressSeconds}
+            startAt={progress?.seconds_watched}
+            onEnded={() => setEnded(true)}
+          />
 
           {locked && (
             <div className="rounded-xl border border-course-border bg-course-card p-5">
@@ -123,6 +132,28 @@ const LessonPage = () => {
               />
               {progress?.is_completed ? t('access.completed') : t('access.markCompleted')}
             </Button>
+          )}
+
+          {!locked && ended && next && (
+            <Link
+              to={`/curso/${course.slug}/${next.slug}`}
+              className="flex items-center justify-between gap-4 rounded-xl border border-course-primary bg-course-primary/10 p-5 transition-colors hover:bg-course-primary/15"
+            >
+              <div className="min-w-0">
+                <p className="font-body text-xs uppercase tracking-widest text-course-primary">
+                  {t('lesson.upNext')}
+                </p>
+                <p className="mt-1 truncate font-display text-lg font-semibold">
+                  {pick(next.title_pt, next.title_en)}
+                </p>
+                {formatDuration(next.videos?.duration_seconds) && (
+                  <p className="font-body text-xs text-course-muted-foreground">
+                    {formatDuration(next.videos?.duration_seconds)}
+                  </p>
+                )}
+              </div>
+              <PlayCircle className="h-9 w-9 shrink-0 text-course-primary" />
+            </Link>
           )}
 
 
@@ -206,7 +237,10 @@ const LessonPage = () => {
             {next && (
               <Link to={`/curso/${course.slug}/${next.slug}`} className="min-w-0">
                 <Button className="max-w-full bg-course-primary text-course-primary-foreground hover:bg-course-primary/90">
-                  <span className="truncate">{t('lesson.next')}</span>
+                  <span className="truncate">
+                    {t('lesson.next')}
+                    {formatDuration(next.videos?.duration_seconds) && ` · ${formatDuration(next.videos?.duration_seconds)}`}
+                  </span>
                   <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
                 </Button>
               </Link>
