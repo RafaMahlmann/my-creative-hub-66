@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Lock, LockOpen, PlayCircle, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { Lock, LockOpen, PlayCircle, ArrowLeft, CheckCircle2, Map } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { CourseShell } from '@/components/course/CourseShell';
@@ -115,6 +115,15 @@ const CoursePage = () => {
             <div className="mt-3">
               <ProgressBar ratio={courseRatio} emphasize={courseRatio >= 0.5} />
             </div>
+            <Link to={`/curso/${course.slug}/mapa`} className="mt-4 inline-block">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-course-border bg-course-card text-course-foreground hover:bg-course-secondary"
+              >
+                <Map className="mr-2 h-3.5 w-3.5" /> {t('map.open')}
+              </Button>
+            </Link>
           </div>
         </div>
       )}

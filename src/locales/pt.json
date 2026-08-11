@@ -53,6 +53,14 @@
     "notFound": "Aula não encontrada.",
     "upNext": "A seguir"
   },
+  "map": {
+    "open": "Ver mapa do curso",
+    "title": "Mapa do curso",
+    "signInHint": "Entre para ver seu progresso marcado no mapa.",
+    "legendDone": "Concluída",
+    "legendCurrent": "Você está aqui",
+    "legendUpcoming": "Ainda não chegou lá"
+  },
   "reader": {
     "fontSize": "Tamanho da letra",
     "size_sm": "Letra pequena",

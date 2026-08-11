@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import CourseIndex from "./pages/CourseIndex";
 import CoursePage from "./pages/CoursePage";
+import CourseMap from "./pages/CourseMap";
 import LessonPage from "./pages/LessonPage";
 import CourseAdmin from "./pages/admin/CourseAdmin";
 import VideoLibrary from "./pages/admin/VideoLibrary";
@@ -57,6 +58,14 @@ const App = () => (
               element={
                 <StudentConsentGate>
                   <CoursePage />
+                </StudentConsentGate>
+              }
+            />
+            <Route
+              path="/curso/:courseSlug/mapa"
+              element={
+                <StudentConsentGate>
+                  <CourseMap />
                 </StudentConsentGate>
               }
             />

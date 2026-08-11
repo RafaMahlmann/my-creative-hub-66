@@ -53,6 +53,14 @@
     "notFound": "Lesson not found.",
     "upNext": "Up next"
   },
+  "map": {
+    "open": "View course map",
+    "title": "Course map",
+    "signInHint": "Sign in to see your progress marked on the map.",
+    "legendDone": "Completed",
+    "legendCurrent": "You are here",
+    "legendUpcoming": "Not there yet"
+  },
   "reader": {
     "fontSize": "Font size",
     "size_sm": "Small text",
