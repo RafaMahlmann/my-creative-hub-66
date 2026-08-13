@@ -26,6 +26,8 @@ import { CourseRow } from '@/components/course/CourseRow';
 import { CourseCard } from '@/components/course/CourseCard';
 import { VideoPlayer } from '@/components/course/VideoPlayer';
 import { EditModeBar } from '@/components/course/EditModeBar';
+import { HelpCard } from '@/components/course/HelpCard';
+
 import { FeaturedEditorDialog } from '@/components/course/FeaturedEditorDialog';
 import { ThumbEditorDialog } from '@/components/course/ThumbEditorDialog';
 import { useCourses, useFreeLessons } from '@/hooks/useCourses';
