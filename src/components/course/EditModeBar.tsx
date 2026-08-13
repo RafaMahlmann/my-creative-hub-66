@@ -36,6 +36,8 @@ export const EditModeBar = () => {
           <LayoutDashboard className="h-4 w-4" />
           {t('editor.openPanel')}
         </Link>
+        <HelpModeToggle className="rounded-full" />
+
       </div>
     </div>
   );
