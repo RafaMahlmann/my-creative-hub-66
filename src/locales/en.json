@@ -117,7 +117,10 @@
     "servidor_descricao": "What the hard-drive server is, what it does, how to install it from scratch, how to start it every day, how to scan, pull subtitles and PDF pages, what to do when something doesn't show up, and the maintenance and backup routine.",
     "paginas": "{{count}} pages",
     "abrir": "Open",
-    "baixar": "Download PDF"
+    "baixar": "Download PDF",
+    "painel_titulo": "Creator panel manual",
+    "painel_descricao": "How to create a course, module and lesson, swap the video, add thumbnails, pick the spotlight, mark free lessons and publish.",
+    "somentePt": "Portuguese only"
   },
   "demandas": {
     "titulo": "Future work",
@@ -218,7 +221,10 @@
     "openLibrary": "Video library",
     "openStudents": "Students",
     "backToDashboard": "Back to dashboard",
-    "devUiBanner": "Local inspection mode — this machine only. It grants no permissions: the database still blocks every write."
+    "devUiBanner": "Local inspection mode — this machine only. It grants no permissions: the database still blocks every write.",
+    "videosLoadError": "Couldn't load the video library",
+    "videosLoadErrorHint": "This usually means your admin session expired. Sign in again and come back to this screen.",
+    "videosLoadErrorLogin": "Sign in again"
   },
   "home": {
     "hero": {
@@ -668,7 +674,14 @@
     "thumbFailed": "Could not upload the image",
     "thumbTooLarge": "The image must be under 5 MB",
     "thumbInvalid": "Choose an image file",
-    "coverTitle": "Course cover"
+    "coverTitle": "Course cover",
+    "menuTitle": "Edit this block",
+    "menuOpen": "Editing options",
+    "menuHint": "Right-click the card to open this menu.",
+    "changeVideo": "Change video",
+    "editTexts": "Edit texts",
+    "openInPanel": "Open in panel",
+    "openPanelHome": "Open creator panel"
   },
   "setup": {
     "thumbTitle": "One step left before thumbnails work",
