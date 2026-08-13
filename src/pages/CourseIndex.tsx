@@ -237,6 +237,12 @@ const CourseIndex = () => {
       </section>
 
       <div className="mx-auto max-w-7xl space-y-10 py-12">
+        {editing && (
+          <div className="px-6">
+            <HelpCard id="vitrine" />
+          </div>
+        )}
+
         <CourseRow
           title={t('course.rowStartHere')}
           editing={editing}
