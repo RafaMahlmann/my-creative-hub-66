@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, BookMarked, Download, Server } from 'lucide-react';
+import { ArrowLeft, BookMarked, Download, LayoutDashboard, Server } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,8 @@ type Manual = {
   arquivo: { pt: string; en: string };
   icone: React.ReactNode;
   paginas: { pt: number; en: number };
+  /** existe só em português — a página avisa em vez de dar link quebrado */
+  somentePt?: boolean;
 };
 
 const MANUAIS: Manual[] = [
@@ -22,7 +24,18 @@ const MANUAIS: Manual[] = [
     icone: <Server className="h-5 w-5" />,
     paginas: { pt: 17, en: 16 },
   },
+  {
+    id: 'painel',
+    arquivo: {
+      pt: '/manuais/manual-do-painel-do-criador.pdf',
+      en: '/manuais/manual-do-painel-do-criador.pdf',
+    },
+    icone: <LayoutDashboard className="h-5 w-5" />,
+    paginas: { pt: 16, en: 16 },
+    somentePt: true,
+  },
 ];
+
 
 const Inner = () => {
   const { t, i18n } = useTranslation();
