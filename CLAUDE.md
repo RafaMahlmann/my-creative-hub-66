@@ -16,9 +16,9 @@ apostilas e tutor de IA por módulo.
 - **NÃO é** o `plasma-therapist-aid` (esse é outro repo — app de consultas/prontuário).
 - Ignore o texto do `README.md` — é o prompt de voz original que criou o projeto no
   Lovable ("My Digital Space"), de uma ideia antiga que não é o que está sendo
-  construído aqui. O nome da pasta (`my-creative-hub-66`) também é só o nome que o
+  construído aqui. O nome da pasta (`my-creative-hub-999`) também é só o nome que o
   Lovable gerou sozinho — não significa nada sobre o conteúdo.
-- **Live:** my-creative-hub-66.lovable.app · projeto **Lovable** (React + Vite + shadcn
+- **Live:** my-creative-hub-999.lovable.app · projeto **Lovable** (React + Vite + shadcn
   + Supabase/Lovable Cloud).
 
 ## Regras do projeto
