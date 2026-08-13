@@ -4,7 +4,7 @@ Eu tô pensando na possibilidade de criar um, um outro projeto paralelo aí, que
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://my-creative-hub-66.lovable.app
+**Live app**: https://my-creative-hub-999.lovable.app
 
 ## Build with Lovable
 
