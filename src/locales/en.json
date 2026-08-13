@@ -788,7 +788,21 @@
     "saveError": "The video could not be added right now.",
     "contextTitle": "Let's add your video here.",
     "contextBody": "There is now a direct path: choose whether the file is in the server folder, on this computer, on Vimeo/YouTube or already in the library. You no longer need to hunt for the right tab in the panel.",
-    "continue": "Continue adding the video"
+    "continue": "Continue adding the video",
+    "srvWhatTitle": "What is this server, exactly?",
+    "srvWhat": "It is a small program that runs on your computer (or straight from the external drive) and does one thing: show this site the videos inside a folder of yours. Nothing is uploaded — the file stays where it always was and the site only reads it.",
+    "srvWhereTitle": "Where do I get it?",
+    "srvWhere": "It does not come with the site: it is the plasma-servidor folder, kept on your computer (Programs) or at the root of the external drive. If you already have it, nothing to install — just start it.",
+    "srvHowTitle": "How to get it running now",
+    "srvStep1": "Plug in the external drive, or find the plasma-servidor folder on your computer.",
+    "srvStep2": "Double-click INICIAR-SERVIDOR.bat — a black window opens and stays open. That window is the server; don't close it.",
+    "srvStep3": "Drop your video inside the midia folder and come back here to “Check again”.",
+    "srvManual": "Read the Server Manual (PDF)",
+    "srvNoServerTitle": "I don't have this set up yet",
+    "srvNoServer": "No problem: to place a video today, use “On this computer”. Later, once the server is running, you can bring the same file in through the folder and the site will read it from the drive.",
+    "srvUseComputer": "Use “On this computer” now",
+    "srvOffline": "The server is off — that's why the list below is empty.",
+    "srvEmpty": "The server is running, but no video showed up. Check that the file is inside the folder in use, above."
   },
   "setup": {
     "thumbTitle": "One step left before thumbnails work",
