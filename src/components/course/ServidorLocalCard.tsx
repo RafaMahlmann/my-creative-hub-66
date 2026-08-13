@@ -67,7 +67,7 @@ export const ServidorLocalCard = ({ simular }: Props = {}) => {
             onClick={() => reverificar()}
           >
             <RefreshCw className={`mr-2 h-3.5 w-3.5 ${verificando ? 'animate-spin' : ''}`} />
-            {t('servidor.reverificar')}
+            {ligado ? t('servidor.procurar') : t('servidor.reverificar')}
           </Button>
           {ligado && (
             <Button
