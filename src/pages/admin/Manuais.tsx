@@ -64,16 +64,16 @@ const Inner = () => {
                   {t(`manuais.${m.id}_descricao`)}
                 </p>
                 <p className="font-body text-xs text-course-muted-foreground">
-                  {t('manuais.paginas', { count: m.paginas })} · PDF
+                  {t('manuais.paginas', { count: m.paginas[idioma] })} · PDF
                 </p>
               </div>
               <div className="flex gap-2">
-                <a href={m.arquivo} target="_blank" rel="noreferrer">
+                <a href={m.arquivo[idioma]} target="_blank" rel="noreferrer">
                   <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
                     {t('manuais.abrir')}
                   </Button>
                 </a>
-                <a href={m.arquivo} download>
+                <a href={m.arquivo[idioma]} download>
                   <Button className="bg-course-primary text-course-primary-foreground">
                     <Download className="mr-2 h-4 w-4" /> {t('manuais.baixar')}
                   </Button>
