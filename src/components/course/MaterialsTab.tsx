@@ -123,7 +123,9 @@ export const MaterialsTab = ({ lessonId, simular }: Props) => {
 
   return (
     <div className="space-y-4">
+      <HelpCard id="materiais" collapsed />
       <PendingSetupCard
+
         table="lesson_materials"
         column="storage_path"
         sql={MATERIALS_MIGRATION_SQL}
