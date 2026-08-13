@@ -37,7 +37,8 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<CourseIndex />} />
+            <Route path="/terapeuta" element={<Index />} />
             <Route path="/bioressonancia" element={<Navigate to="/" />} />
             <Route path="/curso" element={<CourseIndex />} />
             <Route path="/curso/entrar" element={<StudentAuth />} />

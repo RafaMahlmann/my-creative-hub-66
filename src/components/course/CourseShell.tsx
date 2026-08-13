@@ -17,7 +17,7 @@ export const CourseShell = ({ children }: { children: ReactNode }) => {
     <div className="course-area min-h-screen bg-course-background text-course-foreground">
       <header className="sticky top-0 z-30 border-b border-course-border/60 bg-course-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
-          <Link to="/curso" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-course-primary/15 text-course-primary">
               <GraduationCap size={18} />
             </span>
@@ -27,14 +27,14 @@ export const CourseShell = ({ children }: { children: ReactNode }) => {
           </Link>
           <div className="flex items-center gap-4">
             <Link
-              to="/curso"
+               to="/"
               className="hidden items-center gap-1 font-body text-sm text-course-muted-foreground transition-colors hover:text-course-foreground sm:flex"
             >
               <ArrowLeft className="h-4 w-4" />
               {t('course.backToCourseHome')}
             </Link>
             <Link
-              to="/"
+               to="/terapeuta"
               className="hidden font-body text-xs text-course-muted-foreground/70 transition-colors hover:text-course-foreground lg:block"
             >
               {t('course.therapistSite')}

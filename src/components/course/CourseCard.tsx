@@ -37,6 +37,9 @@ type Props = {
   onMoveLeft?: () => void;
   onMoveRight?: () => void;
   onEditThumb?: () => void;
+  onPlaceVideo?: () => void;
+  /** curso = organiza módulos; aula = abre o editor direto */
+  kind?: 'course' | 'lesson';
 };
 
 export const CourseCard = ({
@@ -52,6 +55,8 @@ export const CourseCard = ({
   onMoveLeft,
   onMoveRight,
   onEditThumb,
+  onPlaceVideo,
+  kind = 'lesson',
 }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -130,9 +135,9 @@ export const CourseCard = ({
             <DropdownMenuLabel className="font-display">{t('editor.menuTitle')}</DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-course-border" />
 
-            {editHref && (
-              <DropdownMenuItem className="font-body" onSelect={() => navigate(editHref)}>
-                <Film className="mr-2 h-4 w-4" /> {t('editor.changeVideo')}
+            {onPlaceVideo && (
+              <DropdownMenuItem className="font-body" onSelect={() => onPlaceVideo()}>
+                <Film className="mr-2 h-4 w-4" /> {kind === 'course' ? t('editor.chooseLessonVideo') : t('editor.placeVideo')}
               </DropdownMenuItem>
             )}
             {onEditThumb && (
@@ -143,7 +148,7 @@ export const CourseCard = ({
             )}
             {editHref && (
               <DropdownMenuItem className="font-body" onSelect={() => navigate(editHref)}>
-                <Pencil className="mr-2 h-4 w-4" /> {t('editor.editTexts')}
+                <Pencil className="mr-2 h-4 w-4" /> {kind === 'course' ? t('editor.organizeCourse') : t('editor.editTexts')}
               </DropdownMenuItem>
             )}
             {onToggleFree && (

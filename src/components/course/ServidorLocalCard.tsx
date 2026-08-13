@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HardDrive, RefreshCw, ExternalLink, Film, Copy, ChevronDown, Subtitles } from 'lucide-react';
+import { HardDrive, RefreshCw, ExternalLink, Film, Copy, ChevronDown, Subtitles, FolderCog } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { HelpCard } from '@/components/course/HelpCard';
 
-import { SERVIDOR_LOCAL, useServidorLocal, type SaudeServidor } from '@/hooks/useServidorLocal';
+import { SERVIDOR_LOCAL, useBibliotecaLocal, useServidorLocal, type SaudeServidor } from '@/hooks/useServidorLocal';
 
 const ARQUIVO_INICIAR = 'INICIAR-SERVIDOR.bat';
 
@@ -32,6 +32,8 @@ export const ServidorLocalCard = ({ simular }: Props = {}) => {
   const saude = simulando ? simular : real.saude;
   const verificando = simulando ? false : real.verificando;
   const reverificar = simulando ? () => {} : real.reverificar;
+  const biblioteca = useBibliotecaLocal(ligado && !simulando);
+  const raiz = saude?.raiz ?? biblioteca.data?.raiz ?? (simulando && ligado ? 'C:\\Flor de Plasma\\midia' : null);
 
   const legendando = saude?.legendando;
 
@@ -76,6 +78,14 @@ export const ServidorLocalCard = ({ simular }: Props = {}) => {
               <ExternalLink className="mr-2 h-3.5 w-3.5" /> {t('servidor.abrir')}
             </Button>
           )}
+          <Button
+            size="sm"
+            variant="outline"
+            className="border-course-border bg-course-background text-course-foreground"
+            onClick={() => toast.info(t('servidor.trocarPastaInfo'))}
+          >
+            <FolderCog className="mr-2 h-3.5 w-3.5" /> {t('servidor.trocarPasta')}
+          </Button>
         </div>
       </div>
 
@@ -87,6 +97,13 @@ export const ServidorLocalCard = ({ simular }: Props = {}) => {
 
       {ligado ? (
         <>
+          <div className="mt-4 rounded-lg border border-course-border bg-course-background p-3">
+            <p className="font-body text-xs uppercase text-course-muted-foreground">{t('servidor.pastaEmUso')}</p>
+            <code className="mt-1 block break-all font-mono text-sm text-course-foreground">{raiz ?? t('servidor.pastaDesconhecida')}</code>
+            <p className="mt-1 font-body text-xs text-course-muted-foreground">
+              {raiz && /^[A-Z]:\\/i.test(raiz) && !/^[D-Z]:\\/i.test(raiz) ? t('servidor.origemComputador') : t('servidor.origemExterno')}
+            </p>
+          </div>
           <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 font-body text-sm text-course-muted-foreground">
             <span className="flex items-center gap-1.5">
               <Film className="h-4 w-4" /> {t('servidor.videos', { count: saude?.videos ?? 0 })}
