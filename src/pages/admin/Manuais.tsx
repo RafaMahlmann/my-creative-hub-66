@@ -7,22 +7,26 @@ import { Button } from '@/components/ui/button';
 
 type Manual = {
   id: string;
-  arquivo: string;
+  arquivo: { pt: string; en: string };
   icone: React.ReactNode;
-  paginas: number;
+  paginas: { pt: number; en: number };
 };
 
 const MANUAIS: Manual[] = [
   {
     id: 'servidor',
-    arquivo: '/manuais/manual-do-servidor.pdf',
+    arquivo: {
+      pt: '/manuais/manual-do-servidor.pdf',
+      en: '/manuais/manual-do-servidor-en.pdf',
+    },
     icone: <Server className="h-5 w-5" />,
-    paginas: 17,
+    paginas: { pt: 17, en: 16 },
   },
 ];
 
 const Inner = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const idioma: 'pt' | 'en' = i18n.language?.startsWith('en') ? 'en' : 'pt';
 
   return (
     <CourseShell>
