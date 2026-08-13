@@ -23,7 +23,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { pick } from '@/lib/course';
 
-
 type Props = {
   to: string;
   title: string;
@@ -55,9 +54,22 @@ export const CourseCard = ({
   onEditThumb,
 }: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="relative w-64 shrink-0 sm:w-72">
+    <div
+      className="relative w-64 shrink-0 sm:w-72"
+      onContextMenu={
+        editing
+          ? (e) => {
+              // botão direito abre o mesmo menu dos três pontinhos
+              e.preventDefault();
+              setMenuOpen(true);
+            }
+          : undefined
+      }
+    >
       <Link
         to={to}
         className={`group relative block overflow-hidden rounded-xl border bg-course-card transition-all duration-300 hover:z-10 hover:scale-[1.04] hover:border-course-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-course-ring ${
@@ -100,62 +112,68 @@ export const CourseCard = ({
       </Link>
 
       {editing && (
-        <div className="absolute right-2 top-2 z-20 flex items-center gap-1">
-          {onMoveLeft && (
+        <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+          <DropdownMenuTrigger asChild>
             <button
               type="button"
-              onClick={onMoveLeft}
-              title={t('editor.moveLeft')}
-              aria-label={t('editor.moveLeft')}
-              className="rounded-full bg-course-background/90 p-1.5 text-course-foreground shadow hover:bg-course-primary hover:text-course-primary-foreground"
+              title={t('editor.menuOpen')}
+              aria-label={t('editor.menuOpen')}
+              className="absolute right-2 top-2 z-20 rounded-full bg-course-background/90 p-1.5 text-course-foreground shadow transition-colors hover:bg-course-primary hover:text-course-primary-foreground"
             >
-              <ArrowLeft size={13} />
+              <MoreHorizontal size={15} />
             </button>
-          )}
-          {onMoveRight && (
-            <button
-              type="button"
-              onClick={onMoveRight}
-              title={t('editor.moveRight')}
-              aria-label={t('editor.moveRight')}
-              className="rounded-full bg-course-background/90 p-1.5 text-course-foreground shadow hover:bg-course-primary hover:text-course-primary-foreground"
-            >
-              <ArrowRight size={13} />
-            </button>
-          )}
-          {onToggleFree && (
-            <button
-              type="button"
-              onClick={onToggleFree}
-              title={isFree ? t('editor.makePaid') : t('editor.makeFree')}
-              aria-label={isFree ? t('editor.makePaid') : t('editor.makeFree')}
-              className="rounded-full bg-course-background/90 p-1.5 text-course-foreground shadow hover:bg-course-primary hover:text-course-primary-foreground"
-            >
-              {isFree ? <LockOpen size={13} /> : <Lock size={13} />}
-            </button>
-          )}
-          {onEditThumb && (
-            <button
-              type="button"
-              onClick={onEditThumb}
-              title={coverUrl ? t('editor.thumbChange') : t('editor.thumbAdd')}
-              aria-label={coverUrl ? t('editor.thumbChange') : t('editor.thumbAdd')}
-              className="rounded-full bg-course-background/90 p-1.5 text-course-foreground shadow hover:bg-course-primary hover:text-course-primary-foreground"
-            >
-              <ImagePlus size={13} />
-            </button>
-          )}
-          {editHref && (
-            <Link
-              to={editHref}
-              title={t('editor.edit')}
-              aria-label={t('editor.edit')}
-              className="rounded-full bg-course-primary p-1.5 text-course-primary-foreground shadow hover:bg-course-primary/90"
-            >
-              <Pencil size={13} />
-            </Link>
-          )}
-        </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-60 border-course-border bg-course-card text-course-foreground"
+          >
+            <DropdownMenuLabel className="font-display">{t('editor.menuTitle')}</DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-course-border" />
+
+            {editHref && (
+              <DropdownMenuItem className="font-body" onSelect={() => navigate(editHref)}>
+                <Film className="mr-2 h-4 w-4" /> {t('editor.changeVideo')}
+              </DropdownMenuItem>
+            )}
+            {onEditThumb && (
+              <DropdownMenuItem className="font-body" onSelect={() => onEditThumb()}>
+                <ImagePlus className="mr-2 h-4 w-4" />
+                {coverUrl ? t('editor.thumbChange') : t('editor.thumbAdd')}
+              </DropdownMenuItem>
+            )}
+            {editHref && (
+              <DropdownMenuItem className="font-body" onSelect={() => navigate(editHref)}>
+                <Pencil className="mr-2 h-4 w-4" /> {t('editor.editTexts')}
+              </DropdownMenuItem>
+            )}
+            {onToggleFree && (
+              <DropdownMenuItem className="font-body" onSelect={() => onToggleFree()}>
+                {isFree ? <Lock className="mr-2 h-4 w-4" /> : <LockOpen className="mr-2 h-4 w-4" />}
+                {isFree ? t('editor.makePaid') : t('editor.makeFree')}
+              </DropdownMenuItem>
+            )}
+
+            {(onMoveLeft || onMoveRight) && <DropdownMenuSeparator className="bg-course-border" />}
+            {onMoveLeft && (
+              <DropdownMenuItem className="font-body" onSelect={() => onMoveLeft()}>
+                <ArrowLeft className="mr-2 h-4 w-4" /> {t('editor.moveLeft')}
+              </DropdownMenuItem>
+            )}
+            {onMoveRight && (
+              <DropdownMenuItem className="font-body" onSelect={() => onMoveRight()}>
+                <ArrowRight className="mr-2 h-4 w-4" /> {t('editor.moveRight')}
+              </DropdownMenuItem>
+            )}
+
+            <DropdownMenuSeparator className="bg-course-border" />
+            <DropdownMenuItem className="font-body" onSelect={() => navigate(editHref ?? '/curso/admin')}>
+              <LayoutDashboard className="mr-2 h-4 w-4" /> {t('editor.openInPanel')}
+            </DropdownMenuItem>
+            <p className="px-2 py-1.5 font-body text-[11px] text-course-muted-foreground">
+              {t('editor.menuHint')}
+            </p>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </div>
   );
