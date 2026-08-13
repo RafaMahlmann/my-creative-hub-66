@@ -62,7 +62,12 @@ const Inner = () => {
           <p className="max-w-2xl font-body text-sm text-course-muted-foreground">
             {t('manuais.intro')}
           </p>
+          <HelpModeToggle />
         </header>
+
+        <HelpCard id="manuais" />
+
+
 
         <div className="space-y-4">
           {MANUAIS.map((m) => (
