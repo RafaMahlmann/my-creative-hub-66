@@ -4,6 +4,8 @@ import { ArrowLeft, BookMarked, Download, LayoutDashboard, Server } from 'lucide
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { Button } from '@/components/ui/button';
+import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
+
 
 type Manual = {
   id: string;
