@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film, Users, FlaskConical, ClipboardList } from 'lucide-react';
+import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film, Users, FlaskConical, ClipboardList, BookMarked } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
@@ -59,6 +59,11 @@ const Inner = () => {
           <Link to="/curso/admin/demandas">
             <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
               <ClipboardList className="mr-2 h-4 w-4" /> {t('demandas.titulo')}
+            </Button>
+          </Link>
+          <Link to="/curso/admin/manuais">
+            <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
+              <BookMarked className="mr-2 h-4 w-4" /> {t('manuais.titulo')}
             </Button>
           </Link>
         </header>

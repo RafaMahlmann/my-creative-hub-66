@@ -20,6 +20,7 @@ import MyLessons from "./pages/MyLessons";
 import Students from "./pages/admin/Students";
 import Simulacao from "./pages/admin/Simulacao";
 import Demandas from "./pages/admin/Demandas";
+import Manuais from "./pages/admin/Manuais";
 import StudentDossier from "./pages/admin/StudentDossier";
 import VerificarComprovante from "./pages/VerificarComprovante";
 import SegurancaPage from "./pages/SegurancaPage";
@@ -56,6 +57,7 @@ const App = () => (
             <Route path="/curso/admin/videos" element={<VideoLibrary />} />
             <Route path="/curso/admin/simulacao" element={<Simulacao />} />
             <Route path="/curso/admin/demandas" element={<Demandas />} />
+            <Route path="/curso/admin/manuais" element={<Manuais />} />
             <Route path="/curso/admin/:courseId" element={<CourseEditor />} />
 
             <Route path="/curso/admin/:courseId/aula/:lessonId" element={<LessonEditor />} />
