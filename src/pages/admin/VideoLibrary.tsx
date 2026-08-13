@@ -198,7 +198,7 @@ const VideoCard = ({ video, onEditThumb }: { video: AdminVideo; onEditThumb: () 
 
 const Inner = () => {
   const { t } = useTranslation();
-  const { data: videos, isLoading } = useAdminVideos();
+  const { data: videos, isLoading, error } = useAdminVideos();
   const { createVideo, updateVideo } = useAdminVideoMutations();
   const [title, setTitle] = useState('');
   const [q, setQ] = useState('');
@@ -239,6 +239,22 @@ const Inner = () => {
         </header>
 
         <HelpCard id="videoLibrary" />
+
+        {error && (
+          <section className="space-y-3 rounded-xl border border-red-500/30 bg-red-500/5 p-5">
+            <h2 className="font-display text-lg font-semibold text-course-foreground">
+              {t('admin.videosLoadError')}
+            </h2>
+            <p className="font-body text-sm text-course-muted-foreground">
+              {t('admin.videosLoadErrorHint')}
+            </p>
+            <Link to="/curso/entrar">
+              <Button className="bg-course-primary text-course-primary-foreground">
+                {t('admin.videosLoadErrorLogin')}
+              </Button>
+            </Link>
+          </section>
+        )}
 
         <PendingSetupCard />
 

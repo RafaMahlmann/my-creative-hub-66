@@ -117,7 +117,10 @@
     "servidor_descricao": "O que é o servidor do HD, para que ele serve, como instalar do zero, como ligar todo dia, como varrer, puxar legenda e páginas de PDF, o que fazer quando algo não aparece e a rotina de manutenção e cópias de segurança.",
     "paginas": "{{count}} páginas",
     "abrir": "Abrir",
-    "baixar": "Baixar PDF"
+    "baixar": "Baixar PDF",
+    "painel_titulo": "Manual do painel do criador",
+    "painel_descricao": "Como criar curso, módulo e aula, trocar o vídeo por link ou arquivo, colocar miniatura, escolher o destaque da vitrine, marcar aula gratuita e publicar — e o atalho dos três pontinhos direto na vitrine.",
+    "somentePt": "Somente em português"
   },
   "demandas": {
     "titulo": "Demandas futuras",
@@ -218,7 +221,12 @@
     "openLibrary": "Biblioteca de vídeos",
     "openStudents": "Alunos",
     "backToDashboard": "Voltar ao painel",
-    "devUiBanner": "Modo de inspeção local — só na sua máquina. Não dá permissão nenhuma: o banco continua bloqueando as gravações."
+    "devUiBanner": "Modo de inspeção local — só na sua máquina. Não dá permissão nenhuma: o banco continua bloqueando as gravações.",
+    "videosLoadError": "Não consegui carregar a biblioteca de vídeos",
+    "videosLoadErrorHint": "Isso costuma acontecer quando a sessão de administrador caiu. Entre de novo com a sua conta e volte para esta tela.",
+    "videosLoadErrorLogin": "Entrar de novo",
+    "manualPainel_titulo": "Manual do painel do criador",
+    "manualPainel_descricao": "Como criar curso, módulo e aula, trocar o vídeo por link ou arquivo, colocar miniatura, escolher o destaque da vitrine, marcar aula gratuita e publicar — e o atalho dos três pontinhos direto na vitrine."
   },
   "home": {
     "hero": {
@@ -642,7 +650,7 @@
     "editFeatured": "Editar destaque",
     "featuredTitle": "Bloco em destaque",
     "featuredHelp": "Escolha qual curso aparece no bloco grande da vitrine, ajuste o texto e escolha o vídeo que vai tocar ali. Se não escolher vídeo, aparece só a imagem de capa.",
-    "featuredEmpty": "Sem vídeo nem capa — clique no lápis para escolher.",
+    "featuredEmpty": "Sem vídeo nem capa — clique nos três pontinhos para escolher.",
     "chooseCourse": "Curso em destaque",
     "chooseVideo": "Vídeo do destaque",
     "searchVideo": "Buscar na biblioteca de vídeos…",
@@ -668,7 +676,14 @@
     "thumbFailed": "Não foi possível enviar a imagem",
     "thumbTooLarge": "A imagem precisa ter menos de 5 MB",
     "thumbInvalid": "Escolha um arquivo de imagem",
-    "coverTitle": "Capa do curso"
+    "coverTitle": "Capa do curso",
+    "menuTitle": "Editar este bloco",
+    "menuOpen": "Opções de edição",
+    "menuHint": "Clique com o botão direito no card para abrir este menu.",
+    "changeVideo": "Trocar vídeo",
+    "editTexts": "Editar textos",
+    "openInPanel": "Abrir no painel",
+    "openPanelHome": "Abrir painel do criador"
   },
   "setup": {
     "thumbTitle": "Falta um passo para as miniaturas funcionarem",

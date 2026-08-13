@@ -1,8 +1,25 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { PlayCircle, Sprout, Pencil, Plus } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  PlayCircle,
+  Sprout,
+  Pencil,
+  Plus,
+  MoreHorizontal,
+  ImagePlus,
+  LayoutDashboard,
+} from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { CourseShell } from '@/components/course/CourseShell';
 import { CourseRow } from '@/components/course/CourseRow';
@@ -43,8 +60,11 @@ const CourseIndex = () => {
   const { swapCoursePositions, toggleLessonFree } = useHomeEditing();
   const { updateCourse } = useAdminMutations();
   const { updateVideo } = useAdminVideoMutations();
+  const navigate = useNavigate();
   const [featuredOpen, setFeaturedOpen] = useState(false);
+  const [heroMenu, setHeroMenu] = useState(false);
   const [thumbTarget, setThumbTarget] = useState<ThumbTarget | null>(null);
+
 
   const saveThumb = (url: string | null) => {
     if (!thumbTarget) return;
@@ -136,7 +156,17 @@ const CourseIndex = () => {
             )}
           </div>
 
-          <div className="relative">
+          <div
+            className="relative"
+            onContextMenu={
+              editing
+                ? (e) => {
+                    e.preventDefault();
+                    setHeroMenu(true);
+                  }
+                : undefined
+            }
+          >
             {featured?.trailer?.ref ? (
               <VideoPlayer video={{ ...featured.trailer, is_free: true }} />
             ) : (
@@ -158,16 +188,48 @@ const CourseIndex = () => {
               </div>
             )}
             {editing && (
-              <button
-                type="button"
-                onClick={() => setFeaturedOpen(true)}
-                title={t('editor.editFeatured')}
-                aria-label={t('editor.editFeatured')}
-                className="absolute right-3 top-3 z-20 rounded-full bg-course-primary p-2 text-course-primary-foreground shadow-lg hover:bg-course-primary/90"
-              >
-                <Pencil size={15} />
-              </button>
+              <DropdownMenu open={heroMenu} onOpenChange={setHeroMenu}>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    type="button"
+                    title={t('editor.menuOpen')}
+                    aria-label={t('editor.menuOpen')}
+                    className="absolute right-3 top-3 z-20 rounded-full bg-course-primary p-2 text-course-primary-foreground shadow-lg hover:bg-course-primary/90"
+                  >
+                    <MoreHorizontal size={15} />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-60 border-course-border bg-course-card text-course-foreground"
+                >
+                  <DropdownMenuLabel className="font-display">{t('editor.menuTitle')}</DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-course-border" />
+                  <DropdownMenuItem className="font-body" onSelect={() => setFeaturedOpen(true)}>
+                    <Pencil className="mr-2 h-4 w-4" /> {t('editor.editFeatured')}
+                  </DropdownMenuItem>
+                  {featured && (
+                    <DropdownMenuItem
+                      className="font-body"
+                      onSelect={() =>
+                        setThumbTarget({ kind: 'course', id: featured.id, url: featured.cover_url })
+                      }
+                    >
+                      <ImagePlus className="mr-2 h-4 w-4" />
+                      {featured.cover_url ? t('editor.thumbChange') : t('editor.thumbAdd')}
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator className="bg-course-border" />
+                  <DropdownMenuItem className="font-body" onSelect={() => navigate('/curso/admin')}>
+                    <LayoutDashboard className="mr-2 h-4 w-4" /> {t('editor.openPanelHome')}
+                  </DropdownMenuItem>
+                  <p className="px-2 py-1.5 font-body text-[11px] text-course-muted-foreground">
+                    {t('editor.menuHint')}
+                  </p>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
+
           </div>
         </div>
       </section>
