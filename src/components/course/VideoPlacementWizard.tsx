@@ -219,7 +219,74 @@ export const VideoPlacementWizard = ({ open, onOpenChange, target }: Props) => {
               {localLibrary.data?.raiz && <code className="rounded bg-course-background px-2 py-1 text-xs">{localLibrary.data.raiz}</code>}
               {!server.ligado && <Button size="sm" variant="outline" onClick={() => server.reverificar()}>{t('servidor.reverificar')}</Button>}
             </div>
+
+            {!server.ligado && (
+              <div className="space-y-3 rounded-lg border border-course-border bg-course-background p-4">
+                <p className="font-body text-sm text-course-foreground">{t('videoWizard.srvOffline')}</p>
+
+                <div>
+                  <p className="font-display text-sm font-semibold">{t('videoWizard.srvHowTitle')}</p>
+                  <ol className="mt-2 space-y-2">
+                    {[1, 2, 3].map((n) => (
+                      <li key={n} className="flex gap-2.5 font-body text-sm text-course-muted-foreground">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-course-border text-[11px] text-course-foreground">{n}</span>
+                        <span className="leading-relaxed">{t(`videoWizard.srvStep${n}`)}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setServerHelp((v) => !v)}
+                  className="flex items-center gap-1.5 font-body text-xs text-course-muted-foreground hover:text-course-foreground"
+                >
+                  <HelpCircle className="h-3.5 w-3.5" />
+                  {t('videoWizard.srvWhatTitle')}
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${serverHelp ? 'rotate-180' : ''}`} />
+                </button>
+
+                {serverHelp && (
+                  <div className="space-y-3 rounded-lg border border-course-border/60 bg-course-card p-3 font-body text-sm leading-relaxed text-course-muted-foreground">
+                    <p>{t('videoWizard.srvWhat')}</p>
+                    <div>
+                      <p className="font-semibold text-course-foreground">{t('videoWizard.srvWhereTitle')}</p>
+                      <p>{t('videoWizard.srvWhere')}</p>
+                    </div>
+                    <p className="text-xs">{t('servidor.porqueNaoAutomatico')}</p>
+                    <div>
+                      <p className="font-semibold text-course-foreground">{t('videoWizard.srvNoServerTitle')}</p>
+                      <p>{t('videoWizard.srvNoServer')}</p>
+                    </div>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="border-course-border bg-course-background"
+                        onClick={() => window.open(manualUrl, '_blank', 'noopener,noreferrer')}
+                      >
+                        <FileText className="mr-2 h-3.5 w-3.5" /> {t('videoWizard.srvManual')}
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="border-course-border bg-course-background"
+                        onClick={() => setOrigin('computer')}
+                      >
+                        <CloudUpload className="mr-2 h-3.5 w-3.5" /> {t('videoWizard.srvUseComputer')}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {server.ligado && localLibrary.isLoading && <Loader2 className="h-5 w-5 animate-spin text-course-primary" />}
+            {server.ligado && !localLibrary.isLoading && localVideos.length === 0 && (
+              <p className="font-body text-sm text-course-muted-foreground">{t('videoWizard.srvEmpty')}</p>
+            )}
             <div className="grid max-h-64 gap-2 overflow-y-auto sm:grid-cols-2">
               {localVideos.map((video) => (
                 <Button key={video.id} type="button" variant="outline" onClick={() => setSelectedLocal(video)} className={`h-auto justify-start border-course-border py-3 text-left ${selectedLocal?.id === video.id ? 'border-course-primary bg-course-primary/10' : 'bg-course-background'}`}>
@@ -229,6 +296,7 @@ export const VideoPlacementWizard = ({ open, onOpenChange, target }: Props) => {
             </div>
           </section>
         )}
+
 
         {origin === 'computer' && (
           <section className="space-y-3">
