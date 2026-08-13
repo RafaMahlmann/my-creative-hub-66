@@ -7,7 +7,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ThumbPicker } from '@/components/course/ThumbPicker';
+import { HelpCard } from '@/components/course/HelpCard';
 import { useThumbSupport } from '@/hooks/useThumbSupport';
+
 
 type Props = {
   open: boolean;
