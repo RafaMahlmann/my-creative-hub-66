@@ -110,6 +110,15 @@
       "Compare it with the document's hash: identical means intact; different means altered."
     ]
   },
+  "manuais": {
+    "titulo": "Manuals",
+    "intro": "The house guides, written for someone doing it for the first time. Read them on screen or download the PDF to read away from the computer — including while setting the server up, when the site may be offline.",
+    "servidor_titulo": "Server manual",
+    "servidor_descricao": "What the hard-drive server is, what it does, how to install it from scratch, how to start it every day, how to scan, pull subtitles and PDF pages, what to do when something doesn't show up, and the maintenance and backup routine.",
+    "paginas": "{{count}} pages",
+    "abrir": "Open",
+    "baixar": "Download PDF"
+  },
   "demandas": {
     "titulo": "Future work",
     "intro": "Things you decided about but couldn't do yet — for lack of money, time or a decision. Each item keeps its reasoning, so you can rebuild the context when you come back.",

@@ -110,6 +110,15 @@
       "Compare com o hash do documento: iguais, o texto é íntegro; diferentes, foi alterado."
     ]
   },
+  "manuais": {
+    "titulo": "Manuais",
+    "intro": "Os guias da casa, escritos para quem nunca fez. Abra na tela ou baixe o PDF para ler longe do computador — inclusive na hora de montar o servidor, quando o site pode estar fora do ar.",
+    "servidor_titulo": "Manual do servidor",
+    "servidor_descricao": "O que é o servidor do HD, para que ele serve, como instalar do zero, como ligar todo dia, como varrer, puxar legenda e páginas de PDF, o que fazer quando algo não aparece e a rotina de manutenção e cópias de segurança.",
+    "paginas": "{{count}} páginas",
+    "abrir": "Abrir",
+    "baixar": "Baixar PDF"
+  },
   "demandas": {
     "titulo": "Demandas futuras",
     "intro": "O que ficou consciente mas não cabia agora — por falta de dinheiro, de tempo ou de decisão. Cada item guarda o porquê junto, para você reconstruir o contexto quando voltar aqui.",
