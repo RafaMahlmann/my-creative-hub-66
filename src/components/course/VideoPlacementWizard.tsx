@@ -46,6 +46,10 @@ export const VideoPlacementWizard = ({ open, onOpenChange, target }: Props) => {
   const [link, setLink] = useState('');
   const [title, setTitle] = useState('');
   const [saving, setSaving] = useState(false);
+  const [serverHelp, setServerHelp] = useState(false);
+  const manualUrl = i18n.language?.startsWith('en')
+    ? '/manuais/manual-do-servidor-en.pdf'
+    : '/manuais/manual-do-servidor.pdf';
   const [uploaded, setUploaded] = useState<{ storagePath: string; url: string; fileName: string } | null>(null);
   const { data: tree } = useAdminCourseTree(target?.courseId);
   const { data: videos } = useAdminVideos();
