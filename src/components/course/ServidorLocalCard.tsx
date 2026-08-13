@@ -77,6 +77,12 @@ export const ServidorLocalCard = ({ simular }: Props = {}) => {
         </div>
       </div>
 
+      <div className="mt-4">
+        <HelpCard id="servidorLocal" collapsed />
+      </div>
+
+
+
       {ligado ? (
         <>
           <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 font-body text-sm text-course-muted-foreground">
