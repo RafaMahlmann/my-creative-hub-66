@@ -790,7 +790,21 @@
     "saveError": "Não foi possível colocar o vídeo agora.",
     "contextTitle": "Vamos colocar seu vídeo aqui.",
     "contextBody": "Agora existe um caminho direto: escolha se o arquivo está na pasta do servidor, neste computador, no Vimeo/YouTube ou se já está na biblioteca. Você não precisa mais entrar no painel e procurar a aba certa.",
-    "continue": "Continuar colocando o vídeo"
+    "continue": "Continuar colocando o vídeo",
+    "srvWhatTitle": "O que é esse tal de servidor?",
+    "srvWhat": "É um programinha simples que roda no seu computador (ou direto no HD externo) e só faz uma coisa: mostrar para o site os vídeos que estão dentro de uma pasta sua. Nada é enviado para a internet — o arquivo continua onde sempre esteve, e o site apenas lê.",
+    "srvWhereTitle": "Onde eu pego ele?",
+    "srvWhere": "Ele não vem junto com o site: é a pasta plasma-servidor, que fica no seu computador (Programas) ou na raiz do HD externo. Se você já a tem, não precisa instalar nada de novo — basta ligar.",
+    "srvHowTitle": "Como faço ele rodar agora",
+    "srvStep1": "Pluge o HD externo, ou localize a pasta plasma-servidor no computador.",
+    "srvStep2": "Dê dois cliques em INICIAR-SERVIDOR.bat — uma janela preta abre e fica aberta. É ela o servidor; não feche.",
+    "srvStep3": "Coloque seu vídeo dentro da pasta midia e volte aqui em “Verificar de novo”.",
+    "srvManual": "Ler o Manual do Servidor (PDF)",
+    "srvNoServerTitle": "Ainda não tenho isso configurado",
+    "srvNoServer": "Sem problema: para colocar um vídeo hoje, use “Neste computador”. Depois, quando o servidor estiver rodando, você pode trazer o mesmo arquivo pela pasta e o site passa a ler do HD.",
+    "srvUseComputer": "Usar “Neste computador” agora",
+    "srvOffline": "O servidor está desligado — por isso a lista abaixo está vazia.",
+    "srvEmpty": "O servidor está no ar, mas nenhum vídeo apareceu. Confira se o arquivo está dentro da pasta em uso, acima."
   },
   "setup": {
     "thumbTitle": "Falta um passo para as miniaturas funcionarem",
