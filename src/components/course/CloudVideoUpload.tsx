@@ -6,6 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { HelpNote } from '@/components/course/HelpCard';
+
 import {
   Dialog,
   DialogContent,
