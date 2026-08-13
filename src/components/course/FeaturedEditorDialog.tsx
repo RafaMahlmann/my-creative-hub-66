@@ -14,6 +14,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ThumbPicker } from '@/components/course/ThumbPicker';
+import { HelpCard } from '@/components/course/HelpCard';
+
 import { useAdminVideos } from '@/hooks/useAdminVideos';
 import { useAdminCourses, useAdminMutations } from '@/hooks/useAdminCourses';
 import { useHomeEditing } from '@/hooks/useHomeEditing';
