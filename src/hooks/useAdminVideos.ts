@@ -82,6 +82,10 @@ export function useAdminVideos() {
       const rows = (videos ?? []) as unknown as Omit<AdminVideo, 'usage'>[];
       return rows.map((v) => ({ ...v, usage: usageByVideo.get(v.id) ?? [] }));
     },
+    // 42501 = sessão sem permissão de leitura na tabela `videos` (sessão de
+    // administrador caiu). Repetir só multiplica o erro — melhor mostrar o
+    // aviso na tela e deixar a pessoa entrar de novo.
+    retry: false,
   });
 }
 
