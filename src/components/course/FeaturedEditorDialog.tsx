@@ -90,6 +90,10 @@ export const FeaturedEditorDialog = ({ open, onOpenChange, courseId }: Props) =>
           </DialogDescription>
         </DialogHeader>
 
+        <HelpCard id="featuredDialog" collapsed />
+
+
+
         <div className="space-y-4">
           <div className="space-y-1.5">
             <Label className="font-body text-sm">{t('editor.chooseCourse')}</Label>
