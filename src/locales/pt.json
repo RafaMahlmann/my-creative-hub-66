@@ -650,7 +650,7 @@
     "editFeatured": "Editar destaque",
     "featuredTitle": "Bloco em destaque",
     "featuredHelp": "Escolha qual curso aparece no bloco grande da vitrine, ajuste o texto e escolha o vídeo que vai tocar ali. Se não escolher vídeo, aparece só a imagem de capa.",
-    "featuredEmpty": "Sem vídeo nem capa — clique no lápis para escolher.",
+    "featuredEmpty": "Sem vídeo nem capa — clique nos três pontinhos para escolher.",
     "chooseCourse": "Curso em destaque",
     "chooseVideo": "Vídeo do destaque",
     "searchVideo": "Buscar na biblioteca de vídeos…",

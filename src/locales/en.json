@@ -648,7 +648,7 @@
     "editFeatured": "Edit spotlight",
     "featuredTitle": "Spotlight block",
     "featuredHelp": "Choose which course shows in the big spotlight block, tweak the text and pick the video that plays there. With no video, only the cover image is shown.",
-    "featuredEmpty": "No video or cover yet — click the pencil to pick one.",
+    "featuredEmpty": "No video or cover yet — click the three dots to pick one.",
     "chooseCourse": "Featured course",
     "chooseVideo": "Spotlight video",
     "searchVideo": "Search the video library…",
