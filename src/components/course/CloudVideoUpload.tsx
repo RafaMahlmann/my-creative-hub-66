@@ -102,6 +102,10 @@ export const CloudVideoUpload = ({ storagePath, isVimeo, onUploaded, onRemoved }
         ) : null}
       </div>
 
+      <HelpNote id="cloudUpload" />
+
+
+
       {storagePath && !isVimeo && (
         <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 font-body text-sm text-amber-200">
           {t('upload.cloudWarning')}
