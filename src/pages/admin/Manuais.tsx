@@ -78,6 +78,7 @@ const Inner = () => {
                 </p>
                 <p className="font-body text-xs text-course-muted-foreground">
                   {t('manuais.paginas', { count: m.paginas[idioma] })} · PDF
+                  {m.somentePt && ` · ${t('manuais.somentePt')}`}
                 </p>
               </div>
               <div className="flex gap-2">
