@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BookOpen, Check, CloudUpload, Film, HardDrive, Link2, Library, Loader2 } from 'lucide-react';
+import { BookOpen, Check, ChevronDown, CloudUpload, FileText, Film, HardDrive, HelpCircle, Link2, Library, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
