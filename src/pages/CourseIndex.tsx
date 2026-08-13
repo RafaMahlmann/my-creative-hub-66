@@ -1,8 +1,25 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { PlayCircle, Sprout, Pencil, Plus } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  PlayCircle,
+  Sprout,
+  Pencil,
+  Plus,
+  MoreHorizontal,
+  ImagePlus,
+  LayoutDashboard,
+} from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { CourseShell } from '@/components/course/CourseShell';
 import { CourseRow } from '@/components/course/CourseRow';
