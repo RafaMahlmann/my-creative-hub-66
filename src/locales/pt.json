@@ -542,6 +542,77 @@
           "Matrículas pagas vão aparecer aqui automaticamente quando o pagamento estiver ligado."
         ],
         "tip": "Se um aluno some depois da mesma aula sempre, provavelmente o problema é a aula, não o aluno."
+      },
+      "vitrine": {
+        "title": "Esta é a tela que o aluno vê primeiro",
+        "intro": "Com o modo edição ligado, cada bloco daqui pode ser mexido no lugar — você não precisa ir ao painel para trocar uma capa ou um texto.",
+        "steps": [
+          "O bloco grande de cima é o destaque: é o primeiro curso que o aluno encontra. Nos três pontinhos dele você troca o curso, o vídeo, o título e a capa.",
+          "Cada card das prateleiras tem os mesmos três pontinhos — e o clique com o botão direito abre o mesmo menu, se for mais rápido para você.",
+          "\"Abrir no painel\" leva para a tela completa do curso, com módulos e aulas. É lá que o vídeo de cada aula é escolhido.",
+          "Desligue o modo edição para ver exatamente o que o aluno vê, sem nenhum botão de administrador."
+        ],
+        "tip": "Nada aqui publica sozinho: um curso em rascunho continua invisível para o aluno mesmo que já tenha capa e vídeo."
+      },
+      "featuredDialog": {
+        "title": "O destaque é a capa da estante",
+        "intro": "Aqui você escolhe qual curso ocupa o topo da tela inicial e o que aparece escrito nele.",
+        "steps": [
+          "Escolha o curso. O título e o texto já vêm preenchidos com o que o curso tem hoje — mudar aqui muda no curso também.",
+          "A capa é a imagem parada, para quem chega. O vídeo é o trailer que roda em cima dela.",
+          "Se a lista de vídeos estiver vazia, é porque nenhum vídeo foi cadastrado ainda: a Biblioteca de vídeos é onde eles entram.",
+          "Salvar troca o destaque na hora, para todo mundo."
+        ],
+        "tip": "Sem vídeo também funciona — fica só a capa. Melhor uma capa boa do que um trailer feito às pressas."
+      },
+      "thumbDialog": {
+        "title": "Miniatura é imagem, não é o vídeo",
+        "intro": "Esta tela troca só a figura que aparece antes de alguém apertar o play. O vídeo em si é escolhido dentro da aula, no painel.",
+        "steps": [
+          "Arraste uma imagem do computador, ou cole o endereço de uma que já esteja na internet.",
+          "O formato que veste bem é o deitado, 16 por 9 — o mesmo formato da tela de um vídeo.",
+          "Deu errado a escolha? Trocar de novo é só repetir; nada fica preso."
+        ],
+        "tip": "Se você não puser nada, o card mostra um fundo neutro com o nome do curso. Não quebra — só chama menos atenção."
+      },
+      "servidorLocal": {
+        "title": "O servidor do HD, em uma frase",
+        "intro": "É um programinha que roda no seu computador e deixa a pasta de vídeos do HD visível para este site enquanto você trabalha. O vídeo não sai do HD, não sobe para lugar nenhum.",
+        "steps": [
+          "Ligado (bolinha verde): o site enxerga a pasta e consegue puxar vídeo e legenda de lá.",
+          "Desligado é normal — o HD pode estar na gaveta. Nada se perde; só não dá para puxar nada agora.",
+          "Para ligar, siga os três passos abaixo do cartão. Depois, clique em \"Verificar de novo\"."
+        ],
+        "tip": "Enquanto o servidor está desligado, o aluno não vê erro nenhum: só os vídeos que já estão no YouTube, no Vimeo ou na nuvem."
+      },
+      "materiais": {
+        "title": "Material de apoio da aula",
+        "intro": "É o que o aluno baixa junto com a aula: apostila, esquema, lista de peças.",
+        "steps": [
+          "Arraste o arquivo para a área pontilhada. É o caminho principal.",
+          "Colar link serve para o que já vive em outro lugar — um artigo, uma loja de componente.",
+          "O nome que você escreve é o que o aluno lê. \"Lista de peças do módulo 2\" ajuda mais do que \"arquivo_final_v3\"."
+        ],
+        "tip": "Arquivo pesado demais trava o download de quem tem internet ruim. Se der para dividir em dois, divida."
+      },
+      "manuais": {
+        "title": "Os manuais em PDF",
+        "intro": "São os mesmos passos que ficam nos cartões de ajuda, só que reunidos num arquivo que dá para imprimir ou ler longe do computador.",
+        "steps": [
+          "O sumário é clicável: clique no capítulo e o PDF pula direto para ele.",
+          "O manual abre no idioma em que o site está. Quando existir só em português, a página avisa antes.",
+          "Baixar deixa o arquivo no seu computador — ele não muda quando atualizamos o site."
+        ],
+        "tip": "Sempre que uma tela mudar de verdade, o manual é refeito. Se algo no PDF não bater com a tela, a tela é que está certa."
+      },
+      "demandas": {
+        "title": "A lista do que ainda falta resolver fora do site",
+        "intro": "Coisas que não se resolvem com código: registro, marca, compra de peça, ajuste técnico. Ficam aqui para não sumirem da cabeça.",
+        "steps": [
+          "As categorias separam por tipo de assunto, não por urgência.",
+          "O selo de custo mostra o que precisa de dinheiro para andar.",
+          "Esta lista é sua — o aluno nunca vê esta tela."
+        ]
       }
     },
     "notes": {
@@ -549,7 +620,8 @@
       "provider": "Vimeo/YouTube = o vídeo mora lá e o site só mostra. \"Arquivo\" = o vídeo foi enviado por você para o nosso servidor.",
       "publishToggle": "Rascunho = invisível para o público. Publicado = já aparece no catálogo.",
       "freeToggle": "Gratuita = qualquer pessoa assiste. Exclusiva = só quem está matriculado.",
-      "draftFromTranscript": "A IA lê a legenda e devolve um rascunho de texto de leitura — sem \"né\", sem repetição, em parágrafos. É rascunho: revise antes de salvar, ela pode errar termo técnico."
+      "draftFromTranscript": "A IA lê a legenda e devolve um rascunho de texto de leitura — sem \"né\", sem repetição, em parágrafos. É rascunho: revise antes de salvar, ela pode errar termo técnico.",
+      "cloudUpload": "Subir o arquivo para a nuvem é o caminho rápido para testar. Serve bem para um vídeo curto; para o curso inteiro, o YouTube, o Vimeo ou o seu servidor saem mais baratos."
     }
   },
   "consent": {
