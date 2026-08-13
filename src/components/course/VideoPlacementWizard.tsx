@@ -46,7 +46,7 @@ export const VideoPlacementWizard = ({ open, onOpenChange, target }: Props) => {
   const [link, setLink] = useState('');
   const [title, setTitle] = useState('');
   const [saving, setSaving] = useState(false);
-  const [serverHelp, setServerHelp] = useState(false);
+  const [serverHelp, setServerHelp] = useState(true);
   const manualUrl = i18n.language?.startsWith('en')
     ? '/manuais/manual-do-servidor-en.pdf'
     : '/manuais/manual-do-servidor.pdf';
