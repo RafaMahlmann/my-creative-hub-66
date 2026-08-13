@@ -60,8 +60,11 @@ const CourseIndex = () => {
   const { swapCoursePositions, toggleLessonFree } = useHomeEditing();
   const { updateCourse } = useAdminMutations();
   const { updateVideo } = useAdminVideoMutations();
+  const navigate = useNavigate();
   const [featuredOpen, setFeaturedOpen] = useState(false);
+  const [heroMenu, setHeroMenu] = useState(false);
   const [thumbTarget, setThumbTarget] = useState<ThumbTarget | null>(null);
+
 
   const saveThumb = (url: string | null) => {
     if (!thumbTarget) return;
