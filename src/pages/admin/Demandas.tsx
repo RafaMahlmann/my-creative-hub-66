@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, ClipboardList, Wallet, Clock, Scale, Tag, Package, Wrench } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
+import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
+
 import { DEMANDAS, CATEGORIA_ORDEM, type CategoriaDemanda } from '@/lib/demandas';
 
 const ICONE_CATEGORIA: Record<CategoriaDemanda, React.ReactNode> = {
