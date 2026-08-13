@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { HardDrive, RefreshCw, ExternalLink, Film, Copy, ChevronDown, Subtitles } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { HelpCard } from '@/components/course/HelpCard';
+
 import { SERVIDOR_LOCAL, useServidorLocal, type SaudeServidor } from '@/hooks/useServidorLocal';
 
 const ARQUIVO_INICIAR = 'INICIAR-SERVIDOR.bat';
