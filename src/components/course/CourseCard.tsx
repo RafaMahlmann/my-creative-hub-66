@@ -1,7 +1,28 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Lock, LockOpen, PlayCircle, Pencil, ArrowLeft, ArrowRight, ImagePlus } from 'lucide-react';
+import {
+  Lock,
+  LockOpen,
+  PlayCircle,
+  Pencil,
+  ArrowLeft,
+  ArrowRight,
+  ImagePlus,
+  MoreHorizontal,
+  Film,
+  LayoutDashboard,
+} from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { pick } from '@/lib/course';
+
 
 type Props = {
   to: string;
