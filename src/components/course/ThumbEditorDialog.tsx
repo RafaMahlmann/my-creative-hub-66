@@ -7,7 +7,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ThumbPicker } from '@/components/course/ThumbPicker';
+import { HelpCard } from '@/components/course/HelpCard';
 import { useThumbSupport } from '@/hooks/useThumbSupport';
+
 
 type Props = {
   open: boolean;
@@ -46,6 +48,10 @@ export const ThumbEditorDialog = ({
             {description ?? t('editor.thumbHelp')}
           </DialogDescription>
         </DialogHeader>
+
+        <HelpCard id="thumbDialog" collapsed />
+
+
 
         {blocked ? (
           <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 font-body text-sm text-amber-200">

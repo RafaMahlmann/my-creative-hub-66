@@ -540,6 +540,77 @@
           "Paid enrolments will show up here automatically once payments are switched on."
         ],
         "tip": "If students always disappear after the same lesson, the problem is probably the lesson, not the students."
+      },
+      "vitrine": {
+        "title": "This is the first screen a student sees",
+        "intro": "With edit mode on, every block here can be changed right where it is — you do not need the panel to swap a cover or a line of text.",
+        "steps": [
+          "The big block on top is the spotlight: the first course a student meets. Its three dots let you change the course, the video, the title and the cover.",
+          "Every card on the shelves has the same three dots — and a right click opens the same menu, if that is faster for you.",
+          "\"Open in panel\" takes you to the full course screen, with modules and lessons. That is where each lesson's video is chosen.",
+          "Turn edit mode off to see exactly what the student sees, with no admin buttons."
+        ],
+        "tip": "Nothing here publishes by itself: a draft course stays invisible to students even with a cover and a video."
+      },
+      "featuredDialog": {
+        "title": "The spotlight is the front of the shelf",
+        "intro": "Here you pick which course sits at the top of the home screen and what it says.",
+        "steps": [
+          "Pick the course. Title and text arrive filled with what the course has today — changing them here changes the course too.",
+          "The cover is the still image. The video is the trailer playing over it.",
+          "If the video list is empty, no video has been registered yet: the Video library is where they come in.",
+          "Saving swaps the spotlight right away, for everyone."
+        ],
+        "tip": "No video works fine — the cover stays alone. A good cover beats a rushed trailer."
+      },
+      "thumbDialog": {
+        "title": "A thumbnail is an image, not the video",
+        "intro": "This screen only changes the picture shown before someone hits play. The video itself is chosen inside the lesson, in the panel.",
+        "steps": [
+          "Drag an image from your computer, or paste the address of one already online.",
+          "The shape that fits is landscape, 16 by 9 — the same shape as a video screen.",
+          "Picked the wrong one? Just do it again; nothing is locked."
+        ],
+        "tip": "With no image, the card shows a plain background with the course name. It does not break — it just draws less attention."
+      },
+      "servidorLocal": {
+        "title": "The drive server, in one sentence",
+        "intro": "A small program running on your computer that makes the video folder on your drive visible to this site while you work. The video never leaves the drive.",
+        "steps": [
+          "On (green dot): the site can see the folder and pull video and subtitles from it.",
+          "Off is normal — the drive may be in a drawer. Nothing is lost; you just cannot pull anything right now.",
+          "To turn it on, follow the three steps below. Then click \"Check again\"."
+        ],
+        "tip": "While the server is off, students see no error at all: only the videos already on YouTube, Vimeo or the cloud."
+      },
+      "materiais": {
+        "title": "Lesson handouts",
+        "intro": "What the student downloads along with the lesson: notes, diagrams, part lists.",
+        "steps": [
+          "Drag the file onto the dotted area. That is the main path.",
+          "Pasting a link is for what already lives elsewhere — an article, a parts shop.",
+          "The name you type is what the student reads. \"Module 2 part list\" helps more than \"final_file_v3\"."
+        ],
+        "tip": "A heavy file stalls the download for anyone on a poor connection. If it can be split in two, split it."
+      },
+      "manuais": {
+        "title": "The PDF manuals",
+        "intro": "The same steps that live in the help cards, gathered into one file you can print or read away from the computer.",
+        "steps": [
+          "The table of contents is clickable: click a chapter and the PDF jumps to it.",
+          "The manual opens in the language the site is in. When it exists only in Portuguese, the page says so first.",
+          "Downloading keeps the file on your computer — it does not change when we update the site."
+        ],
+        "tip": "Whenever a screen really changes, the manual is rebuilt. If the PDF and the screen disagree, the screen is right."
+      },
+      "demandas": {
+        "title": "What is still open outside the site",
+        "intro": "Things code cannot solve: registration, trademark, buying a part, a technical fix. They sit here so they are not forgotten.",
+        "steps": [
+          "Categories split by subject, not by urgency.",
+          "The cost tag shows what needs money to move.",
+          "This list is yours — students never see this screen."
+        ]
       }
     },
     "notes": {
@@ -547,7 +618,8 @@
       "provider": "Vimeo/YouTube = the video lives there and the site just displays it. \"File\" = you uploaded the video to our server.",
       "publishToggle": "Draft = invisible to the public. Published = already in the catalog.",
       "freeToggle": "Free = anyone can watch. Exclusive = only enrolled students.",
-      "draftFromTranscript": "The AI reads the subtitle and returns a reading-text draft — no filler words, no repeats, in paragraphs. It's a draft: review before saving, it can get technical terms wrong."
+      "draftFromTranscript": "The AI reads the subtitle and returns a reading-text draft — no filler words, no repeats, in paragraphs. It's a draft: review before saving, it can get technical terms wrong.",
+      "cloudUpload": "Uploading to the cloud is the quick way to test. Fine for a short video; for a whole course, YouTube, Vimeo or your own server come out cheaper."
     }
   },
   "consent": {

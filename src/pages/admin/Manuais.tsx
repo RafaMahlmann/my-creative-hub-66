@@ -4,6 +4,8 @@ import { ArrowLeft, BookMarked, Download, LayoutDashboard, Server } from 'lucide
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { Button } from '@/components/ui/button';
+import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
+
 
 type Manual = {
   id: string;
@@ -60,7 +62,12 @@ const Inner = () => {
           <p className="max-w-2xl font-body text-sm text-course-muted-foreground">
             {t('manuais.intro')}
           </p>
+          <HelpModeToggle />
         </header>
+
+        <HelpCard id="manuais" />
+
+
 
         <div className="space-y-4">
           {MANUAIS.map((m) => (

@@ -14,6 +14,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ThumbPicker } from '@/components/course/ThumbPicker';
+import { HelpCard } from '@/components/course/HelpCard';
+
 import { useAdminVideos } from '@/hooks/useAdminVideos';
 import { useAdminCourses, useAdminMutations } from '@/hooks/useAdminCourses';
 import { useHomeEditing } from '@/hooks/useHomeEditing';
@@ -89,6 +91,10 @@ export const FeaturedEditorDialog = ({ open, onOpenChange, courseId }: Props) =>
             {t('editor.featuredHelp')}
           </DialogDescription>
         </DialogHeader>
+
+        <HelpCard id="featuredDialog" collapsed />
+
+
 
         <div className="space-y-4">
           <div className="space-y-1.5">

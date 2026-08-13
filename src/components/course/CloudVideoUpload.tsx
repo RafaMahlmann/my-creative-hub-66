@@ -6,6 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { HelpNote } from '@/components/course/HelpCard';
+
 import {
   Dialog,
   DialogContent,
@@ -101,6 +103,10 @@ export const CloudVideoUpload = ({ storagePath, isVimeo, onUploaded, onRemoved }
           </Badge>
         ) : null}
       </div>
+
+      <HelpNote id="cloudUpload" />
+
+
 
       {storagePath && !isVimeo && (
         <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 font-body text-sm text-amber-200">

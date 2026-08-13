@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LayoutDashboard, Eye, Pencil } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
+import { HelpModeToggle } from '@/components/course/HelpCard';
 import { useCourseEditMode } from '@/hooks/useCourseEditMode';
+
 
 /** Barra flutuante de administração exibida na área de cursos. */
 export const EditModeBar = () => {
@@ -34,6 +36,8 @@ export const EditModeBar = () => {
           <LayoutDashboard className="h-4 w-4" />
           {t('editor.openPanel')}
         </Link>
+        <HelpModeToggle className="rounded-full" />
+
       </div>
     </div>
   );

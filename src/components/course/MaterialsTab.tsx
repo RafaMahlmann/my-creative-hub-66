@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PendingSetupCard } from '@/components/course/PendingSetupCard';
+import { HelpCard } from '@/components/course/HelpCard';
+
 import { useColumnSupport } from '@/hooks/useColumnSupport';
 import { useLessonMaterials, useLessonMaterialMutations, type LessonMaterial } from '@/hooks/useLessonMaterials';
 import { MATERIALS_ACCEPT, MATERIALS_MAX_BYTES, MATERIALS_MIGRATION_SQL, formatBytes, signedMaterialUrl } from '@/lib/materials';
@@ -123,7 +125,9 @@ export const MaterialsTab = ({ lessonId, simular }: Props) => {
 
   return (
     <div className="space-y-4">
+      <HelpCard id="materiais" collapsed />
       <PendingSetupCard
+
         table="lesson_materials"
         column="storage_path"
         sql={MATERIALS_MIGRATION_SQL}
