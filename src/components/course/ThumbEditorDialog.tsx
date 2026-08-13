@@ -49,6 +49,10 @@ export const ThumbEditorDialog = ({
           </DialogDescription>
         </DialogHeader>
 
+        <HelpCard id="thumbDialog" collapsed />
+
+
+
         {blocked ? (
           <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 font-body text-sm text-amber-200">
             {t('setup.thumbBlocked')}
