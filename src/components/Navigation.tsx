@@ -19,7 +19,7 @@ const Navigation = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { t } = useTranslation();
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === "/terapeuta";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -39,7 +39,7 @@ const Navigation = () => {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        <a href="#inicio" className="font-display text-2xl font-semibold text-foreground tracking-wide">
+        <a href="/terapeuta#inicio" className="font-display text-2xl font-semibold text-foreground tracking-wide">
           Terapeuta
         </a>
 
@@ -57,7 +57,7 @@ const Navigation = () => {
           ))}
           <li>
             <Link
-              to="/curso"
+              to="/"
               className="font-body text-sm tracking-wide text-muted-foreground hover:text-primary transition-colors duration-300"
             >
               {t("nav.course")}
@@ -102,7 +102,7 @@ const Navigation = () => {
               ))}
               <li>
                 <Link
-                  to="/curso"
+                  to="/"
                   onClick={() => setMobileOpen(false)}
                   className="font-body text-base text-muted-foreground hover:text-primary transition-colors"
                 >

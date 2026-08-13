@@ -9,6 +9,8 @@ import {
   MoreHorizontal,
   ImagePlus,
   LayoutDashboard,
+  Film,
+  Type,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -30,6 +32,8 @@ import { HelpCard } from '@/components/course/HelpCard';
 
 import { FeaturedEditorDialog } from '@/components/course/FeaturedEditorDialog';
 import { ThumbEditorDialog } from '@/components/course/ThumbEditorDialog';
+import { VideoPlacementWizard, type VideoPlacementTarget } from '@/components/course/VideoPlacementWizard';
+import { useHelpMode } from '@/components/course/HelpCard';
 import { useCourses, useFreeLessons } from '@/hooks/useCourses';
 import { useCourseEditMode } from '@/hooks/useCourseEditMode';
 import { useHomeEditing } from '@/hooks/useHomeEditing';
@@ -66,6 +70,14 @@ const CourseIndex = () => {
   const [featuredOpen, setFeaturedOpen] = useState(false);
   const [heroMenu, setHeroMenu] = useState(false);
   const [thumbTarget, setThumbTarget] = useState<ThumbTarget | null>(null);
+  const [videoTarget, setVideoTarget] = useState<VideoPlacementTarget | null>(null);
+  const [lastAction, setLastAction] = useState<'video' | null>(null);
+  const helpOn = useHelpMode();
+
+  const openVideoWizard = (target: VideoPlacementTarget) => {
+    setLastAction('video');
+    setVideoTarget(target);
+  };
 
 
   const saveThumb = (url: string | null) => {
@@ -207,8 +219,13 @@ const CourseIndex = () => {
                 >
                   <DropdownMenuLabel className="font-display">{t('editor.menuTitle')}</DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-course-border" />
-                  <DropdownMenuItem className="font-body" onSelect={() => setFeaturedOpen(true)}>
-                    <Pencil className="mr-2 h-4 w-4" /> {t('editor.editFeatured')}
+                   {featured && (
+                     <DropdownMenuItem className="font-body" onSelect={() => openVideoWizard({ courseId: featured.id, destination: 'featured' })}>
+                       <Film className="mr-2 h-4 w-4" /> {t('editor.placeVideo')}
+                     </DropdownMenuItem>
+                   )}
+                   <DropdownMenuItem className="font-body" onSelect={() => setFeaturedOpen(true)}>
+                     <Type className="mr-2 h-4 w-4" /> {t('editor.editFeaturedTexts')}
                   </DropdownMenuItem>
                   {featured && (
                     <DropdownMenuItem
@@ -239,7 +256,19 @@ const CourseIndex = () => {
       <div className="mx-auto max-w-7xl space-y-10 py-12">
         {editing && (
           <div className="px-6">
-            <HelpCard id="vitrine" />
+             {lastAction === 'video' && helpOn ? (
+               <section className="rounded-xl border border-course-primary/25 bg-course-primary/5 p-5">
+                 <h3 className="font-display text-lg font-semibold text-course-foreground">{t('videoWizard.contextTitle')}</h3>
+                 <p className="mt-2 max-w-3xl font-body text-sm leading-relaxed text-course-muted-foreground">{t('videoWizard.contextBody')}</p>
+                 {videoTarget && (
+                   <Button onClick={() => setVideoTarget({ ...videoTarget })} className="mt-4 bg-course-primary text-course-primary-foreground hover:bg-course-primary/90">
+                     <Film className="mr-2 h-4 w-4" /> {t('videoWizard.continue')}
+                   </Button>
+                 )}
+               </section>
+             ) : (
+               <HelpCard id="vitrine" />
+             )}
           </div>
         )}
 
@@ -270,6 +299,8 @@ const CourseIndex = () => {
                 coverUrl={c.cover_url}
                 editing={editing}
                 editHref={`/curso/admin/${c.id}`}
+                 kind="course"
+                 onPlaceVideo={() => openVideoWizard({ courseId: c.id, destination: 'lesson' })}
                 onMoveLeft={i > 0 ? () => move(i, -1) : undefined}
                 onMoveRight={i < courses.length - 1 ? () => move(i, 1) : undefined}
                 onEditThumb={
@@ -302,6 +333,8 @@ const CourseIndex = () => {
                   meta={formatDuration(video?.duration_seconds)}
                   editing={editing}
                   editHref={courseId ? `/curso/admin/${courseId}/aula/${l.id}` : undefined}
+                   kind="lesson"
+                   onPlaceVideo={courseId ? () => openVideoWizard({ courseId, lessonId: l.id, destination: 'lesson' }) : undefined}
                   onToggleFree={() => toggleLessonFree.mutate({ id: l.id, isFree: !l.is_free })}
                   onEditThumb={
                     editing && video?.id
@@ -324,6 +357,11 @@ const CourseIndex = () => {
 
       <EditModeBar />
       <FeaturedEditorDialog open={featuredOpen} onOpenChange={setFeaturedOpen} courseId={featured?.id} />
+      <VideoPlacementWizard
+        open={!!videoTarget}
+        onOpenChange={(open) => !open && setVideoTarget(null)}
+        target={videoTarget}
+      />
       <ThumbEditorDialog
         open={!!thumbTarget}
         onOpenChange={(v) => !v && setThumbTarget(null)}

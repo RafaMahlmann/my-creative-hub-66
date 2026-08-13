@@ -18,6 +18,8 @@ export type SaudeServidor = {
   motor?: string;
   /** presente enquanto uma legenda está sendo gerada */
   legendando?: { id: string; titulo: string; etapa: string; erro?: string } | null;
+  /** versões novas do servidor também podem informar a pasta aqui */
+  raiz?: string;
 };
 
 export type VideoLocal = {
