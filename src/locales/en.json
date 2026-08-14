@@ -611,6 +611,18 @@
           "The cost tag shows what needs money to move.",
           "This list is yours — students never see this screen."
         ]
+      },
+      "chaves": {
+        "title": "AI key: what it is, and why one is enough",
+        "intro": "An API key is like a library card: you create it on the provider's site, paste it here once, and it proves who you are every time the app asks the AI for something.",
+        "steps": [
+          "Pick a provider below. Groq is the best first step: generous free tier, and it's the same one the drive server uses for subtitles.",
+          "Click \"where to get the key\", create it there and paste it in the field.",
+          "Press \"Test\". If it answers, the key is saved and the green badge shows up.",
+          "If the drive server is running, click \"send this key to the drive server\" — that's what stops subtitles from failing silently.",
+          "Want to switch providers later? Paste another key, click \"use this one\", done. Both stay saved."
+        ],
+        "tip": "The key lives only in this browser, never in the database and never in the code. Nobody but you can see it — and you can erase everything with one click at the bottom."
       }
     },
     "notes": {
@@ -929,5 +941,38 @@
     "hdPuxar": "Pull pages",
     "hdPaginas": "pages",
     "hdChegou": "Pages pulled from the drive as materials for this lesson."
+  },
+  "chaves": {
+    "titulo": "AI keys hub",
+    "subtitulo": "One key of your own unlocks four things: subtitles, workbook, tutor and translation.",
+    "usando": "using {{nome}}",
+    "nenhuma": "no key configured",
+    "guardada": "saved",
+    "serveLegenda": "also makes subtitles on the drive",
+    "preferido": "first choice",
+    "usarEste": "use this one",
+    "cole": "paste your key here",
+    "semChave": "no key needed",
+    "ver": "show or hide the key",
+    "testar": "Test",
+    "testeOk": "{{nome}} answered — key saved.",
+    "pegarChave": "where to get the key",
+    "mandarServidor": "send this key to the drive server",
+    "servidorRecebeu": "The drive server got the key and can make subtitles now.",
+    "servidorAntigo": "This server can't receive the key from the site yet — paste it in its own panel.",
+    "servidorFalhou": "Couldn't reach the drive server.",
+    "reservaTitulo": "Automatic backup key",
+    "reservaTexto": "If your first choice goes down or hits the per-minute limit, the app quietly tries the next key you saved. Students never see an error.",
+    "reservaOn": "on",
+    "reservaOff": "off",
+    "apagar": "Erase every key from this browser",
+    "apagou": "Keys erased from this browser.",
+    "faltaTitulo": "The subtitle key is missing",
+    "faltaTexto": "The drive server is up, but the subtitle engine ({{motor}}) has no key — that's why attempts fail silently and only show up in the terminal.",
+    "faltaBotao": "Open the AI keys hub",
+    "ultimoErro": "Last attempt: {{erro}}",
+    "destravar": "Release stuck job",
+    "destravou": "Job released — try again.",
+    "naoSeiDizer": "I can't tell whether the subtitle engine has a key: this server is an older version and doesn't report it yet."
   }
 }
