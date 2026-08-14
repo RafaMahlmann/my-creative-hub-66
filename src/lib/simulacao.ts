@@ -54,7 +54,17 @@ export const SIM_SAUDE = {
   varrendo: false,
   ffmpeg: true,
   motor: 'groq',
+  chave: 'ok' as const,
+  fila: 0,
+  ultimoErro: null,
   legendando: null,
+};
+
+/** O caso que ficava escondido no terminal: servidor no ar, motor sem chave. */
+export const SIM_SAUDE_SEM_CHAVE = {
+  ...SIM_SAUDE,
+  chave: 'faltando' as const,
+  ultimoErro: 'Falha ao gerar legenda: Falta a chave do groq. Configure no painel.',
 };
 
 export const SIM_SAUDE_LEGENDANDO = {

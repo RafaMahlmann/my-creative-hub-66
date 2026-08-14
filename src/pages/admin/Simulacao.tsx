@@ -5,6 +5,8 @@ import { ArrowLeft, FlaskConical, HardDrive, Image, Subtitles, Languages, Shield
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { ServidorLocalCard } from '@/components/course/ServidorLocalCard';
+import { AvisoChaveLegenda } from '@/components/course/AvisoChaveLegenda';
+import { CentralDeChaves } from '@/components/course/CentralDeChaves';
 import { PuxarLegendaDoHD } from '@/components/course/PuxarLegendaDoHD';
 import { PuxarPaginasDoHD } from '@/components/course/PuxarPaginasDoHD';
 import { ThumbPicker } from '@/components/course/ThumbPicker';
@@ -147,6 +149,14 @@ const Inner = () => {
 
               <MolduraSimulacao titulo={t('simulacao.exLegendando')} descricao={t('simulacao.exLegendandoDesc')}>
                 <ServidorLocalCard simular={SIM_SAUDE_LEGENDANDO} />
+              </MolduraSimulacao>
+
+              <MolduraSimulacao titulo={t('chaves.faltaTitulo')} descricao={t('chaves.faltaTexto', { motor: 'groq' })}>
+                <AvisoChaveLegenda simular={SIM_SAUDE_SEM_CHAVE} />
+              </MolduraSimulacao>
+
+              <MolduraSimulacao titulo={t('chaves.titulo')} descricao={t('chaves.subtitulo')}>
+                <CentralDeChaves />
               </MolduraSimulacao>
 
               <MolduraSimulacao titulo={t('simulacao.exServidorOff')} descricao={t('simulacao.exServidorOffDesc')}>
