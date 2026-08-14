@@ -15,7 +15,7 @@ import { MaterialsTab } from '@/components/course/MaterialsTab';
 import { MolduraSimulacao, SeloSimulacao } from '@/components/course/SeloSimulacao';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { useSimulacao, SIM_SAUDE, SIM_SAUDE_LEGENDANDO, SIM_VIDEOS, SIM_MATERIAIS, SIM_DOCUMENTOS } from '@/lib/simulacao';
+import { useSimulacao, SIM_SAUDE, SIM_SAUDE_LEGENDANDO, SIM_SAUDE_SEM_CHAVE, SIM_VIDEOS, SIM_MATERIAIS, SIM_DOCUMENTOS } from '@/lib/simulacao';
 
 /**
  * Vitrine das telas de administração com dados de exemplo.
