@@ -89,7 +89,7 @@ export const PRESETS: Record<ProviderId, Preset> = {
   },
   custom: {
     id: 'custom',
-    nome: 'Ollama / endpoint próprio',
+    nome: 'Ollama / localhost',
     /**
      * Sem endereço padrão de propósito. Com `http://localhost:11434/v1` aqui,
      * este provedor passava a valer sozinho (não pede chave) e o app anunciava
