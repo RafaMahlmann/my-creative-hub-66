@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film, Users, FlaskConical, ClipboardList, BookMarked } from 'lucide-react';
+import { Plus, Pencil, Eye, Trash2, BookOpen, PlayCircle, FileText, Film, Users, FlaskConical, ClipboardList, BookMarked, KeyRound } from 'lucide-react';
 import { CourseShell } from '@/components/course/CourseShell';
 import { AdminGuard } from '@/components/course/AdminGuard';
 import { HelpCard, HelpModeToggle } from '@/components/course/HelpCard';
 import { ServidorLocalCard } from '@/components/course/ServidorLocalCard';
+import { AvisoChaveLegenda } from '@/components/course/AvisoChaveLegenda';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -61,6 +62,11 @@ const Inner = () => {
               <ClipboardList className="mr-2 h-4 w-4" /> {t('demandas.titulo')}
             </Button>
           </Link>
+          <Link to="/curso/admin/chaves">
+            <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
+              <KeyRound className="mr-2 h-4 w-4" /> {t('chaves.titulo')}
+            </Button>
+          </Link>
           <Link to="/curso/admin/manuais">
             <Button variant="outline" className="border-course-border bg-course-card text-course-foreground">
               <BookMarked className="mr-2 h-4 w-4" /> {t('manuais.titulo')}
@@ -71,6 +77,8 @@ const Inner = () => {
         <HelpCard id="dashboard" />
 
         <ServidorLocalCard />
+
+        <AvisoChaveLegenda />
 
         <div className="grid gap-4 sm:grid-cols-3">
           <Stat icon={<BookOpen size={18} />} label={t('admin.statCourses')} value={courses?.length ?? 0} />
