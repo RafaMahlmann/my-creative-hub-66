@@ -89,8 +89,14 @@ export const PRESETS: Record<ProviderId, Preset> = {
   },
   custom: {
     id: 'custom',
-    nome: 'IA local ou outro endereço',
-    base: 'http://localhost:11434/v1',
+    nome: 'Ollama / endpoint próprio',
+    /**
+     * Sem endereço padrão de propósito. Com `http://localhost:11434/v1` aqui,
+     * este provedor passava a valer sozinho (não pede chave) e o app anunciava
+     * "usando IA local" mesmo sem nada configurado — mentira silenciosa, o
+     * mesmo defeito que estamos consertando na legenda.
+     */
+    base: '',
     modelo: 'llama3.2',
     precisaChave: false,
   },
@@ -182,7 +188,7 @@ function montar(id: ProviderId, cfg: AiCfg): Alvo | null {
   const p = PRESETS[id];
   if (!p) return null;
   const chave = (cfg.chaves[id] ?? '').trim();
-  const base = (id === 'custom' ? cfg.baseCustom || p.base : p.base).replace(/\/+$/, '');
+  const base = (id === 'custom' ? cfg.baseCustom || '' : p.base).replace(/\/+$/, '');
   if (p.precisaChave && !chave) return null;
   if (id === 'custom' && !base) return null;
   return {
