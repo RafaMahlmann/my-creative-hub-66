@@ -16,11 +16,22 @@ export type SaudeServidor = {
   ffmpeg: boolean;
   /** motor de legenda em uso: local | groq | openai */
   motor?: string;
+  /**
+   * Estado da chave do motor de legenda. Servidores antigos não mandam este
+   * campo — nesse caso o site diz "não sei dizer" em vez de fingir que está tudo
+   * certo. Foi assim que a falha ficou escondida no terminal por semanas.
+   */
+  chave?: 'ok' | 'faltando';
+  /** último erro de legenda, o mesmo texto que aparece no terminal */
+  ultimoErro?: string | null;
+  /** quantos trabalhos de legenda esperando */
+  fila?: number;
   /** presente enquanto uma legenda está sendo gerada */
   legendando?: { id: string; titulo: string; etapa: string; erro?: string } | null;
   /** versões novas do servidor também podem informar a pasta aqui */
   raiz?: string;
 };
+
 
 export type VideoLocal = {
   id: string;
