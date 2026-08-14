@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { useSubtitles, useSaveSubtitle, useTranslateSubtitle } from '@/hooks/useSubtitles';
 import { PuxarLegendaDoHD } from '@/components/course/PuxarLegendaDoHD';
+import { AvisoChaveLegenda } from '@/components/course/AvisoChaveLegenda';
 import { parseVtt } from '@/lib/vtt';
 
 type Props = { videoId: string | null; sourcePath?: string | null };
@@ -95,6 +96,8 @@ export const SubtitlesTab = ({ videoId, sourcePath }: Props) => {
           e.target.value = '';
         }}
       />
+
+      <AvisoChaveLegenda />
 
       <PuxarLegendaDoHD
         sourcePath={sourcePath}

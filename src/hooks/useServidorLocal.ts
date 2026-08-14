@@ -16,11 +16,22 @@ export type SaudeServidor = {
   ffmpeg: boolean;
   /** motor de legenda em uso: local | groq | openai */
   motor?: string;
+  /**
+   * Estado da chave do motor de legenda. Servidores antigos não mandam este
+   * campo — nesse caso o site diz "não sei dizer" em vez de fingir que está tudo
+   * certo. Foi assim que a falha ficou escondida no terminal por semanas.
+   */
+  chave?: 'ok' | 'faltando';
+  /** último erro de legenda, o mesmo texto que aparece no terminal */
+  ultimoErro?: string | null;
+  /** quantos trabalhos de legenda esperando */
+  fila?: number;
   /** presente enquanto uma legenda está sendo gerada */
   legendando?: { id: string; titulo: string; etapa: string; erro?: string } | null;
   /** versões novas do servidor também podem informar a pasta aqui */
   raiz?: string;
 };
+
 
 export type VideoLocal = {
   id: string;
@@ -122,4 +133,40 @@ export function mesmoArquivo(caminhoA?: string | null, caminhoB?: string | null)
     (c || '').replace(/\\/g, '/').split('/').pop()?.replace(/\.[^.]+$/, '').toLowerCase() ?? '';
   const a = nome(caminhoA);
   return !!a && a === nome(caminhoB);
+}
+
+/**
+ * Manda a chave do motor de legenda para o servidor do HD.
+ *
+ * Ele guarda no arquivo de configuração dele e passa a gerar legenda sem que
+ * ninguém precise mexer em terminal. Servidores mais antigos não têm esta rota
+ * — nesse caso devolvemos `naoSuportado` e a tela ensina a colar na mão.
+ */
+export async function enviarChaveLocal(
+  motor: string,
+  chave: string,
+): Promise<{ ok: boolean; naoSuportado?: boolean; erro?: string }> {
+  try {
+    const r = await fetch(`${SERVIDOR_LOCAL}/api/chave`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ motor, chave }),
+    });
+    if (r.status === 404) return { ok: false, naoSuportado: true };
+    if (!r.ok) return { ok: false, erro: `servidor respondeu ${r.status}` };
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, erro: e instanceof Error ? e.message : 'sem resposta' };
+  }
+}
+
+/** Limpa um trabalho de legenda que ficou marcado como "em andamento" e travou. */
+export async function destravarLegendaLocal(): Promise<{ ok: boolean; naoSuportado?: boolean }> {
+  try {
+    const r = await fetch(`${SERVIDOR_LOCAL}/api/legenda/destravar`, { method: 'POST' });
+    if (r.status === 404) return { ok: false, naoSuportado: true };
+    return { ok: r.ok };
+  } catch {
+    return { ok: false };
+  }
 }

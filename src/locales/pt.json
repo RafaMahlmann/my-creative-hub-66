@@ -613,6 +613,18 @@
           "O selo de custo mostra o que precisa de dinheiro para andar.",
           "Esta lista é sua — o aluno nunca vê esta tela."
         ]
+      },
+      "chaves": {
+        "title": "Chave de IA: o que é isso e por que só uma resolve",
+        "intro": "Chave de API é como a carteirinha de uma biblioteca: você cria no site do serviço, cola aqui uma vez, e ela prova quem é você toda vez que o app pede alguma coisa para a IA.",
+        "steps": [
+          "Escolha um provedor abaixo. A Groq é o melhor primeiro passo: tem uso grátis generoso e é a mesma que o servidor do HD usa para legenda.",
+          "Clique em \"onde pegar a chave\", crie a chave lá e cole no campo.",
+          "Aperte \"Testar\". Se ele responder, a chave fica guardada e o selo verde aparece.",
+          "Se o servidor do HD estiver ligado, clique em \"mandar esta chave para o servidor\" — aí a legenda para de falhar em silêncio.",
+          "Quiser trocar de provedor depois? Cole outra chave, clique em \"usar este\" e pronto. As duas ficam guardadas."
+        ],
+        "tip": "A chave fica só neste navegador, nunca no banco e nunca no código. Ninguém além de você a enxerga — e você pode apagar tudo com um clique lá embaixo."
       }
     },
     "notes": {
@@ -931,5 +943,38 @@
     "hdPuxar": "Puxar páginas",
     "hdPaginas": "páginas",
     "hdChegou": "Páginas trazidas do HD como materiais desta aula."
+  },
+  "chaves": {
+    "titulo": "Central de chaves de IA",
+    "subtitulo": "Uma chave sua, quatro coisas destravadas: legenda, apostila, tutor e tradução.",
+    "usando": "usando {{nome}}",
+    "nenhuma": "nenhuma chave configurada",
+    "guardada": "guardada",
+    "serveLegenda": "também gera legenda no HD",
+    "preferido": "primeira escolha",
+    "usarEste": "usar este",
+    "cole": "cole a chave aqui",
+    "semChave": "não precisa de chave",
+    "ver": "mostrar ou esconder a chave",
+    "testar": "Testar",
+    "testeOk": "{{nome}} respondeu — chave guardada.",
+    "pegarChave": "onde pegar a chave",
+    "mandarServidor": "mandar esta chave para o servidor do HD",
+    "servidorRecebeu": "O servidor do HD recebeu a chave e já pode gerar legenda.",
+    "servidorAntigo": "Este servidor ainda não sabe receber a chave pelo site — cole no painel dele.",
+    "servidorFalhou": "Não consegui falar com o servidor do HD.",
+    "reservaTitulo": "Reserva automática",
+    "reservaTexto": "Se a primeira escolha cair ou bater no limite do minuto, o app tenta sozinho a próxima chave que você já guardou. O aluno não vê erro nenhum.",
+    "reservaOn": "ligada",
+    "reservaOff": "desligada",
+    "apagar": "Apagar todas as chaves deste navegador",
+    "apagou": "Chaves apagadas deste navegador.",
+    "faltaTitulo": "Falta a chave para gerar legenda",
+    "faltaTexto": "O servidor do HD está no ar, mas o motor de legenda ({{motor}}) está sem chave — por isso as tentativas falham em silêncio, só aparecendo no terminal.",
+    "faltaBotao": "Abrir a Central de chaves",
+    "ultimoErro": "Última tentativa: {{erro}}",
+    "destravar": "Destravar trabalho preso",
+    "destravou": "Trabalho liberado — pode tentar de novo.",
+    "naoSeiDizer": "Não sei dizer se o motor de legenda tem chave: este servidor é de uma versão anterior e ainda não informa isso."
   }
 }
