@@ -149,7 +149,7 @@ export const CentralDeChaves = () => {
                 <Input
                   value={cfg.baseCustom ?? ''}
                   onChange={(ev) => salvarCfg({ baseCustom: ev.target.value })}
-                  placeholder={p.base}
+                  placeholder="http://localhost:11434/v1"
                   className="mt-3 border-course-border bg-course-background font-mono text-xs text-course-foreground"
                 />
               )}
